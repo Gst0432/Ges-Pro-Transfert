@@ -18,7 +18,9 @@ export const AuthProvider = ({ children }) => {
     const currentUser = session?.user ?? null;
     setUser(currentUser);
     // Définir isSuperAdmin basé sur les métadonnées de l'utilisateur
-    setIsSuperAdmin(currentUser?.user_metadata?.is_super_admin === true); 
+    const adminStatus = currentUser?.user_metadata?.is_super_admin === true;
+    setIsSuperAdmin(adminStatus); 
+    console.log('SupabaseAuthContext: User email:', currentUser?.email, 'isSuperAdmin:', adminStatus); // DEBUG LOG
     setLoading(false);
   }, []);
 
