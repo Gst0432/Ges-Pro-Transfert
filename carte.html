@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="1012" height="638" viewBox="0 0 1012 638" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style type="text/css"><![CDATA[
+      .bg { fill: #F7F9FA; }
+      .maroon { fill: #A51C2A; }
+      .gold { fill: #F0C419; }
+      .green { fill: #2F8F4E; }
+      .text-dark { fill: #1E1E1E; font-family: "Open Sans", Roboto, Arial, sans-serif; }
+      .name { font-family: "Montserrat", "Open Sans", sans-serif; font-size: 36px; font-weight:700; fill:#A51C2A; }
+      .role { font-size: 20px; fill:#1E1E1E; font-weight:600; }
+      .meta { font-size:16px; fill:#1E1E1E; }
+    ]]></style>
+  </defs>
+
+  <!-- Background -->
+  <rect class="bg" x="0" y="0" width="1012" height="638" rx="16" ry="16"/>
+
+  <!-- Top maroon band -->
+  <rect class="maroon" x="0" y="0" width="1012" height="120" rx="16" ry="16"/>
+  <!-- Gold decorative stripe -->
+  <rect class="gold" x="0" y="120" width="1012" height="20"/>
+
+  <!-- Placeholder NAAC logo (replace href with your file) -->
+  <image href="naac-logo.png" x="36" y="14" width="180" height="92" preserveAspectRatio="xMidYMid meet"/>
+
+  <!-- Left photo area -->
+  <rect x="36" y="160" width="260" height="340" rx="12" ry="12" fill="#FFFFFF" stroke="#2F8F4E" stroke-width="6"/>
+  <!-- Photo placeholder (replace href with actual photo) -->
+  <image href="photo-placeholder.png" x="42" y="166" width="248" height="328" preserveAspectRatio="xMidYMid slice"/>
+  <!-- Photo label -->
+  <text x="168" y="530" text-anchor="middle" class="meta">Photo</text>
+
+  <!-- Right content box -->
+  <g transform="translate(320,160)">
+    <rect x="0" y="0" width="656" height="340" rx="12" ry="12" fill="#FFFFFF" stroke="#E6E6E6"/>
+    <!-- Full Name -->
+    <text x="24" y="48" class="name">FULL NAME</text>
+    <!-- Position / Department -->
+    <text x="24" y="90" class="role">Position / Department</text>
+    <!-- Institution -->
+    <text x="24" y="130" class="meta">Institution: <tspan class="text-dark" font-weight="700">UNIVERSITY / INSTITUTION NAME</tspan></text>
+    <!-- Valid Until -->
+    <g transform="translate(24,160)">
+      <text x="0" y="0" class="meta">Valid Until:</text>
+      <rect x="110" y="-18" width="200" height="34" rx="6" ry="6" fill="#F7F7F7" stroke="#E0E0E0"/>
+      <text x="220" y="7" text-anchor="middle" class="meta" fill="#1E1E1E" font-weight="600">31-Dec-2025</text>
+    </g>
+
+    <!-- Small icons / metadata -->
+    <text x="24" y="230" class="meta">ID No: <tspan font-weight="700">NAAC-000001</tspan></text>
+    <text x="24" y="260" class="meta">Department / Office: <tspan font-weight="700">COMMUNICATIONS</tspan></text>
+
+    <!-- Small Nigerian flag rectangle (optional) -->
+    <g transform="translate(520,220) scale(0.9)">
+      <rect x="0" y="0" width="60" height="40" fill="#fff" stroke="#ccc"/>
+      <rect x="0" y="0" width="20" height="40" fill="#1E7A3D"/>
+      <rect x="40" y="0" width="20" height="40" fill="#2D5AA5"/>
+      <rect x="20" y="0" width="20" height="40" fill="#FFF100"/>
+    </g>
+
+    <!-- Signature / barcode placeholder -->
+    <rect x="24" y="280" width="220" height="40" rx="6" ry="6" fill="#F7F7F7" stroke="#E0E0E0"/>
+    <text x="36" y="308" class="meta">Signature</text>
+  </g>
+
+  <!-- Bottom small note -->
+  <text x="36" y="604" class="meta">National Academy of Arts & Culture • EST. 2020</text>
+</svg>

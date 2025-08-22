@@ -1,13 +1,119 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --background: 0 0% 100%; /* white */
+  --foreground: 222.2 47.4% 11.2%; /* near black */
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 47.4% 11.2%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 47.4% 11.2%;
+  --primary: 221.2 83.2% 53.3%; /* blue */
+  --primary-foreground: 210 40% 98%; /* near white */
+  --secondary: 210 40% 96.1%; /* light gray */
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%; /* medium gray */
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+  --destructive: 0 84.2% 60.2%; /* red */
+  --destructive-foreground: 210 40% 98%;
+  --border: 214.3 31.8% 91.4%; /* light gray border */
+  --input: 214.3 31.8% 91.4%;
+  --ring: 221.2 83.2% 53.3%;
+  --radius: 0.5rem;
+
+  /* Custom Sidebar Colors based on image */
+  --sidebar-bg: 210 60% 12%; /* Dark Blue */
+  --sidebar-text: 210 40% 98%; /* Near white for contrast */
+  --sidebar-text-muted: 210 20% 70%; /* Lighter gray for muted text */
+  --sidebar-active-user: 210 50% 25%; /* Slightly lighter dark blue for active user module */
+  --sidebar-hover-user: 210 50% 20%; /* Even lighter dark blue for hover */
+  --sidebar-active-admin: 210 50% 25%; /* Same for admin for consistency, can be changed if needed */
+  --sidebar-hover-admin: 210 50% 20%; /* Same for admin */
+  --sidebar-logo-user: 210 50% 25%; /* Matches active user module background */
+  --sidebar-logo-admin: 210 50% 25%; /* Matches active admin module background */
+  --sidebar-border: 210 60% 8%; /* Even darker blue for subtle border */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.dark {
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 217.2 91.2% 59.8%;
+  --primary-foreground: 222.2 84% 4.9%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 224.3 76.3% 94.1%;
+
+  /* Custom Sidebar Colors for Dark Mode (adjust as needed) */
+  --sidebar-bg: 210 60% 10%; /* Darker blue for dark mode sidebar */
+  --sidebar-text: 210 40% 98%; /* Light text */
+  --sidebar-text-muted: 215 20.2% 65.1%;
+  --sidebar-active-user: 217.2 91.2% 59.8%; /* primary blue */
+  --sidebar-hover-user: 217.2 91.2% 30%; /* darker primary blue */
+  --sidebar-active-admin: 220 40% 30%; /* slightly lighter dark blue */
+  --sidebar-hover-admin: 220 40% 20%; /* even lighter dark blue */
+  --sidebar-logo-user: 217.2 91.2% 59.8%; /* primary blue */
+  --sidebar-logo-admin: 220 40% 30%; /* dark blue */
+  --sidebar-border: 220 40% 20%; /* dark blue border */
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--secondary));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary));
+}
+
+/* Smooth transitions */
+* {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Focus styles */
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
 }

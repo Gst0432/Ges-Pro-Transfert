@@ -1,70 +1,108 @@
-# Getting Started with Create React App
+# Afinex - Plateforme de Gestion Commerciale SaaS
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Bienvenue sur Afinex, une solution SaaS complète pour la gestion commerciale, conçue pour aider les entreprises à optimiser leurs opérations de vente, d'inventaire, de facturation et bien plus encore.
 
-## Available Scripts
+## ✨ Fonctionnalités
 
-In the project directory, you can run:
+*   **Tableau de bord intuitif :** Visualisez les métriques clés de votre entreprise en un coup d'œil.
+*   **Gestion des ventes et de la facturation :** Créez et suivez des factures, gérez les ventes et les paiements.
+*   **Suivi de l'inventaire :** Gardez un œil sur vos niveaux de stock en temps réel.
+*   **Gestion des fournisseurs et des achats :** Gérez vos fournisseurs et vos bons de commande.
+*   **Rapports et analyses :** Obtenez des informations précieuses sur les performances de votre entreprise.
+*   **Système d'abonnement Premium :** Intégration d'une passerelle de paiement pour débloquer des fonctionnalités avancées.
+*   **Panel Super Admin :** Gérez les utilisateurs, les plans SaaS et les paramètres globaux de l'application.
 
-### `npm start`
+## 🚀 Technologies utilisées
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+*   **Frontend :** React, Vite, TailwindCSS
+*   **Composants UI :** shadcn/ui
+*   **Animations :** Framer Motion
+*   **Backend & Base de données :** Supabase
+*   **Passerelle de paiement :** Intégration d'API tierce (ex: MoneyFusion)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## 🔧 Guide de Déploiement et d'Installation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Suivez ces étapes pour déployer votre propre instance d'Afinex.
 
-### `npm run build`
+### Étape 1 : Configuration de Supabase
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1.  **Créez un projet Supabase :**
+    *   Rendez-vous sur [supabase.com](https://supabase.com) et créez un nouveau projet.
+    *   Notez bien la **région de la base de données** et le **mot de passe** que vous choisissez.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2.  **Récupérez vos clés d'API :**
+    *   Dans le tableau de bord de votre projet Supabase, allez dans `Project Settings` > `API`.
+    *   Copiez l'**URL du projet** et la clé **`anon` `public`**.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3.  **Exécutez le script de migration SQL :**
+    *   Allez dans l'éditeur SQL de Supabase (`SQL Editor`).
+    *   Ouvrez le fichier `supabase/migrations/0_init.sql` de ce projet.
+    *   Copiez tout le contenu du fichier et collez-le dans l'éditeur SQL.
+    *   Cliquez sur **"RUN"** pour créer toutes les tables, fonctions et politiques de sécurité nécessaires.
 
-### `npm run eject`
+### Étape 2 : Configuration du Projet Frontend
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1.  **Clonez le projet :**
+    ```bash
+    git clone <URL_DU_REPOSITORY>
+    cd <NOM_DU_DOSSIER>
+    ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2.  **Installez les dépendances :**
+    ```bash
+    npm install
+    ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+3.  **Créez le fichier d'environnement :**
+    *   À la racine de votre projet, créez un fichier nommé `.env`.
+    *   Ajoutez-y les clés Supabase que vous avez récupérées à l'étape 1 :
+    ```env
+    VITE_SUPABASE_URL=VOTRE_URL_DE_PROJET_SUPABASE
+    VITE_SUPABASE_ANON_KEY=VOTRE_CLE_ANON_PUBLIC_SUPABASE
+    ```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Étape 3 : Configuration de la Passerelle de Paiement
 
-## Learn More
+L'application est conçue pour fonctionner avec une API de paiement externe pour gérer les abonnements Premium.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1.  **Obtenez votre URL de paiement :**
+    *   Inscrivez-vous auprès d'un fournisseur de services de paiement (comme MoneyFusion, Stripe, etc.).
+    *   Suivez leurs instructions pour obtenir une **URL de paiement** unique pour votre compte. L'URL utilisée dans ce projet est `https://www.pay.moneyfusion.net/GS_Money/b625a15aac1daeac/pay/`. Vous devrez la remplacer par la vôtre.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+2.  **Mettez à jour l'URL dans Supabase :**
+    *   Retournez à votre tableau de bord Supabase.
+    *   Allez dans l'éditeur de tables (`Table Editor`).
+    *   Sélectionnez la table `saas_plans`.
+    *   Pour chaque plan que vous souhaitez activer, modifiez la ligne et collez votre URL de paiement dans la colonne `api_url`.
+    *   Vous pouvez également gérer cela depuis le panel Super Admin de l'application une fois que vous avez créé un compte administrateur.
 
-### Code Splitting
+### Étape 4 : Déploiement sur Hostinger
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+1.  **Compilez le projet pour la production :**
+    ```bash
+    npm run build
+    ```
+    Cette commande va créer un dossier `dist` à la racine de votre projet. Ce dossier contient tous les fichiers statiques optimisés de votre application.
 
-### Analyzing the Bundle Size
+2.  **Déployez sur Hostinger :**
+    *   Connectez-vous à votre compte Hostinger.
+    *   Allez dans le gestionnaire de fichiers (`File Manager`) de votre site web.
+    *   Téléversez le **contenu** du dossier `dist` (pas le dossier lui-même) dans le répertoire racine de votre site (généralement `public_html`).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+3.  **Configuration finale :**
+    *   Assurez-vous que votre domaine pointe correctement vers le répertoire `public_html`.
+    *   Votre application Afinex est maintenant en ligne !
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## 👑 Créer un Super Admin
 
-### Advanced Configuration
+Pour accéder au panel d'administration, vous devez vous créer un compte Super Admin :
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1.  Inscrivez-vous sur votre application via le formulaire normal.
+2.  Allez dans votre base de données Supabase, dans la table `users` du schéma `auth`.
+3.  Trouvez votre utilisateur et modifiez la colonne `raw_user_meta_data`.
+4.  Ajoutez la propriété suivante : `{"is_super_admin": true}`.
+5.  Déconnectez-vous et reconnectez-vous. Vous devriez maintenant voir les options du Super Admin dans le menu.
