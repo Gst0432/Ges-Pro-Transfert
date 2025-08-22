@@ -17,7 +17,7 @@ import { Button } from '@/components/ui/button';
 import { supabase } from '@/lib/customSupabaseClient';
 import { startOfMonth, endOfMonth, subMonths, format } from 'date-fns';
 import { fr } from 'date-fns/locale';
-import { AdminPromoteTool } from '@/components/AdminPromoteTool'; // Import the new tool
+// import { AdminPromoteTool } from '@/components/AdminPromoteTool'; // Import the new tool - REMOVED
 
 const StatCard = ({ title, value, change, icon: Icon, iconColor, iconBgColor, cardBgColor, loading }) => (
   <motion.div
@@ -256,8 +256,8 @@ const DashboardPage = ({ handleActionClick }) => {
         </div>
       </motion.div>
 
-      {/* Temporary Admin Promote Tool */}
-      <AdminPromoteTool />
+      {/* Temporary Admin Promote Tool - REMOVED */}
+      {/* <AdminPromoteTool /> */}
     </div>
   );
 };
