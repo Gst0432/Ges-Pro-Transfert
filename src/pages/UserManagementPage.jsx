@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/lib/customSupabaseClient';
 import { useToast } from '@/components/ui/use-toast';
@@ -126,6 +125,9 @@ const UserManagementPage = () => {
                             onCheckedChange={(checked) => handleRoleChange(user, checked)}
                             disabled={user.id === currentUser?.id}
                           />
+                          <Label htmlFor={`role-switch-${user.id}`} className="font-normal">
+                            {user.is_super_admin ? 'Oui' : 'Non'}
+                          </Label>
                         </div>
                     </td>
                     <td className="p-4">
@@ -136,6 +138,9 @@ const UserManagementPage = () => {
                             onCheckedChange={(checked) => handleActivationChange(user, checked)}
                             disabled={user.id === currentUser?.id}
                           />
+                          <Label htmlFor={`active-switch-${user.id}`} className="font-normal">
+                            {user.is_active ? 'Actif' : 'Inactif'}
+                          </Label>
                         </div>
                     </td>
                   </tr>

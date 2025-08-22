@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
     // Définir isSuperAdmin basé sur les métadonnées de l'utilisateur
     const adminStatus = currentUser?.user_metadata?.is_super_admin === true;
     setIsSuperAdmin(adminStatus); 
-    console.log('SupabaseAuthContext: User email:', currentUser?.email, 'isSuperAdmin:', adminStatus); // DEBUG LOG
+    // console.log('SupabaseAuthContext: User email:', currentUser?.email, 'isSuperAdmin:', adminStatus); // DEBUG LOG - REMOVED
     setLoading(false);
   }, []);
 
