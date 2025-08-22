@@ -11,10 +11,14 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false); // Ajout de cet état
 
   const handleSession = useCallback(async (session) => {
     setSession(session);
-    setUser(session?.user ?? null);
+    const currentUser = session?.user ?? null;
+    setUser(currentUser);
+    // Définir isSuperAdmin basé sur les métadonnées de l'utilisateur
+    setIsSuperAdmin(currentUser?.user_metadata?.is_super_admin === true); 
     setLoading(false);
   }, []);
 
@@ -45,8 +49,8 @@ export const AuthProvider = ({ children }) => {
     if (error) {
       toast({
         variant: "destructive",
-        title: "Sign up Failed",
-        description: error.message || "Something went wrong",
+        title: "Échec de l'inscription",
+        description: error.message || "Une erreur est survenue",
       });
     }
 
@@ -62,8 +66,8 @@ export const AuthProvider = ({ children }) => {
     if (error) {
       toast({
         variant: "destructive",
-        title: "Sign in Failed",
-        description: error.message || "Something went wrong",
+        title: "Échec de la connexion",
+        description: error.message || "Une erreur est survenue",
       });
     }
 
@@ -76,11 +80,51 @@ export const AuthProvider = ({ children }) => {
     if (error) {
       toast({
         variant: "destructive",
-        title: "Sign out Failed",
-        description: error.message || "Something went wrong",
+        title: "Échec de la déconnexion",
+        description: error.message || "Une erreur est survenue",
       });
     }
 
+    return { error };
+  }, [toast]);
+
+  // Nouvelle fonction pour envoyer un e-mail de réinitialisation de mot de passe
+  const sendPasswordResetEmail = useCallback(async (email) => {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/update-password`,
+    });
+
+    if (error) {
+      toast({
+        variant: "destructive",
+        title: "Erreur de réinitialisation",
+        description: error.message || "Impossible d'envoyer le lien de réinitialisation.",
+      });
+    } else {
+      toast({
+        title: "Lien envoyé",
+        description: "Vérifiez votre boîte de réception pour le lien de réinitialisation du mot de passe.",
+      });
+    }
+    return { error };
+  }, [toast]);
+
+  // Nouvelle fonction pour mettre à jour le mot de passe de l'utilisateur
+  const updateUserPassword = useCallback(async (newPassword) => {
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+
+    if (error) {
+      toast({
+        variant: "destructive",
+        title: "Erreur de mise à jour",
+        description: error.message || "Impossible de mettre à jour le mot de passe.",
+      });
+    } else {
+      toast({
+        title: "Succès",
+        description: "Votre mot de passe a été mis à jour.",
+      });
+    }
     return { error };
   }, [toast]);
 
@@ -88,10 +132,13 @@ export const AuthProvider = ({ children }) => {
     user,
     session,
     loading,
+    isSuperAdmin, // Inclure isSuperAdmin dans le contexte
     signUp,
     signIn,
     signOut,
-  }), [user, session, loading, signUp, signIn, signOut]);
+    sendPasswordResetEmail, // Inclure la nouvelle fonction
+    updateUserPassword,     // Inclure la nouvelle fonction
+  }), [user, session, loading, isSuperAdmin, signUp, signIn, signOut, sendPasswordResetEmail, updateUserPassword]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
