@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { BarChart3, LogIn, UserPlus } from 'lucide-react';
@@ -84,7 +83,7 @@ const AuthPage = () => {
             <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 text-white rounded-2xl mb-4">
               <BarChart3 className="w-8 h-8" />
             </div>
-            <h1 className="text-3xl font-bold text-gray-800">Afinex</h1>
+            <h1 className="text-3xl font-bold text-gray-800">Pro-GES</h1>
             <p className="text-gray-500 mt-2">
               {isLogin ? 'Connectez-vous à votre compte' : 'Créez un nouveau compte'}
             </p>

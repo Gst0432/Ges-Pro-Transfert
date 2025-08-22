@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { supabase } from '@/lib/customSupabaseClient';
 import { useAuth } from './SupabaseAuthContext';
@@ -7,12 +6,12 @@ const CompanySettingsContext = createContext(undefined);
 
 export const CompanySettingsProvider = ({ children }) => {
   const { user, session, isSuperAdmin } = useAuth();
-  const [settings, setSettings] = useState({ company_name: 'Afinex', logo_url: null });
+  const [settings, setSettings] = useState({ company_name: 'Pro-GES', logo_url: null });
   const [loading, setLoading] = useState(true);
 
   const fetchSettingsForUser = useCallback(async (userId) => {
     if (!userId || isSuperAdmin) {
-      setSettings({ company_name: 'Afinex', logo_url: null });
+      setSettings({ company_name: 'Pro-GES', logo_url: null });
       setLoading(false);
       return;
     }
@@ -26,10 +25,10 @@ export const CompanySettingsProvider = ({ children }) => {
 
     if (error) {
       console.error('Error fetching company settings for user:', error);
-      setSettings({ company_name: 'Afinex', logo_url: null });
+      setSettings({ company_name: 'Pro-GES', logo_url: null });
     } else {
       setSettings({
-        company_name: data?.company_name || 'Afinex',
+        company_name: data?.company_name || 'Pro-GES',
         logo_url: data?.logo_url || null
       });
     }
@@ -38,7 +37,7 @@ export const CompanySettingsProvider = ({ children }) => {
 
   const fetchSettingsForLogin = useCallback(async (email) => {
     if (!email) {
-      setSettings({ company_name: 'Afinex', logo_url: null });
+      setSettings({ company_name: 'Pro-GES', logo_url: null });
       return;
     }
     
@@ -51,7 +50,7 @@ export const CompanySettingsProvider = ({ children }) => {
       .maybeSingle();
 
     if (userError || !userData) {
-      setSettings({ company_name: 'Afinex', logo_url: null });
+      setSettings({ company_name: 'Pro-GES', logo_url: null });
       setLoading(false);
       return;
     }
@@ -65,10 +64,10 @@ export const CompanySettingsProvider = ({ children }) => {
 
     if (error) {
       console.error('Error fetching company settings for login:', error);
-      setSettings({ company_name: 'Afinex', logo_url: null });
+      setSettings({ company_name: 'Pro-GES', logo_url: null });
     } else {
       setSettings({
-        company_name: data?.company_name || 'Afinex',
+        company_name: data?.company_name || 'Pro-GES',
         logo_url: data?.logo_url || null
       });
     }
@@ -79,7 +78,7 @@ export const CompanySettingsProvider = ({ children }) => {
     if (session && user) {
       fetchSettingsForUser(user.id);
     } else {
-      setSettings({ company_name: 'Afinex', logo_url: null });
+      setSettings({ company_name: 'Pro-GES', logo_url: null });
       setLoading(false);
     }
   }, [session, user, fetchSettingsForUser]);

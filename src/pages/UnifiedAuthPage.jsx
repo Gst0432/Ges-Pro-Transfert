@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BarChart3, Mail } from 'lucide-react';
@@ -69,7 +68,7 @@ const AuthForm = ({ isLogin, onSubmit, onToggle, onForgotPasswordClick, companyS
           )}
         </div>
         <h1 className="text-3xl font-bold text-gray-800">
-          {companySettings?.company_name || 'Afinex'}
+          {companySettings?.company_name || 'Pro-GES'}
         </h1>
         <p className="text-gray-500 mt-2">
           {isLogin ? 'Connectez-vous à votre compte' : 'Créez un nouveau compte'}

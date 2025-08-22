@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -50,7 +49,7 @@ const MainLayout = () => {
   ];
 
   const activeModule = modules.find(m => location.pathname.startsWith(m.path) && m.path !== '/');
-  const pageTitle = `${activeModule ? activeModule.name : 'Tableau de bord'} - ${settings?.company_name || 'Afinex'}`;
+  const pageTitle = `${activeModule ? activeModule.name : 'Tableau de bord'} - ${settings?.company_name || 'Pro-GES'}`;
 
 
   return (

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -70,7 +69,7 @@ const SidebarContent = ({ isSuperAdmin, isMobile, setIsOpen, setIsSettingsOpen }
           <div className={`w-10 h-10 ${logoBg} text-white rounded-xl flex items-center justify-center`}>
             {logoIcon}
           </div>
-          <span className="text-xl font-bold truncate">{settings.company_name || 'Afinex'}</span>
+          <span className="text-xl font-bold truncate">{settings.company_name || 'Pro-GES'}</span>
         </div>
         <Button
           variant="ghost"

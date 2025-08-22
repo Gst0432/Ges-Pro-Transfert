@@ -1,6 +1,6 @@
-# Afinex - Plateforme de Gestion Commerciale SaaS
+# Pro-GES - Plateforme de Gestion Commerciale SaaS
 
-Bienvenue sur Afinex, une solution SaaS complète pour la gestion commerciale, conçue pour aider les entreprises à optimiser leurs opérations de vente, d'inventaire, de facturation et bien plus encore.
+Bienvenue sur Pro-GES, une solution SaaS complète pour la gestion commerciale, conçue pour aider les entreprises à optimiser leurs opérations de vente, d'inventaire, de facturation et bien plus encore.
 
 ## ✨ Fonctionnalités
 
@@ -24,7 +24,7 @@ Bienvenue sur Afinex, une solution SaaS complète pour la gestion commerciale, c
 
 ## 🔧 Guide de Déploiement et d'Installation
 
-Suivez ces étapes pour déployer votre propre instance d'Afinex.
+Suivez ces étapes pour déployer votre propre instance de Pro-GES.
 
 ### Étape 1 : Configuration de Supabase
 
@@ -93,7 +93,7 @@ L'application est conçue pour fonctionner avec une API de paiement externe pour
 
 3.  **Configuration finale :**
     *   Assurez-vous que votre domaine pointe correctement vers le répertoire `public_html`.
-    *   Votre application Afinex est maintenant en ligne !
+    *   Votre application Pro-GES est maintenant en ligne !
 
 ---
 

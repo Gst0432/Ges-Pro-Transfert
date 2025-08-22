@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { useToast } from '@/components/ui/use-toast';
@@ -84,7 +83,7 @@ const PremiumPage = () => {
       totalPrice: price,
       article: [{ [selectedPlan.name]: price }],
       numeroSend: profile?.phone || '00000000',
-      nomclient: profile?.full_name || 'Utilisateur Afinex',
+      nomclient: profile?.full_name || 'Utilisateur Pro-GES',
       personal_Info: [{ userId: user.id, orderId: `premium-${Date.now()}` }],
       return_url: `${window.location.origin}/payment-callback`,
     };
@@ -138,7 +137,7 @@ const PremiumPage = () => {
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <p className="text-gray-700">Profitez de toutes les fonctionnalités avancées d'Afinex.</p>
+                <p className="text-gray-700">Profitez de toutes les fonctionnalités avancées de Pro-GES.</p>
             </CardContent>
         </Card>
         </motion.div>
