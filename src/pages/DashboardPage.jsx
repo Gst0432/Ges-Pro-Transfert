@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
@@ -18,6 +17,7 @@ import { Button } from '@/components/ui/button';
 import { supabase } from '@/lib/customSupabaseClient';
 import { startOfMonth, endOfMonth, subMonths, format } from 'date-fns';
 import { fr } from 'date-fns/locale';
+import { AdminPromoteTool } from '@/components/AdminPromoteTool'; // Import the new tool
 
 const StatCard = ({ title, value, change, icon: Icon, iconColor, iconBgColor, cardBgColor, loading }) => (
   <motion.div
@@ -255,6 +255,9 @@ const DashboardPage = ({ handleActionClick }) => {
           })}
         </div>
       </motion.div>
+
+      {/* Temporary Admin Promote Tool */}
+      <AdminPromoteTool />
     </div>
   );
 };
