@@ -13,9 +13,10 @@ import ReportsPage from '@/pages/ReportsPage';
 import CreditSalesPage from '@/pages/CreditSalesPage';
 import PurchaseOrdersPage from '@/pages/PurchaseOrdersPage';
 import ExpensesPage from '@/pages/ExpensesPage';
-import UserManagementPage from '@/pages/UserManagementPage'; // Updated import
+import UserManagementPage from '@/pages/UserManagementPage';
 import SaasManagementPage from '@/pages/SaasManagementPage';
 import AdminDashboardPage from '@/pages/AdminDashboardPage';
+import AdminRegisterUserPage from '@/pages/AdminRegisterUserPage'; // Nouvelle importation
 import { NewSaleWizard } from '@/components/wizards/new-sale/NewSaleWizard';
 import { SupplierFormDialog } from '@/components/SupplierFormDialog';
 import { ProductWizard } from '@/components/wizards/ProductWizard';
@@ -108,6 +109,7 @@ const AppRoutes = ({ isSuperAdmin }) => {
           <Route path="/super-admin" element={<ProtectedRoute adminOnly={true} isSuperAdmin={isSuperAdmin}><AdminDashboardPage /></ProtectedRoute>} />
           <Route path="/super-admin/users" element={<ProtectedRoute adminOnly={true} isSuperAdmin={isSuperAdmin}><UserManagementPage /></ProtectedRoute>} />
           <Route path="/super-admin/saas" element={<ProtectedRoute adminOnly={true} isSuperAdmin={isSuperAdmin}><SaasManagementPage /></ProtectedRoute>} />
+          <Route path="/super-admin/register-user" element={<ProtectedRoute adminOnly={true} isSuperAdmin={isSuperAdmin}><AdminRegisterUserPage /></ProtectedRoute>} /> {/* Nouvelle route */}
         </Routes>
       </AnimatePresence>
       <NewSaleWizard isOpen={isSaleWizardOpen} onOpenChange={setIsSaleWizardOpen} onSaleSaved={onActionSuccess} />
