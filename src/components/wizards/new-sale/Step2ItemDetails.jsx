@@ -15,7 +15,7 @@ export const Step2ItemDetails = ({ onNext, onBack, saleData, setSaleData }) => {
     const [quantity, setQuantity] = useState(1);
     const [isNewProduct, setIsNewProduct] = useState(false);
     const [newProductName, setNewProductName] = useState('');
-    const [newProductPrice, setNewProductPrice] = useState('');
+    const [newProductPrice, setNewProductPrice] = useState(''); // Initialiser à une chaîne vide
     const [showDropdown, setShowDropdown] = useState(false);
 
     useEffect(() => {
@@ -41,7 +41,7 @@ export const Step2ItemDetails = ({ onNext, onBack, saleData, setSaleData }) => {
     const handleAddItem = () => {
         let newItem;
         if (isNewProduct) {
-            if (!newProductName || quantity <= 0 || newProductPrice <= 0) return;
+            if (!newProductName || quantity <= 0 || parseFloat(newProductPrice) <= 0 || newProductPrice === '') return;
             newItem = {
                 product_id: null, // Indicates a new product
                 name: newProductName,

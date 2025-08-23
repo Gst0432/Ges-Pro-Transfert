@@ -17,7 +17,7 @@ const getInitialSaleData = () => ({
     client_email: '',
     items: [],
     total_amount: 0,
-    amount_paid: 0,
+    amount_paid: '', // Initialiser à une chaîne vide
     status: 'Payée',
     sale_date: new Date().toISOString().split('T')[0],
     due_date: null,
@@ -115,7 +115,7 @@ export const NewSaleWizard = ({ isOpen, onOpenChange, onSaleSaved }) => {
     if (saleData.status === 'Payée') {
       saleToInsert.amount_paid = saleData.total_amount;
     } else {
-      saleToInsert.amount_paid = saleData.amount_paid || 0;
+      saleToInsert.amount_paid = parseFloat(saleData.amount_paid || '0'); // Gérer la chaîne vide
     }
 
     const { data: newSale, error: saleError } = await supabase

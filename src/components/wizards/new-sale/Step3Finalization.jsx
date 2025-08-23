@@ -66,7 +66,7 @@ export const Step3Finalization = ({ onBack, onSave, saleData, setSaleData, isLoa
                 <div className="grid grid-cols-2 gap-4">
                     <div>
                         <Label htmlFor="amount_paid">Montant Payé</Label>
-                        <Input id="amount_paid" type="number" placeholder="0" value={saleData.amount_paid} onChange={handleInputChange} />
+                        <Input id="amount_paid" type="number" placeholder="0" value={saleData.amount_paid === 0 ? '' : saleData.amount_paid} onChange={handleInputChange} />
                     </div>
                     <div>
                         <Label htmlFor="due_date">Date d'échéance</Label>

@@ -17,21 +17,21 @@ import { Loader2 } from 'lucide-react';
 
 export const UpdatePurchasePaymentDialog = ({ isOpen, onOpenChange, order, onPaymentUpdated }) => {
   const [paymentStatus, setPaymentStatus] = useState('');
-  const [amountPaid, setAmountPaid] = useState('');
+  const [amountPaid, setAmountPaid] = useState(''); // Initialiser à une chaîne vide
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
     if (order) {
       setPaymentStatus(order.payment_status || 'Non Payé');
-      setAmountPaid(order.amount_paid || 0);
+      setAmountPaid(order.amount_paid === 0 ? '' : order.amount_paid); // Initialiser à une chaîne vide si 0
     }
   }, [order]);
 
   const handleSave = async () => {
     setIsLoading(true);
 
-    let finalAmountPaid = parseFloat(amountPaid);
+    let finalAmountPaid = parseFloat(amountPaid || '0'); // Gérer la chaîne vide
     if (paymentStatus === 'Payé') {
       finalAmountPaid = order.total_amount;
     }

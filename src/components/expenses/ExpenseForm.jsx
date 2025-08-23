@@ -18,13 +18,13 @@ export const expenseCategories = [
 export const ExpenseForm = ({ onSubmit, isSubmitting, initialData = {} }) => {
   const { toast } = useToast();
   const [category, setCategory] = useState(initialData.category || '');
-  const [amount, setAmount] = useState(initialData.amount || '');
+  const [amount, setAmount] = useState(initialData.amount === 0 ? '' : initialData.amount || ''); // Initialiser à une chaîne vide si 0
   const [description, setDescription] = useState(initialData.description || '');
   const [expenseDate, setExpenseDate] = useState(initialData.expense_date ? new Date(initialData.expense_date) : new Date());
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!category || !amount || !expenseDate) {
+    if (!category || amount === '' || parseFloat(amount) <= 0 || !expenseDate) {
       toast({ variant: 'destructive', title: 'Champs requis', description: 'Veuillez remplir tous les champs obligatoires.' });
       return;
     }

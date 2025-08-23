@@ -10,14 +10,14 @@ import { Loader2 } from 'lucide-react';
 
 export const UpdatePaymentStatusDialog = ({ isOpen, onOpenChange, order, onPaymentSaved }) => {
   const [newStatus, setNewStatus] = useState('');
-  const [amountPaid, setAmountPaid] = useState(0);
+  const [newPaymentAmount, setNewPaymentAmount] = useState(''); // Montant du versement actuel
   const [isSaving, setIsSaving] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
     if (order) {
       setNewStatus(order.payment_status);
-      setAmountPaid(order.amount_paid || 0);
+      setNewPaymentAmount(''); // Toujours vide pour un nouveau versement
     }
   }, [order]);
   
@@ -26,7 +26,7 @@ export const UpdatePaymentStatusDialog = ({ isOpen, onOpenChange, order, onPayme
     
     setIsSaving(true);
     
-    let updatedAmountPaid = amountPaid;
+    let updatedAmountPaid = (order.amount_paid || 0) + (parseFloat(newPaymentAmount || '0'));
     if (newStatus === 'Payé') {
         updatedAmountPaid = order.total_amount;
     }
@@ -57,7 +57,9 @@ export const UpdatePaymentStatusDialog = ({ isOpen, onOpenChange, order, onPayme
     setIsSaving(false);
   };
 
-  const remainingAmount = order ? order.total_amount - (order.amount_paid || 0) : 0;
+  const currentTotalPaid = order ? (order.amount_paid || 0) : 0;
+  const amountAfterNewPayment = currentTotalPaid + (parseFloat(newPaymentAmount || '0'));
+  const remainingAmount = order ? order.total_amount - currentTotalPaid : 0;
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -86,15 +88,16 @@ export const UpdatePaymentStatusDialog = ({ isOpen, onOpenChange, order, onPayme
           </div>
           {newStatus === 'Partiel' && (
             <div>
-              <Label htmlFor="amount_paid">Montant du versement</Label>
+              <Label htmlFor="new_payment_amount">Montant du versement</Label>
               <Input
-                id="amount_paid"
+                id="new_payment_amount"
                 type="number"
                 placeholder="ex: 5000"
-                onChange={(e) => setAmountPaid(parseFloat(e.target.value) + (order.amount_paid || 0))}
+                value={newPaymentAmount}
+                onChange={(e) => setNewPaymentAmount(e.target.value)}
               />
                <p className="text-sm text-gray-500 mt-1">
-                Total payé après ce versement: {(parseFloat(amountPaid) || (order.amount_paid || 0)).toLocaleString('fr-FR')} FCFA
+                Total payé après ce versement: {amountAfterNewPayment.toLocaleString('fr-FR')} FCFA
               </p>
             </div>
           )}

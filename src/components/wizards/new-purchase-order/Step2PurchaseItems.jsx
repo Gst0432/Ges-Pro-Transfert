@@ -13,7 +13,7 @@ export const Step2PurchaseItems = ({ onNext, onBack, orderData, setOrderData }) 
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [itemQuantity, setItemQuantity] = useState(1);
-    const [itemPrice, setItemPrice] = useState('');
+    const [itemPrice, setItemPrice] = useState(''); // Initialiser à une chaîne vide
     const [isNewProduct, setIsNewProduct] = useState(false);
     const [newProductName, setNewProductName] = useState('');
     const [newProductCategoryName, setNewProductCategoryName] = useState('');
@@ -29,7 +29,7 @@ export const Step2PurchaseItems = ({ onNext, onBack, orderData, setOrderData }) 
 
     useEffect(() => {
         if (selectedProduct && !isNewProduct) {
-            setItemPrice(selectedProduct.purchase_price || '');
+            setItemPrice(selectedProduct.purchase_price || ''); // Assurer que c'est une chaîne vide si 0
         }
     }, [selectedProduct, isNewProduct]);
 
@@ -47,7 +47,7 @@ export const Step2PurchaseItems = ({ onNext, onBack, orderData, setOrderData }) 
     const handleAddItem = () => {
         let newItem;
         if (isNewProduct) {
-            if (!newProductName || itemQuantity <= 0 || itemPrice <= 0 || !newProductCategoryName) return;
+            if (!newProductName || itemQuantity <= 0 || parseFloat(itemPrice) <= 0 || itemPrice === '' || !newProductCategoryName) return;
             newItem = {
                 product_id: null,
                 name: newProductName,
@@ -58,7 +58,7 @@ export const Step2PurchaseItems = ({ onNext, onBack, orderData, setOrderData }) 
             setNewProductName('');
             setNewProductCategoryName('');
         } else {
-            if (!selectedProduct || itemQuantity <= 0 || itemPrice <= 0) return;
+            if (!selectedProduct || itemQuantity <= 0 || parseFloat(itemPrice) <= 0 || itemPrice === '') return;
             newItem = {
                 product_id: selectedProduct.id,
                 name: selectedProduct.name,

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check, Plus, Loader2 } from 'lucide-react';
@@ -128,16 +127,16 @@ const Step2Pricing = ({ formData, setFormData, onNext, onBack }) => {
         <div className="space-y-6">
             <div>
                 <Label htmlFor="quantity">Quantité</Label>
-                <Input id="quantity" type="number" value={formData.quantity} onChange={e => setFormData(p => ({...p, quantity: parseInt(e.target.value, 10) || 0}))} placeholder="0"/>
+                <Input id="quantity" type="number" value={formData.quantity} onChange={e => setFormData(p => ({...p, quantity: parseInt(e.target.value, 10) || ''}))} placeholder="0"/>
             </div>
             <div className="grid grid-cols-2 gap-4">
                 <div>
                     <Label htmlFor="purchase_price">Prix d'achat (FCFA)</Label>
-                    <Input id="purchase_price" type="number" value={formData.purchase_price} onChange={e => setFormData(p => ({...p, purchase_price: parseFloat(e.target.value) || 0}))} placeholder="0"/>
+                    <Input id="purchase_price" type="number" value={formData.purchase_price} onChange={e => setFormData(p => ({...p, purchase_price: parseFloat(e.target.value) || ''}))} placeholder="0"/>
                 </div>
                 <div>
                     <Label htmlFor="sale_price">Prix de vente (FCFA)</Label>
-                    <Input id="sale_price" type="number" value={formData.sale_price} onChange={e => setFormData(p => ({...p, sale_price: parseFloat(e.target.value) || 0}))} placeholder="0"/>
+                    <Input id="sale_price" type="number" value={formData.sale_price} onChange={e => setFormData(p => ({...p, sale_price: parseFloat(e.target.value) || ''}))} placeholder="0"/>
                 </div>
             </div>
             <DialogFooter className="flex justify-between mt-8">
@@ -213,9 +212,9 @@ export const ProductWizard = ({ isOpen, onOpenChange, productToEdit, onProductSa
     name: productToEdit?.name || '',
     category_id: productToEdit?.category_id || null,
     is_sellable: productToEdit?.is_sellable ?? true,
-    quantity: productToEdit?.quantity ?? 0,
-    purchase_price: productToEdit?.purchase_price ?? 0,
-    sale_price: productToEdit?.sale_price ?? 0,
+    quantity: productToEdit?.quantity ?? '', // Initialiser à une chaîne vide
+    purchase_price: productToEdit?.purchase_price ?? '', // Initialiser à une chaîne vide
+    sale_price: productToEdit?.sale_price ?? '', // Initialiser à une chaîne vide
     supplier_id: productToEdit?.supplier_id || null,
     purchase_type: productToEdit?.purchase_type || 'Comptant',
     user_id: user?.id

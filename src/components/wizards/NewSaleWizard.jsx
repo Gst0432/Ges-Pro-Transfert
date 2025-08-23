@@ -289,6 +289,7 @@ export const NewSaleWizard = ({ isOpen, onOpenChange, onSaleSaved }) => {
       client_email: '',
       items: [],
       total_amount: 0,
+      amount_paid: '', // Initialiser à une chaîne vide
       status: 'Payée',
       sale_date: new Date().toISOString(),
   });
@@ -302,6 +303,7 @@ export const NewSaleWizard = ({ isOpen, onOpenChange, onSaleSaved }) => {
         client_email: '',
         items: [],
         total_amount: 0,
+        amount_paid: '', // Initialiser à une chaîne vide
         status: 'Payée',
         sale_date: new Date().toISOString(),
     });
@@ -358,6 +360,7 @@ export const NewSaleWizard = ({ isOpen, onOpenChange, onSaleSaved }) => {
             sale_date: saleData.sale_date,
             total_amount: totalAmount,
             status: saleData.status,
+            amount_paid: parseFloat(saleData.amount_paid || '0'), // Gérer la chaîne vide
         })
         .select()
         .single();
@@ -385,7 +388,6 @@ export const NewSaleWizard = ({ isOpen, onOpenChange, onSaleSaved }) => {
         return;
     }
 
-    setIsLoading(false);
     toast({ title: "Succès", description: "Vente enregistrée avec succès !" });
     onSaleSaved();
     onOpenChange(false);

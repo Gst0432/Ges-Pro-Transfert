@@ -33,7 +33,7 @@ export const DocumentFormDialog = ({ isOpen, onOpenChange, type, onDocumentSaved
     product_id: '',
     name: '',
     quantity: 1,
-    unit_price: 0,
+    unit_price: '', // Initialiser à une chaîne vide
   });
 
   useEffect(() => {
@@ -55,6 +55,7 @@ export const DocumentFormDialog = ({ isOpen, onOpenChange, type, onDocumentSaved
         items: [],
         status: type === 'invoice' ? 'Envoyé' : 'Brouillon',
       });
+      setCurrentItem({ product_id: '', name: '', quantity: 1, unit_price: '' }); // Réinitialiser aussi
     }
   }, [isOpen, type]);
 
@@ -65,18 +66,18 @@ export const DocumentFormDialog = ({ isOpen, onOpenChange, type, onDocumentSaved
         ...prev,
         product_id: product.id,
         name: product.name,
-        unit_price: product.sale_price || 0,
+        unit_price: product.sale_price || '', // Assurer que c'est une chaîne vide si 0
       }));
     }
   };
 
   const handleAddItem = () => {
-    if (!currentItem.name || currentItem.quantity <= 0 || currentItem.unit_price < 0) {
+    if (!currentItem.name || currentItem.quantity <= 0 || parseFloat(currentItem.unit_price) < 0 || currentItem.unit_price === '') {
       toast({ variant: 'destructive', title: 'Article invalide' });
       return;
     }
-    setFormData(prev => ({ ...prev, items: [...prev.items, currentItem] }));
-    setCurrentItem({ product_id: '', name: '', quantity: 1, unit_price: 0 });
+    setFormData(prev => ({ ...prev, items: [...prev.items, { ...currentItem, unit_price: parseFloat(currentItem.unit_price) }] }));
+    setCurrentItem({ product_id: '', name: '', quantity: 1, unit_price: '' });
   };
 
   const handleRemoveItem = (index) => {
@@ -186,7 +187,7 @@ export const DocumentFormDialog = ({ isOpen, onOpenChange, type, onDocumentSaved
                   <Input value={currentItem.name} onChange={e => setCurrentItem(p => ({ ...p, name: e.target.value }))} placeholder="Ou description manuelle" />
                 </div>
                 <div className="col-span-6 sm:col-span-1"><Label>Qté</Label><Input type="number" value={currentItem.quantity} onChange={e => setCurrentItem(p => ({ ...p, quantity: parseInt(e.target.value) || 1 }))} /></div>
-                <div className="col-span-6 sm:col-span-2"><Label>Prix U.</Label><Input type="number" value={currentItem.unit_price} onChange={e => setCurrentItem(p => ({ ...p, unit_price: parseFloat(e.target.value) || 0 }))} /></div>
+                <div className="col-span-6 sm:col-span-2"><Label>Prix U.</Label><Input type="number" value={currentItem.unit_price} onChange={e => setCurrentItem(p => ({ ...p, unit_price: e.target.value }))} /></div>
               </div>
               <div className="flex justify-end">
                 <Button size="sm" onClick={handleAddItem}><Plus className="w-4 h-4 mr-2" />Ajouter l'article</Button>
