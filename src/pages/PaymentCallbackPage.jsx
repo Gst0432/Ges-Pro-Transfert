@@ -18,11 +18,16 @@ const PaymentCallbackPage = () => {
     if (!user || !planId) return;
     
     const now = new Date();
-    const expirationDate = new Date(now);
+    let expirationDate = null;
+
     if (billingCycle === 'monthly') {
+        expirationDate = new Date(now);
         expirationDate.setMonth(expirationDate.getMonth() + 1);
-    } else {
+    } else if (billingCycle === 'yearly') {
+        expirationDate = new Date(now);
         expirationDate.setFullYear(expirationDate.getFullYear() + 1);
+    } else if (billingCycle === 'lifetime') {
+        expirationDate = null;
     }
 
     const { data: existingSubscription, error: fetchError } = await supabase
@@ -33,31 +38,28 @@ const PaymentCallbackPage = () => {
 
     let error;
 
-    if (fetchError && fetchError.code !== 'PGRST116') { // Handle cases other than 'no row'
+    const subscriptionData = {
+        plan_id: planId,
+        status: 'active',
+        current_period_start: now.toISOString(),
+        current_period_end: expirationDate ? expirationDate.toISOString() : null,
+        updated_at: now.toISOString()
+    };
+
+    if (fetchError && fetchError.code !== 'PGRST116') {
         error = fetchError;
     } else if (existingSubscription) {
-        // Update existing subscription
         const { error: updateError } = await supabase
           .from('user_subscriptions')
-          .update({ 
-            plan_id: planId,
-            status: 'active', 
-            current_period_start: now.toISOString(),
-            current_period_end: expirationDate.toISOString(),
-            updated_at: now.toISOString()
-          })
+          .update(subscriptionData)
           .eq('user_id', user.id);
         error = updateError;
     } else {
-        // Insert new subscription
         const { error: insertError } = await supabase
             .from('user_subscriptions')
             .insert({
                 user_id: user.id,
-                plan_id: planId,
-                status: 'active',
-                current_period_start: now.toISOString(),
-                current_period_end: expirationDate.toISOString()
+                ...subscriptionData
             });
         error = insertError;
     }
@@ -76,7 +78,6 @@ const PaymentCallbackPage = () => {
       });
     }
     
-    // Clean up local storage
     window.localStorage.removeItem('payment_plan_id');
     window.localStorage.removeItem('payment_billing_cycle');
 

@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { makePaymentRequest } from '@/services/paymentService';
 import { supabase } from '@/lib/customSupabaseClient';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const currencies = [
   { code: 'FCFA', symbol: 'FCFA' },
@@ -21,11 +22,13 @@ const PremiumPage = () => {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [plans, setPlans] = useState([]);
-  const [selectedPlan, setSelectedPlan] = useState(null);
+  const [selectedPlanId, setSelectedPlanId] = useState(null);
   const [selectedCurrency, setSelectedCurrency] = useState('FCFA');
-  const [billingCycle, setBillingCycle] = useState('monthly');
+  const [billingCycle, setBillingCycle] = useState('monthly'); // 'monthly', 'yearly', 'lifetime'
   const [subscription, setSubscription] = useState(null);
   const [loadingSubscription, setLoadingSubscription] = useState(true);
+
+  const selectedPlan = plans.find(p => p.id === selectedPlanId);
 
   const fetchSubscriptionAndPlans = useCallback(async () => {
     setLoadingSubscription(true);
@@ -36,7 +39,7 @@ const PremiumPage = () => {
         .eq('user_id', user.id)
         .single();
 
-      if (subError && subError.code !== 'PGRST116') { // Ignore 'exact one row' error
+      if (subError && subError.code !== 'PGRST116') {
         console.error("Erreur de récupération de l'abonnement:", subError);
       } else {
         setSubscription(subData);
@@ -54,13 +57,17 @@ const PremiumPage = () => {
     } else {
       setPlans(plansData);
       if (plansData && plansData.length > 0) {
-        setSelectedPlan(plansData[0]);
+        if (subscription && subscription.plan_id) {
+            setSelectedPlanId(subscription.plan_id);
+        } else {
+            setSelectedPlanId(plansData[0].id);
+        }
       } else {
-        setSelectedPlan(null);
+        setSelectedPlanId(null);
       }
     }
     setLoadingSubscription(false);
-  }, [user, selectedCurrency, toast]);
+  }, [user, selectedCurrency, toast, subscription]);
 
   useEffect(() => {
     fetchSubscriptionAndPlans();
@@ -78,10 +85,19 @@ const PremiumPage = () => {
     }
       
     setLoading(true);
-    const price = billingCycle === 'monthly' ? selectedPlan.price_monthly : selectedPlan.price_yearly;
+    let priceToPay = 0;
+    let effectiveBillingCycle = billingCycle;
+
+    if (selectedPlan.name === 'Lifetime') {
+        priceToPay = selectedPlan.price_yearly;
+        effectiveBillingCycle = 'lifetime';
+    } else {
+        priceToPay = billingCycle === 'monthly' ? selectedPlan.price_monthly : selectedPlan.price_yearly;
+    }
+
     const paymentData = {
-      totalPrice: price,
-      article: [{ [selectedPlan.name]: price }],
+      totalPrice: priceToPay,
+      article: [{ [selectedPlan.name]: priceToPay }],
       numeroSend: profile?.phone || '00000000',
       nomclient: profile?.full_name || 'Utilisateur Pro-GES',
       personal_Info: [{ userId: user.id, orderId: `premium-${Date.now()}` }],
@@ -90,7 +106,7 @@ const PremiumPage = () => {
 
     try {
       window.localStorage.setItem('payment_plan_id', selectedPlan.id);
-      window.localStorage.setItem('payment_billing_cycle', billingCycle);
+      window.localStorage.setItem('payment_billing_cycle', effectiveBillingCycle);
       const response = await makePaymentRequest(paymentData, selectedPlan.api_url);
       if (response && response.statut && response.url) {
         window.location.href = response.url;
@@ -109,7 +125,13 @@ const PremiumPage = () => {
 
   const hasActiveSubscription = subscription && (subscription.status === 'active' || subscription.status === 'trial');
   const expirationDate = hasActiveSubscription && subscription.current_period_end ? new Date(subscription.current_period_end).toLocaleDateString('fr-FR') : null;
-  const price = selectedPlan ? (billingCycle === 'monthly' ? selectedPlan.price_monthly : selectedPlan.price_yearly) : 0;
+  
+  const displayPrice = selectedPlan ? (
+    selectedPlan.name === 'Lifetime' ? selectedPlan.price_yearly :
+    (billingCycle === 'monthly' ? selectedPlan.price_monthly : selectedPlan.price_yearly)
+  ) : 0;
+  
+  const displayBillingCycleText = selectedPlan?.name === 'Lifetime' ? 'paiement unique' : (billingCycle === 'monthly' ? 'mois' : 'an');
   const features = selectedPlan?.features || [];
 
   if (loadingSubscription) {
@@ -157,17 +179,6 @@ const PremiumPage = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-8">
-              <div className="flex justify-center items-center space-x-4">
-                <Label htmlFor="billing-cycle" className="text-gray-600">Mensuel</Label>
-                <Switch
-                  id="billing-cycle"
-                  checked={billingCycle === 'yearly'}
-                  onCheckedChange={(checked) => setBillingCycle(checked ? 'yearly' : 'monthly')}
-                />
-                <Label htmlFor="billing-cycle" className="text-gray-600">Annuel</Label>
-                 <span className="text-xs font-bold bg-green-200 text-green-800 px-2 py-1 rounded-full">Économisez !</span>
-              </div>
-              
               <div className="flex justify-center items-center gap-2">
                 {currencies.map(c => (
                   <Button
@@ -180,20 +191,46 @@ const PremiumPage = () => {
                   </Button>
                 ))}
               </div>
+
+              <div className="flex justify-center">
+                <Select value={selectedPlanId || ''} onValueChange={setSelectedPlanId}>
+                  <SelectTrigger className="w-[200px]">
+                    <SelectValue placeholder="Sélectionner un plan" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {plans.map(plan => (
+                      <SelectItem key={plan.id} value={plan.id}>{plan.name}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              {selectedPlan && selectedPlan.name !== 'Lifetime' && (
+                <div className="flex justify-center items-center space-x-4">
+                  <Label htmlFor="billing-cycle" className="text-gray-600">Mensuel</Label>
+                  <Switch
+                    id="billing-cycle"
+                    checked={billingCycle === 'yearly'}
+                    onCheckedChange={(checked) => setBillingCycle(checked ? 'yearly' : 'monthly')}
+                  />
+                  <Label htmlFor="billing-cycle" className="text-gray-600">Annuel</Label>
+                   <span className="text-xs font-bold bg-green-200 text-green-800 px-2 py-1 rounded-full">Économisez !</span>
+                </div>
+              )}
               
               {selectedPlan ? (
                 <>
                 <div className="bg-white/70 p-6 rounded-lg shadow-inner text-center">
                     <AnimatePresence mode="wait">
                     <motion.div
-                        key={`${price}-${selectedCurrency}`}
+                        key={`${displayPrice}-${selectedCurrency}-${displayBillingCycleText}`}
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.2 }}
                     >
-                        <p className="text-5xl font-bold text-gray-800">{price.toLocaleString('fr-FR')} <span className="text-2xl font-medium text-gray-500">{selectedCurrency}</span></p>
-                        <p className="text-gray-500">/{billingCycle === 'monthly' ? 'mois' : 'an'}</p>
+                        <p className="text-5xl font-bold text-gray-800">{displayPrice.toLocaleString('fr-FR')} <span className="text-2xl font-medium text-gray-500">{selectedCurrency}</span></p>
+                        <p className="text-gray-500">/{displayBillingCycleText}</p>
                     </motion.div>
                     </AnimatePresence>
                 </div>
@@ -205,10 +242,12 @@ const PremiumPage = () => {
                         <span>{feature}</span>
                     </li>
                     ))}
-                    <li className="flex items-start">
-                        <Calendar className="h-5 w-5 mr-3 text-green-500 flex-shrink-0 mt-1" />
-                        <span>Essai gratuit de 7 jours inclus</span>
-                    </li>
+                    {selectedPlan.trial_days > 0 && (
+                        <li className="flex items-start">
+                            <Calendar className="h-5 w-5 mr-3 text-green-500 flex-shrink-0 mt-1" />
+                            <span>Essai gratuit de {selectedPlan.trial_days} jours inclus</span>
+                        </li>
+                    )}
                 </ul>
                 </>
               ) : (
