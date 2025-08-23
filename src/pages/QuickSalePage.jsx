@@ -7,16 +7,19 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Trash2, Plus } from 'lucide-react';
+import { Trash2, Plus, Printer } from 'lucide-react';
+import { useCompanySettings } from '@/contexts/CompanySettingsContext';
 
 const QuickSalePage = () => {
   const { user } = useAuth();
   const { toast } = useToast();
+  const { settings: companySettings } = useCompanySettings();
   const [products, setProducts] = useState([]);
   const [saleItems, setSaleItems] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState('');
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [lastSale, setLastSale] = useState(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -62,6 +65,180 @@ const QuickSalePage = () => {
 
   const calculateTotal = () => {
     return saleItems.reduce((total, item) => total + (item.quantity * item.unit_price), 0);
+  };
+
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('fr-FR', {
+      style: 'currency',
+      currency: 'XOF',
+      minimumFractionDigits: 0,
+    }).format(amount);
+  };
+
+  const printReceipt = () => {
+    if (!lastSale) return;
+
+    try {
+      // Créer une fenêtre d'impression
+      const printWindow = window.open('', '_blank');
+      const printDocument = printWindow.document;
+
+      // Contenu HTML du reçu
+      const receiptContent = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Reçu de vente rapide</title>
+          <style>
+            body {
+              font-family: Arial, sans-serif;
+              margin: 0;
+              padding: 0;
+              width: 80mm; /* Largeur standard pour les imprimantes thermiques */
+            }
+            .receipt {
+              padding: 10px;
+              font-size: 12px;
+            }
+            .header {
+              text-align: center;
+              border-bottom: 1px dashed #000;
+              padding-bottom: 5px;
+              margin-bottom: 10px;
+            }
+            .company-name {
+              font-size: 14px;
+              font-weight: bold;
+            }
+            .company-info {
+              font-size: 10px;
+              margin: 2px 0;
+            }
+            .title {
+              text-align: center;
+              font-size: 14px;
+              font-weight: bold;
+              margin: 10px 0;
+            }
+            .info-row {
+              display: flex;
+              justify-content: space-between;
+              margin: 3px 0;
+            }
+            .items-table {
+              width: 100%;
+              border-collapse: collapse;
+              margin: 10px 0;
+            }
+            .items-table th, .items-table td {
+              text-align: left;
+              padding: 2px 0;
+              font-size: 11px;
+            }
+            .items-table th {
+              border-bottom: 1px solid #000;
+            }
+            .total-section {
+              border-top: 1px dashed #000;
+              padding-top: 5px;
+              margin-top: 5px;
+            }
+            .total-row {
+              display: flex;
+              justify-content: space-between;
+              font-weight: bold;
+              margin: 2px 0;
+            }
+            .footer {
+              text-align: center;
+              font-size: 10px;
+              margin-top: 15px;
+              padding-top: 5px;
+              border-top: 1px dashed #000;
+            }
+          </style>
+        </head>
+        <body onload="window.print(); window.close();">
+          <div class="receipt">
+            <div class="header">
+              <div class="company-name">${companySettings?.company_name || 'Entreprise'}</div>
+              <div class="company-info">${companySettings?.address || ''}</div>
+              <div class="company-info">Tel: ${companySettings?.phone || ''}</div>
+            </div>
+            
+            <div class="title">REÇU DE VENTE RAPIDE</div>
+            
+            <div class="info-row">
+              <span>Numéro:</span>
+              <span>${lastSale.id.substring(0, 8)}</span>
+            </div>
+            <div class="info-row">
+              <span>Date:</span>
+              <span>${new Date(lastSale.sale_date).toLocaleDateString('fr-FR')}</span>
+            </div>
+            <div class="info-row">
+              <span>Client:</span>
+              <span>Vente Comptant</span>
+            </div>
+            
+            <table class="items-table">
+              <thead>
+                <tr>
+                  <th>Produit</th>
+                  <th>Qté</th>
+                  <th>P.U</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${saleItems.map(item => `
+                  <tr>
+                    <td>${item.name}</td>
+                    <td>${item.quantity}</td>
+                    <td>${formatCurrency(item.unit_price)}</td>
+                    <td>${formatCurrency(item.quantity * item.unit_price)}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+            
+            <div class="total-section">
+              <div class="total-row">
+                <span>Total:</span>
+                <span>${formatCurrency(lastSale.total_amount)}</span>
+              </div>
+              <div class="total-row">
+                <span>Payé:</span>
+                <span>${formatCurrency(lastSale.total_amount)}</span>
+              </div>
+              <div class="total-row">
+                <span>Reste:</span>
+                <span>${formatCurrency(0)}</span>
+              </div>
+            </div>
+            
+            <div class="footer">
+              Merci pour votre confiance !
+              <br>
+              ${new Date().toLocaleString('fr-FR')}
+            </div>
+          </div>
+        </body>
+        </html>
+      `;
+
+      // Écrire le contenu dans la fenêtre d'impression
+      printDocument.open();
+      printDocument.write(receiptContent);
+      printDocument.close();
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Erreur d\'impression',
+        description: 'Impossible d\'imprimer le reçu. Veuillez vérifier votre imprimante.',
+      });
+      console.error('Erreur d\'impression:', error);
+    }
   };
 
   const handleQuickSale = async () => {
@@ -139,6 +316,9 @@ const QuickSalePage = () => {
         description: 'Vente rapide enregistrée avec succès !',
       });
 
+      // Stocker la dernière vente pour impression
+      setLastSale(newSale);
+      
       // Reset form
       setSaleItems([]);
     } catch (error) {
@@ -234,13 +414,20 @@ const QuickSalePage = () => {
           </span>
         </div>
 
-        <Button 
-          className="w-full" 
-          onClick={handleQuickSale} 
-          disabled={saleItems.length === 0 || loading}
-        >
-          {loading ? 'Enregistrement...' : 'Enregistrer la vente rapide'}
-        </Button>
+        <div className="flex justify-end space-x-2">
+          {lastSale && (
+            <Button onClick={printReceipt} variant="outline">
+              <Printer className="w-4 h-4 mr-2" />
+              Imprimer le dernier reçu
+            </Button>
+          )}
+          <Button 
+            onClick={handleQuickSale} 
+            disabled={saleItems.length === 0 || loading}
+          >
+            {loading ? 'Enregistrement...' : 'Enregistrer la vente rapide'}
+          </Button>
+        </div>
       </div>
     </div>
   );

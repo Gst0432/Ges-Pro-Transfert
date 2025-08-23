@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { Plus, Filter, Download, MoreHorizontal, Loader2, Trash2, Edit, Eye } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { NewSaleWizard } from '@/components/wizards/new-sale/NewSaleWizard';
 import { supabase } from '@/lib/customSupabaseClient';
 import { useToast } from '@/components/ui/use-toast';
+import { Loader2, Plus, Filter, Download, MoreHorizontal, Trash2, Edit, Eye, Printer } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { NewSaleWizard } from '@/components/wizards/new-sale/NewSaleWizard';
 import { Pagination } from '@/components/ui/Pagination';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -23,7 +23,9 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
+} from "@/components/ui/alert-dialog";
+import ReceiptPrinter from '@/components/ReceiptPrinter';
+import { useCompanySettings } from '@/contexts/CompanySettingsContext';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -35,6 +37,7 @@ const SalesPage = ({ handleActionClick }) => {
   const { toast } = useToast();
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const { settings: companySettings } = useCompanySettings();
 
   const fetchSales = useCallback(async (page = 1) => {
     setLoading(true);
@@ -217,9 +220,18 @@ const SalesPage = ({ handleActionClick }) => {
                             <Button variant="ghost" size="icon"><MoreHorizontal className="w-5 h-5" /></Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent>
-                            <DropdownMenuItem onSelect={() => handleActionClick(`view_sale_${sale.id}`)}><Eye className="mr-2 h-4 w-4" /> Voir Détails</DropdownMenuItem>
-                            <DropdownMenuItem onSelect={() => handleActionClick(`edit_sale_${sale.id}`)}><Edit className="mr-2 h-4 w-4" /> Modifier</DropdownMenuItem>
-                            <DropdownMenuItem onSelect={() => setSaleToDelete(sale)} className="text-red-500"><Trash2 className="mr-2 h-4 w-4" /> Supprimer</DropdownMenuItem>
+                            <DropdownMenuItem onSelect={() => handleActionClick(`view_sale_${sale.id}`)}>
+                              <Eye className="mr-2 h-4 w-4" /> Voir Détails
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onSelect={() => handleActionClick(`edit_sale_${sale.id}`)}>
+                              <Edit className="mr-2 h-4 w-4" /> Modifier
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                              <ReceiptPrinter saleData={sale} companySettings={companySettings} />
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onSelect={() => setSaleToDelete(sale)} className="text-red-500">
+                              <Trash2 className="mr-2 h-4 w-4" /> Supprimer
+                            </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                     </td>
