@@ -76,26 +76,64 @@ const SubscriptionManagementPage = () => {
     }
 
     const now = new Date();
-    const expirationDate = new Date(now);
-    // Assuming yearly subscription for simplicity, adjust if billing cycle is dynamic
-    expirationDate.setFullYear(expirationDate.getFullYear() + 1); 
+    let expirationDate = null;
 
-    const { error } = await supabase.from('user_subscriptions').upsert({
-        id: subscriptionId, // Use existing ID if updating
-        user_id: userId,
+    if (selectedPlan.name === 'Lifetime') {
+        expirationDate = null; // Lifetime subscriptions have no end date
+    } else {
+        // Assuming yearly subscription for simplicity, adjust if billing cycle is dynamic
+        expirationDate = new Date(now);
+        expirationDate.setFullYear(expirationDate.getFullYear() + 1); 
+    }
+
+    const { data: existingSubscription, error: fetchError } = await supabase
+        .from('user_subscriptions')
+        .select('id')
+        .eq('user_id', userId)
+        .single();
+
+    let error;
+
+    const subscriptionData = {
         plan_id: newPlanId,
         status: 'active',
         current_period_start: now.toISOString(),
-        current_period_end: expirationDate.toISOString(),
-        updated_at: now.toISOString(),
-    }, { onConflict: 'id' }); // Conflict on 'id' to update existing
+        current_period_end: expirationDate ? expirationDate.toISOString() : null,
+        updated_at: now.toISOString()
+    };
 
-    if(error) {
-        toast({ variant: 'destructive', title: 'Erreur', description: `Impossible de mettre à jour l'abonnement: ${error.message}` });
+    if (fetchError && fetchError.code !== 'PGRST116') {
+        error = fetchError;
+    } else if (existingSubscription) {
+        const { error: updateError } = await supabase
+          .from('user_subscriptions')
+          .update(subscriptionData)
+          .eq('id', subscriptionId); // Use subscriptionId to update the specific subscription
+        error = updateError;
     } else {
-        toast({ title: 'Succès', description: 'Abonnement mis à jour.' });
-        fetchSubscriptions(currentPage);
+        const { error: insertError } = await supabase
+            .from('user_subscriptions')
+            .insert({
+                user_id: userId,
+                ...subscriptionData
+            });
+        error = insertError;
     }
+
+
+    if (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Erreur de mise à jour',
+        description: `Impossible de mettre à jour l'abonnement: ${error.message}`,
+      });
+    } else {
+      toast({
+        title: 'Succès',
+        description: 'Abonnement mis à jour.',
+      });
+    }
+    fetchSubscriptions(currentPage);
   };
 
   const handleDeactivateSubscription = async () => {
@@ -156,7 +194,10 @@ const SubscriptionManagementPage = () => {
                       </span>
                     </td>
                     <td className="p-4 text-gray-600">{sub.current_period_start ? format(new Date(sub.current_period_start), 'dd/MM/yyyy') : 'N/A'}</td>
-                    <td className="p-4 text-gray-600">{sub.current_period_end ? format(new Date(sub.current_period_end), 'dd/MM/yyyy') : 'N/A'}</td>
+                    <td className="p-4 text-gray-600">
+                      {sub.current_period_end ? format(new Date(sub.current_period_end), 'dd/MM/yyyy') : 
+                       (sub.plan_name === 'Lifetime' ? 'À vie' : 'N/A')}
+                    </td>
                     <td className="p-4 flex items-center space-x-2">
                       <Select 
                         value={sub.plan_id || ''}
@@ -167,7 +208,9 @@ const SubscriptionManagementPage = () => {
                         </SelectTrigger>
                         <SelectContent>
                           {plans.map(plan => (
-                            <SelectItem key={plan.id} value={plan.id}>{plan.name} ({plan.price_monthly}/mois)</SelectItem>
+                            <SelectItem key={plan.id} value={plan.id}>
+                              {plan.name} ({plan.name === 'Lifetime' ? `${plan.price_yearly}/paiement unique` : `${plan.price_monthly}/mois`})
+                            </SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
