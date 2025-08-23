@@ -24,10 +24,9 @@ const UserManagementPage = () => {
 
     if (error) {
       toast({ variant: 'destructive', title: 'Erreur', description: "Impossible de charger les utilisateurs." });
-      console.error("Error fetching users:", error); // DEBUG LOG
+      console.error("Error fetching users:", error);
       setUsers([]);
     } else {
-      console.log("Fetched users data:", data); // DEBUG LOG
       setUsers(data || []);
       if (data && data.length > 0 && data[0].total_count) {
         setTotalPages(Math.ceil(data[0].total_count / ITEMS_PER_PAGE));
