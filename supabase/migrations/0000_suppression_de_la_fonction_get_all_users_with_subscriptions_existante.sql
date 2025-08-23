@@ -1,0 +1,1 @@
+DROP FUNCTION public.get_all_users_with_subscriptions(integer, integer);
