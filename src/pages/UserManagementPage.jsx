@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/lib/customSupabaseClient';
 import { useToast } from '@/components/ui/use-toast';
-import { Loader2, Users, ShieldCheck } from 'lucide-react';
+import { Loader2, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Pagination } from '@/components/ui/Pagination';
 import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 
 const ITEMS_PER_PAGE = 10;
@@ -26,6 +27,7 @@ const UserManagementPage = () => {
       toast({ variant: 'destructive', title: 'Erreur', description: "Impossible de charger les utilisateurs." });
       console.error("Error fetching users:", error);
       setUsers([]);
+      setTotalPages(0);
     } else {
       setUsers(data || []);
       if (data && data.length > 0 && data[0].total_count) {

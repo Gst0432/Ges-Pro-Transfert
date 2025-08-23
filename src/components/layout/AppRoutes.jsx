@@ -13,11 +13,11 @@ import ReportsPage from '@/pages/ReportsPage';
 import CreditSalesPage from '@/pages/CreditSalesPage';
 import PurchaseOrdersPage from '@/pages/PurchaseOrdersPage';
 import ExpensesPage from '@/pages/ExpensesPage';
-import UserManagementPage from '@/pages/UserManagementPage';
+import UserManagementPage from '@/pages/UserManagementPage'; // Updated import
 import SaasManagementPage from '@/pages/SaasManagementPage';
 import AdminDashboardPage from '@/pages/AdminDashboardPage';
 import { NewSaleWizard } from '@/components/wizards/new-sale/NewSaleWizard';
-import { SupplierFormDialog } from '@/components/SupplierFormDialog'; // Updated import
+import { SupplierFormDialog } from '@/components/SupplierFormDialog';
 import { ProductWizard } from '@/components/wizards/ProductWizard';
 import PremiumPage from '@/pages/PremiumPage';
 
@@ -51,8 +51,8 @@ const AppRoutes = ({ isSuperAdmin }) => {
   const location = useLocation();
 
   const [isSaleWizardOpen, setIsSaleWizardOpen] = useState(false);
-  const [isSupplierFormOpen, setIsSupplierFormOpen] = useState(false); // Renamed state
-  const [editingSupplier, setEditingSupplier] = useState(null); // New state for editing supplier
+  const [isSupplierFormOpen, setIsSupplierFormOpen] = useState(false);
+  const [editingSupplier, setEditingSupplier] = useState(null);
   const [isProductWizardOpen, setIsProductWizardOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
@@ -73,7 +73,7 @@ const AppRoutes = ({ isSuperAdmin }) => {
     switch(type) {
       case 'new_sale': setIsSaleWizardOpen(true); break;
       case 'new_product': setEditingProduct(null); setIsProductWizardOpen(true); break;
-      case 'new_supplier': setEditingSupplier(null); setIsSupplierFormOpen(true); break; // Updated for new supplier
+      case 'new_supplier': setEditingSupplier(null); setIsSupplierFormOpen(true); break;
       default: handleToastAction(); break;
     }
   };
@@ -101,7 +101,7 @@ const AppRoutes = ({ isSuperAdmin }) => {
           <Route path="/purchase-orders" element={<ProtectedRoute isSuperAdmin={isSuperAdmin}><PurchaseOrdersPage /></ProtectedRoute>} />
           <Route path="/expenses" element={<ProtectedRoute isSuperAdmin={isSuperAdmin}><ExpensesPage /></ProtectedRoute>} />
           <Route path="/billing" element={<ProtectedRoute isSuperAdmin={isSuperAdmin}><BillingPage handleActionClick={openModal} /></ProtectedRoute>} />
-          <Route path="/suppliers" element={<ProtectedRoute isSuperAdmin={isSuperAdmin}><SuppliersPage /></ProtectedRoute>} /> {/* SuppliersPage now handles its own form opening */}
+          <Route path="/suppliers" element={<ProtectedRoute isSuperAdmin={isSuperAdmin}><SuppliersPage /></ProtectedRoute>} />
           <Route path="/reports" element={<ProtectedRoute isSuperAdmin={isSuperAdmin}><ReportsPage handleActionClick={handleToastAction} /></ProtectedRoute>} />
           <Route path="/premium" element={<ProtectedRoute isSuperAdmin={isSuperAdmin}><PremiumPage /></ProtectedRoute>} />
           
@@ -112,7 +112,7 @@ const AppRoutes = ({ isSuperAdmin }) => {
       </AnimatePresence>
       <NewSaleWizard isOpen={isSaleWizardOpen} onOpenChange={setIsSaleWizardOpen} onSaleSaved={onActionSuccess} />
       <ProductWizard isOpen={isProductWizardOpen} onOpenChange={setIsProductWizardOpen} productToEdit={editingProduct} onProductSaved={onActionSuccess} />
-      <SupplierFormDialog isOpen={isSupplierFormOpen} onOpenChange={setIsSupplierFormOpen} supplier={editingSupplier} onSupplierSaved={onActionSuccess} /> {/* Updated component name and props */}
+      <SupplierFormDialog isOpen={isSupplierFormOpen} onOpenChange={setIsSupplierFormOpen} supplier={editingSupplier} onSupplierSaved={onActionSuccess} />
     </>
   );
 };
