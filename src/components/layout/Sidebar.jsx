@@ -6,7 +6,7 @@ import { useCompanySettings } from '@/contexts/CompanySettingsContext';
 import { Button } from '@/components/ui/button';
 import { 
   BarChart3, ShoppingCart, Package, FileText, Truck, BookOpen,
-  Menu, X, Settings, LogOut, Home, CreditCard, Shield, UserCog, Users, Layers, LayoutDashboard, Gem, UserPlus
+  Menu, X, Settings, LogOut, Home, CreditCard, Shield, UserCog, Users, Layers, LayoutDashboard, Gem, UserPlus, DollarSign
 } from 'lucide-react';
 
 const SidebarContent = ({ isSuperAdmin, isMobile, setIsOpen, setIsSettingsOpen }) => {
@@ -30,6 +30,7 @@ const SidebarContent = ({ isSuperAdmin, isMobile, setIsOpen, setIsSettingsOpen }
     { path: '/super-admin', name: 'Dashboard Admin', icon: LayoutDashboard },
     { path: '/super-admin/users', name: 'Gestion Utilisateurs', icon: Users },
     { path: '/super-admin/register-user', name: 'Inscrire Utilisateur', icon: UserPlus }, 
+    { path: '/super-admin/subscriptions', name: 'Gestion Abonnements', icon: DollarSign }, {/* Nouveau lien */}
     { path: '/super-admin/saas', name: 'Gestion SaaS', icon: Layers },
   ];
 
@@ -115,7 +116,7 @@ const SidebarContent = ({ isSuperAdmin, isMobile, setIsOpen, setIsSettingsOpen }
           Déconnexion
         </Button>
       </div>
-    </div >
+    </div>
   );
 };
 
