@@ -151,25 +151,25 @@ const addTransformIndexHtml = {
 					tag: 'script',
 					attrs: { type: 'module' },
 					children: configHorizonsRuntimeErrorHandler,
-					injectTo: 'head',
+					injectTo: 'head'
 				},
 				{
 					tag: 'script',
 					attrs: { type: 'module' },
 					children: configHorizonsViteErrorHandler,
-					injectTo: 'head',
+					injectTo: 'head'
 				},
 				{
 					tag: 'script',
 					attrs: {type: 'module'},
 					children: configHorizonsConsoleErrroHandler,
-					injectTo: 'head',
+					injectTo: 'head'
 				},
 				{
 					tag: 'script',
 					attrs: { type: 'module' },
 					children: configWindowFetchMonkeyPatch,
-					injectTo: 'head',
+					injectTo: 'head'
 				},
 			],
 		};
