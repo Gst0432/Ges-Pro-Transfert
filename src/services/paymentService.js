@@ -1,9 +1,14 @@
 import axios from 'axios';
 
-const API_URL = 'https://www.pay.moneyfusion.net';
+// URL de base pour la vérification du statut
+const API_BASE_URL = 'https://www.pay.moneyfusion.net';
 
+/**
+ * Initie une demande de paiement en utilisant l'URL spécifique du plan.
+ * @param {object} paymentData - Les données de paiement.
+ * @param {string} apiUrlFromSettings - L'URL de l'API de paiement fournie dans les paramètres du plan.
+ */
 const makePaymentRequest = async (paymentData, apiUrlFromSettings) => {
-  // Utilise l'URL spécifique des paramètres du plan
   const effectiveApiUrl = apiUrlFromSettings;
 
   if (!effectiveApiUrl) {
@@ -24,9 +29,13 @@ const makePaymentRequest = async (paymentData, apiUrlFromSettings) => {
   }
 };
 
+/**
+ * Vérifie le statut d'un paiement à l'aide d'un token.
+ * @param {string} token - Le jeton de paiement unique.
+ */
 const checkPaymentStatus = async (token) => {
   try {
-    const response = await axios.get(`${API_URL}/paiementNotif/${token}`);
+    const response = await axios.get(`${API_BASE_URL}/paiementNotif/${token}`);
     return response.data;
   } catch (error) {
     console.error("Erreur lors de la vérification du statut du paiement:", error.response ? error.response.data : error.message);
