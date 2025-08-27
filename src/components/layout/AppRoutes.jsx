@@ -35,11 +35,11 @@ const ProtectedRoute = ({ children, isSuperAdmin, requiresAdmin = false }) => {
   }
   
   if (!user) {
-    return <Navigate to="/auth" replace />;
+    return <Navigate to="/" replace />;
   }
   
   if (requiresAdmin && !isSuperAdmin) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/dashboard" replace />;
   }
   
   return children;
@@ -64,7 +64,7 @@ const AppRoutes = ({ isSuperAdmin }) => {
     <>
       <AnimatePresence mode="wait">
         <Routes location={location} key={`${location.pathname}-${refreshTrigger}`}>
-          <Route path="/" element={
+          <Route path="/dashboard" element={
             <ProtectedRoute isSuperAdmin={isSuperAdmin}>
               <DashboardPage handleActionClick={openModal} />
             </ProtectedRoute>
@@ -160,7 +160,7 @@ const AppRoutes = ({ isSuperAdmin }) => {
             </ProtectedRoute>
           } />
           
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </AnimatePresence>
     </>

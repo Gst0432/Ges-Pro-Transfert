@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from '@/contexts/SupabaseAuthContext';
@@ -8,6 +7,7 @@ import MainLayout from '@/components/layout/MainLayout.jsx';
 import UnifiedAuthPage from '@/pages/UnifiedAuthPage';
 import UpdatePasswordPage from '@/pages/UpdatePasswordPage';
 import PaymentCallbackPage from '@/pages/PaymentCallbackPage';
+import LandingPage from '@/pages/LandingPage'; // Importer la nouvelle page
 import { Loader2 } from 'lucide-react';
 
 const AppContent = () => {
@@ -28,14 +28,16 @@ const AppContent = () => {
     <Routes>
       <Route path="/update-password" element={<UpdatePasswordPage />} />
       <Route path="/payment-callback" element={<PaymentCallbackPage />} />
+
       {!session ? (
         <>
+          <Route path="/" element={<LandingPage />} />
           <Route path="/auth" element={<UnifiedAuthPage companySettings={settings} />} />
-          <Route path="*" element={<Navigate to="/auth" replace />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </>
       ) : (
         <>
-          <Route path="/auth" element={<Navigate to="/" replace />} /> 
+          <Route path="/auth" element={<Navigate to="/dashboard" replace />} />
           <Route path="/*" element={<MainLayout />} />
         </>
       )}
