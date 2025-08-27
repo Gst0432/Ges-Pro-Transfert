@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Loader2, Upload } from 'lucide-react';
+import { Loader2, Upload, BarChart3 } from 'lucide-react';
 
 export const SettingsDialog = ({ isOpen, onOpenChange }) => {
   const { user } = useAuth();
@@ -137,9 +137,7 @@ export const SettingsDialog = ({ isOpen, onOpenChange }) => {
                     {logoPreview ? (
                         <img src={logoPreview} alt="Logo" className="h-full w-full object-contain" />
                     ) : (
-                        <span className="text-3xl font-semibold text-gray-500">
-                            {settings.company_name?.charAt(0) || 'E'}
-                        </span>
+                        <BarChart3 className="w-10 h-10 text-gray-400" />
                     )}
                 </div>
                 <div className="space-y-2">
