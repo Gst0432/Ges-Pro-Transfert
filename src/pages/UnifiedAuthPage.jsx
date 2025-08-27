@@ -48,7 +48,6 @@ const AuthForm = ({ isLogin, onSubmit, onToggle, onForgotPasswordClick, companyS
   };
 
   const accentColor = 'blue';
-  const Icon = BarChart3;
 
   return (
     <motion.div
@@ -60,15 +59,15 @@ const AuthForm = ({ isLogin, onSubmit, onToggle, onForgotPasswordClick, companyS
       className="w-full"
     >
       <div className="text-center mb-8">
-        <div className={`inline-flex items-center justify-center w-16 h-16 bg-blue-600 text-white rounded-2xl mb-4`}>
+        <div className={`inline-flex items-center justify-center w-16 h-16 bg-white text-white rounded-2xl mb-4`}>
           {companySettings?.logo_url ? (
-            <img src={companySettings.logo_url} alt="Company Logo" className="w-10 h-10 object-contain" />
+            <img src={companySettings.logo_url} alt="Company Logo" className="w-12 h-12 object-contain" />
           ) : (
-            <Icon className="w-8 h-8" />
+            <img src="/logo.jpg" alt="Logo" className="w-12 h-12 object-contain" />
           )}
         </div>
         <h1 className="text-3xl font-bold text-gray-800">
-          {companySettings?.company_name || 'Pro-GES'}
+          {companySettings?.company_name || 'PREMIUM PRO'}
         </h1>
         <p className="text-gray-500 mt-2">
           {isLogin ? 'Connectez-vous à votre compte' : 'Créez un nouveau compte'}

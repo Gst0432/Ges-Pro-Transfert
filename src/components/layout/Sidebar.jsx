@@ -48,11 +48,11 @@ const SidebarContent = ({ isSuperAdmin, isMobile, setIsOpen, setIsSettingsOpen }
     <div className="flex flex-col h-full bg-sidebar-bg text-sidebar-text">
       <div className="p-4 border-b border-sidebar-border">
         <div className="flex items-center space-x-3">
-          <div className="bg-sidebar-logo-user text-white p-2 rounded-lg">
-            <BarChart3 className="h-6 w-6" />
+          <div className="bg-white p-1 rounded-lg">
+            <img src="/logo.jpg" alt="Logo" className="h-8 w-8 object-contain" />
           </div>
           <div>
-            <h2 className="text-lg font-bold">{settings?.company_name || 'Pro-GES'}</h2>
+            <h2 className="text-lg font-bold">{settings?.company_name || 'PREMIUM PRO'}</h2>
             <p className="text-sidebar-text-muted text-xs">Gestion Commerciale</p>
           </div>
         </div>
