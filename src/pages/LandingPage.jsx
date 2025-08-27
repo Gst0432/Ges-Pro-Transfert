@@ -64,8 +64,11 @@ const PricingSection = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.5 }}
                 transition={{ duration: 0.5 }}
-                className={`rounded-2xl border-2 p-8 shadow-lg flex flex-col ${isLifetime ? 'border-indigo-500' : 'border-gray-200'}`}
+                className={`rounded-2xl border-2 p-8 shadow-lg flex flex-col relative ${isLifetime ? 'border-indigo-500' : 'border-gray-200'}`}
               >
+                {isLifetime && (
+                  <div className="absolute top-0 -translate-y-1/2 bg-indigo-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Recommandé</div>
+                )}
                 <h3 className="text-2xl font-semibold text-gray-900">{plan.name}</h3>
                 <p className="mt-4 text-gray-600">{plan.features.length > 3 ? "Toutes les fonctionnalités pour booster votre croissance." : "L'essentiel pour bien démarrer."}</p>
                 <div className="mt-8">
@@ -99,7 +102,10 @@ export const LandingPage = () => {
       <LandingHeader />
       <main>
         {/* Hero Section */}
-        <section className="relative pt-20 pb-24 sm:pt-32 sm:pb-32">
+        <section className="relative pt-20 pb-24 sm:pt-32 sm:pb-32 overflow-hidden">
+          <div className="absolute inset-0 -z-10 bg-gray-50">
+            <div className="absolute inset-0 bg-[radial-gradient(40%_40%_at_50%_10%,#e0e7ff_0%,transparent_100%)]"></div>
+          </div>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <motion.h1 
               initial={{ opacity: 0, y: 20 }}
@@ -134,7 +140,7 @@ export const LandingPage = () => {
         </section>
 
         {/* Features Section */}
-        <section className="bg-gray-50 py-20 sm:py-24">
+        <section className="bg-white py-20 sm:py-24">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
               <h2 className="text-3xl font-extrabold text-gray-900">Tout ce dont vous avez besoin pour réussir</h2>
@@ -148,7 +154,7 @@ export const LandingPage = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.5 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="p-8 bg-white rounded-2xl shadow-lg"
+                  className="p-8 bg-gray-50/50 rounded-2xl shadow-sm border border-gray-100"
                 >
                   <div className="inline-flex items-center justify-center h-12 w-12 rounded-xl bg-blue-100 text-blue-600">
                     <feature.icon className="h-6 w-6" />
