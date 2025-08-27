@@ -164,7 +164,7 @@ function TierCard({ tier }) {
   );
 }
 
-const PricingPlans = () => {
+function PricingPlans() {
   return (
     <div className="mx-auto max-w-6xl p-6 md:p-10 space-y-10">
       <motion.div initial="hidden" animate="show" variants={container} className="space-y-6">
