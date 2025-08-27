@@ -48,8 +48,8 @@ const SidebarContent = ({ isSuperAdmin, isMobile, setIsOpen, setIsSettingsOpen }
     <div className="flex flex-col h-full bg-sidebar-bg text-sidebar-text">
       <div className="p-4 border-b border-sidebar-border">
         <div className="flex items-center space-x-3">
-          <div className="bg-white p-1 rounded-lg">
-            <img src="/logo.jpg" alt="Logo" className="h-8 w-8 object-contain" />
+          <div className="flex items-center justify-center w-10 h-10">
+            <img src="/logo.jpg" alt="Logo" className="h-10 w-10 object-contain rounded-md" />
           </div>
           <div>
             <h2 className="text-lg font-bold">{settings?.company_name || 'PREMIUM PRO'}</h2>
@@ -133,6 +133,8 @@ const SidebarContent = ({ isSuperAdmin, isMobile, setIsOpen, setIsSettingsOpen }
 };
 
 const Sidebar = ({ isOpen, setIsOpen, isMobile, setIsSettingsOpen }) => {
+  const { isSuperAdmin } = useAuth();
+
   return (
     <>
       {/* Desktop sidebar */}
@@ -144,7 +146,7 @@ const Sidebar = ({ isOpen, setIsOpen, isMobile, setIsSettingsOpen }) => {
           transition={{ duration: 0.3 }}
         >
           <SidebarContent 
-            isSuperAdmin={true} 
+            isSuperAdmin={isSuperAdmin} 
             isMobile={isMobile} 
             setIsOpen={setIsOpen} 
             setIsSettingsOpen={setIsSettingsOpen} 
@@ -184,7 +186,7 @@ const Sidebar = ({ isOpen, setIsOpen, isMobile, setIsSettingsOpen }) => {
             </div>
             <div className="pt-12">
               <SidebarContent 
-                isSuperAdmin={true} 
+                isSuperAdmin={isSuperAdmin} 
                 isMobile={isMobile} 
                 setIsOpen={setIsOpen} 
                 setIsSettingsOpen={setIsSettingsOpen} 
