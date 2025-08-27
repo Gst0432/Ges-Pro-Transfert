@@ -48,8 +48,8 @@ const SidebarContent = ({ isSuperAdmin, isMobile, setIsOpen, setIsSettingsOpen }
     <div className="flex flex-col h-full bg-sidebar-bg text-sidebar-text">
       <div className="p-4 border-b border-sidebar-border">
         <div className="flex items-center space-x-3">
-          <div className="flex items-center justify-center w-10 h-10">
-            <img src="/logo.jpg" alt="Logo" className="h-10 w-10 object-contain rounded-md" />
+          <div className="flex items-center justify-center w-10 h-10 bg-white rounded-full">
+            <img src={settings?.logo_url || "/logo.jpg"} alt="Logo" className="h-8 w-8 object-contain" />
           </div>
           <div>
             <h2 className="text-lg font-bold">{settings?.company_name || 'PREMIUM PRO'}</h2>
