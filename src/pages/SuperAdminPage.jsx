@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { motion } from 'framer-motion';
 import { supabase } from '@/lib/customSupabaseClient';
 import { useToast } from '@/components/ui/use-toast';
 import { Loader2, Users, Briefcase, DollarSign, UserCheck, UserX, BarChart } from 'lucide-react';
@@ -23,7 +24,7 @@ const StatCard = ({ title, value, change, icon: Icon, color, bgColor, loading })
   </motion.div>
 );
 
-const AdminDashboardPage = () => {
+const SuperAdminPage = () => {
   const { toast } = useToast();
   const [stats, setStats] = useState({
     totalUsers: { value: 0, change: '+0%' },
@@ -106,4 +107,4 @@ const AdminDashboardPage = () => {
   );
 };
 
-export default AdminDashboardPage;
+export default SuperAdminPage;
