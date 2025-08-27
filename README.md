@@ -1,6 +1,6 @@
-# PREMIUM PRO - Plateforme de Gestion Commerciale SaaS
+# GES PRO - Plateforme de Gestion Commerciale SaaS
 
-Bienvenue sur PREMIUM PRO, une solution SaaS complète pour la gestion commerciale, conçue pour aider les entreprises à optimiser leurs opérations de vente, d'inventaire, de facturation et bien plus encore.
+Bienvenue sur GES PRO, une solution SaaS complète pour la gestion commerciale, conçue pour aider les entreprises à optimiser leurs opérations de vente, d'inventaire, de facturation et bien plus encore.
 
 ## ✨ Fonctionnalités
 
@@ -24,7 +24,7 @@ Bienvenue sur PREMIUM PRO, une solution SaaS complète pour la gestion commercia
 
 ## 🔧 Guide de Déploiement et d'Installation
 
-Suivez ces étapes pour déployer votre propre instance de PREMIUM PRO.
+Suivez ces étapes pour déployer votre propre instance de GES PRO.
 
 ### Étape 1 : Configuration de Supabase
 
@@ -93,7 +93,7 @@ L'application est conçue pour fonctionner avec une API de paiement externe pour
 
 3.  **Configuration finale :**
     *   Assurez-vous que votre domaine pointe correctement vers le répertoire `public_html`.
-    *   Votre application PREMIUM PRO est maintenant en ligne !
+    *   Votre application GES PRO est maintenant en ligne !
 
 ---
 

@@ -274,7 +274,7 @@ export const LandingPage = () => {
               transition={{ duration: 0.7, delay: 0.2 }}
               className="mt-6 max-w-2xl mx-auto text-lg sm:text-xl text-gray-600"
             >
-              PREMIUM PRO est la solution tout-en-un pour piloter vos ventes, votre inventaire et votre facturation avec une facilité déconcertante.
+              GES PRO est la solution tout-en-un pour piloter vos ventes, votre inventaire et votre facturation avec une facilité déconcertante.
             </motion.p>
             <motion.div 
               initial={{ opacity: 0, y: 20 }}

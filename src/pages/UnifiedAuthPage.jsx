@@ -67,7 +67,7 @@ const AuthForm = ({ isLogin, onSubmit, onToggle, onForgotPasswordClick, companyS
           )}
         </div>
         <h1 className="text-3xl font-bold text-gray-800">
-          {companySettings?.company_name || 'PREMIUM PRO'}
+          {companySettings?.company_name || 'GES PRO'}
         </h1>
         <p className="text-gray-500 mt-2">
           {isLogin ? 'Connectez-vous à votre compte' : 'Créez un nouveau compte'}

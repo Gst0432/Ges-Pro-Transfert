@@ -10,7 +10,7 @@ export const LandingHeader = () => {
         <div className="flex lg:flex-1">
           <Link to="/" className="-m-1.5 p-1.5 flex items-center space-x-2">
             <BarChart3 className="h-8 w-8 text-blue-600" />
-            <span className="text-xl font-bold text-gray-900">PREMIUM PRO</span>
+            <span className="text-xl font-bold text-gray-900">GES PRO</span>
           </Link>
         </div>
         <div className="flex lg:flex-1 lg:justify-end space-x-4">

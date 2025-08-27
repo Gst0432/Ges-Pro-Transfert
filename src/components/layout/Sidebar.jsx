@@ -56,7 +56,7 @@ const SidebarContent = ({ isSuperAdmin, isMobile, setIsOpen, setIsSettingsOpen }
             )}
           </div>
           <div>
-            <h2 className="text-lg font-bold">{isSuperAdmin ? 'Admin Panel' : (settings?.company_name || 'PREMIUM PRO')}</h2>
+            <h2 className="text-lg font-bold">{isSuperAdmin ? 'Admin Panel' : (settings?.company_name || 'GES PRO')}</h2>
             <p className={`${theme === 'admin' ? 'text-sidebar-admin-text-muted' : 'text-sidebar-text-muted'} text-xs`}>
               {isSuperAdmin ? 'Administration' : 'Gestion Commerciale'}
             </p>

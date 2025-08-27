@@ -49,7 +49,7 @@ const MainLayout = () => {
   ];
 
   const activeModule = modules.find(m => location.pathname.startsWith(m.path) && m.path !== '/');
-  const pageTitle = `${activeModule ? activeModule.name : 'Tableau de bord'} - ${settings?.company_name || 'Pro-GES'}`;
+  const pageTitle = `${activeModule ? activeModule.name : 'Tableau de bord'} - ${settings?.company_name || 'GES PRO'}`;
 
 
   return (
