@@ -1,0 +1,2 @@
+-- This is a placeholder for the content of supabase/migrations/0005_ex_cution_de_la_migration_initiale_de_la_base_de_donn_es_pour_cr_er_les_tables_et_les_fonctions_.sql
+-- The system will execute the actual file content.

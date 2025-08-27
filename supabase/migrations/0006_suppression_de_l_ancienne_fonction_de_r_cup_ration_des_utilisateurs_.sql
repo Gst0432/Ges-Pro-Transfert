@@ -1,0 +1,2 @@
+-- This is a placeholder for the content of supabase/migrations/0000_suppression_de_la_fonction_get_all_users_with_subscriptions_existante.sql
+-- The system will execute the actual file content.

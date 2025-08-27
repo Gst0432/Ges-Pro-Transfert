@@ -1,0 +1,2 @@
+-- This is a placeholder for the content of supabase/migrations/0004_cr_ation_de_nouvelles_politiques_rls_pour_insert_et_update_sur_user_subscriptions_permettant_aux_super_admins_de_g_rer_tous_les_abonnements.sql
+-- The system will execute the actual file content.

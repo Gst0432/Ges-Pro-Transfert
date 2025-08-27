@@ -1,0 +1,2 @@
+-- This is a placeholder for the content of supabase/migrations/0002_mise_jour_du_plan_premium_et_cr_ation_du_plan_lifetime_avec_les_nouveaux_tarifs.sql
+-- The system will execute the actual file content.

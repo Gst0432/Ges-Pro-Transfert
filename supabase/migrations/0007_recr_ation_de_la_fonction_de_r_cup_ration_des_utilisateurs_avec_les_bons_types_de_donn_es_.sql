@@ -1,0 +1,2 @@
+-- This is a placeholder for the content of supabase/migrations/0001_recr_ation_de_la_fonction_get_all_users_with_subscriptions_avec_le_type_character_varying_255_pour_la_colonne_email.sql
+-- The system will execute the actual file content.
