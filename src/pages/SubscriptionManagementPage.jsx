@@ -78,7 +78,7 @@ const SubscriptionManagementPage = () => {
     const now = new Date();
     let expirationDate = null;
 
-    if (selectedPlan.name === 'Lifetime') {
+    if (selectedPlan.name === 'Plan Vital') {
         expirationDate = null; // Lifetime subscriptions have no end date
     } else {
         // Assuming yearly subscription for simplicity, adjust if billing cycle is dynamic
@@ -196,7 +196,7 @@ const SubscriptionManagementPage = () => {
                     <td className="p-4 text-gray-600">{sub.current_period_start ? format(new Date(sub.current_period_start), 'dd/MM/yyyy') : 'N/A'}</td>
                     <td className="p-4 text-gray-600">
                       {sub.current_period_end ? format(new Date(sub.current_period_end), 'dd/MM/yyyy') : 
-                       (sub.plan_name === 'Lifetime' ? 'À vie' : 'N/A')}
+                       (sub.plan_name === 'Plan Vital' ? 'À vie' : 'N/A')}
                     </td>
                     <td className="p-4 flex items-center space-x-2">
                       <Select 
@@ -209,7 +209,7 @@ const SubscriptionManagementPage = () => {
                         <SelectContent>
                           {plans.map(plan => (
                             <SelectItem key={plan.id} value={plan.id}>
-                              {plan.name} ({plan.name === 'Lifetime' ? `${plan.price_yearly}/paiement unique` : `${plan.price_monthly}/mois`})
+                              {plan.name} ({plan.name === 'Plan Vital' ? `${plan.price_yearly}/paiement unique` : `${plan.price_monthly}/mois`})
                             </SelectItem>
                           ))}
                         </SelectContent>

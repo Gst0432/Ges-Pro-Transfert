@@ -24,7 +24,7 @@ const PremiumPage = () => {
   const [plans, setPlans] = useState([]);
   const [selectedPlanId, setSelectedPlanId] = useState(null);
   const [selectedCurrency, setSelectedCurrency] = useState('FCFA');
-  const [billingCycle, setBillingCycle] = useState('monthly'); // 'monthly', 'yearly', 'lifetime'
+  const [billingCycle, setBillingCycle] = useState('monthly'); // 'monthly', 'yearly'
   const [subscription, setSubscription] = useState(null);
   const [loadingSubscription, setLoadingSubscription] = useState(true);
 
@@ -55,19 +55,21 @@ const PremiumPage = () => {
     if (plansError) {
       toast({ variant: 'destructive', title: 'Erreur', description: 'Impossible de charger les plans.' });
     } else {
-      setPlans(plansData);
+      setPlans(plansData || []);
       if (plansData && plansData.length > 0) {
         if (subscription && subscription.plan_id) {
             setSelectedPlanId(subscription.plan_id);
         } else {
-            setSelectedPlanId(plansData[0].id);
+            // Default to the first non-lifetime plan if available
+            const defaultPlan = plansData.find(p => p.name !== 'Plan Vital') || plansData[0];
+            setSelectedPlanId(defaultPlan.id);
         }
       } else {
         setSelectedPlanId(null);
       }
     }
     setLoadingSubscription(false);
-  }, [user, selectedCurrency, toast, subscription]);
+  }, [user, selectedCurrency, toast]);
 
   useEffect(() => {
     fetchSubscriptionAndPlans();
@@ -88,7 +90,7 @@ const PremiumPage = () => {
     let priceToPay = 0;
     let effectiveBillingCycle = billingCycle;
 
-    if (selectedPlan.name === 'Lifetime') {
+    if (selectedPlan.name === 'Plan Vital') {
         priceToPay = selectedPlan.price_yearly;
         effectiveBillingCycle = 'lifetime';
     } else {
@@ -124,14 +126,14 @@ const PremiumPage = () => {
   };
 
   const hasActiveSubscription = subscription && (subscription.status === 'active' || subscription.status === 'trial');
-  const expirationDate = hasActiveSubscription && subscription.current_period_end ? new Date(subscription.current_period_end).toLocaleDateString('fr-FR') : null;
+  const expirationDate = hasActiveSubscription && subscription.current_period_end ? new Date(subscription.current_period_end).toLocaleDateString('fr-FR') : 'À vie';
   
   const displayPrice = selectedPlan ? (
-    selectedPlan.name === 'Lifetime' ? selectedPlan.price_yearly :
+    selectedPlan.name === 'Plan Vital' ? selectedPlan.price_yearly :
     (billingCycle === 'monthly' ? selectedPlan.price_monthly : selectedPlan.price_yearly)
   ) : 0;
   
-  const displayBillingCycleText = selectedPlan?.name === 'Lifetime' ? 'paiement unique' : (billingCycle === 'monthly' ? 'mois' : 'an');
+  const displayBillingCycleText = selectedPlan?.name === 'Plan Vital' ? 'paiement unique' : (billingCycle === 'monthly' ? 'mois' : 'an');
   const features = selectedPlan?.features || [];
 
   if (loadingSubscription) {
@@ -205,7 +207,7 @@ const PremiumPage = () => {
                 </Select>
               </div>
               
-              {selectedPlan && selectedPlan.name !== 'Lifetime' && (
+              {selectedPlan && selectedPlan.name !== 'Plan Vital' && (
                 <div className="flex justify-center items-center space-x-4">
                   <Label htmlFor="billing-cycle" className="text-gray-600">Mensuel</Label>
                   <Switch
