@@ -1,0 +1,1 @@
+SELECT make_first_super_admin('votre.email@exemple.com');
