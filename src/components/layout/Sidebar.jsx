@@ -35,50 +35,51 @@ const SidebarContent = ({ isSuperAdmin, isMobile, setIsOpen, setIsSettingsOpen }
     { path: '/super-admin/subscriptions', name: 'Abonnements', icon: DollarSign },
   ];
 
+  const modules = isSuperAdmin ? adminModules : userModules;
+  const theme = isSuperAdmin ? 'admin' : 'user';
+
   const isActive = (path) => {
-    // Special handling for root path
-    if (path === '/') {
-      return window.location.pathname === '/';
-    }
-    // For other paths, check if current path starts with the module path
-    return window.location.pathname.startsWith(path);
+    if (path === '/') return window.location.pathname === '/';
+    if (path === '/super-admin') return window.location.pathname === '/super-admin';
+    return window.location.pathname.startsWith(path) && path !== '/';
   };
 
   return (
-    <div className="flex flex-col h-full bg-sidebar-bg text-sidebar-text">
-      <div className="p-4 border-b border-sidebar-border">
+    <div className={`flex flex-col h-full ${theme === 'admin' ? 'bg-sidebar-admin-bg' : 'bg-sidebar-bg'} text-sidebar-text`}>
+      <div className={`p-4 border-b ${theme === 'admin' ? 'border-sidebar-admin-border' : 'border-sidebar-border'}`}>
         <div className="flex items-center space-x-3">
-          <div className="flex items-center justify-center w-10 h-10 bg-sidebar-logo-user rounded-lg">
-            {settings?.logo_url ? (
+          <div className={`flex items-center justify-center w-10 h-10 ${theme === 'admin' ? 'bg-sidebar-admin-logo-bg' : 'bg-sidebar-logo-user'} rounded-lg`}>
+            {settings?.logo_url && !isSuperAdmin ? (
               <img src={settings.logo_url} alt="Logo" className="h-full w-full object-contain p-1" />
             ) : (
               <BarChart3 className="w-6 h-6 text-white" />
             )}
           </div>
           <div>
-            <h2 className="text-lg font-bold">{settings?.company_name || 'PREMIUM PRO'}</h2>
-            <p className="text-sidebar-text-muted text-xs">Gestion Commerciale</p>
+            <h2 className="text-lg font-bold">{isSuperAdmin ? 'Admin Panel' : (settings?.company_name || 'PREMIUM PRO')}</h2>
+            <p className={`${theme === 'admin' ? 'text-sidebar-admin-text-muted' : 'text-sidebar-text-muted'} text-xs`}>
+              {isSuperAdmin ? 'Administration' : 'Gestion Commerciale'}
+            </p>
           </div>
         </div>
       </div>
 
       <nav className="flex-1 overflow-y-auto py-4">
         <div className="space-y-1 px-2">
-          <h3 className="px-4 text-xs font-semibold text-sidebar-text-muted uppercase tracking-wider">Navigation</h3>
-          {userModules.map((module) => {
+          <h3 className={`px-4 text-xs font-semibold ${theme === 'admin' ? 'text-sidebar-admin-text-muted' : 'text-sidebar-text-muted'} uppercase tracking-wider`}>Navigation</h3>
+          {modules.map((module) => {
             const Icon = module.icon;
+            const activeClass = theme === 'admin' ? 'bg-sidebar-admin-active text-white' : 'bg-sidebar-active-user text-white';
+            const inactiveClass = `text-sidebar-text hover:${theme === 'admin' ? 'bg-sidebar-admin-hover' : 'bg-sidebar-hover-user'}`;
+            
             return (
               <NavLink
                 key={module.path}
                 to={module.path}
                 onClick={() => isMobile && setIsOpen(false)}
-                className={({ isActive: isRouteActive }) =>
-                  `flex items-center space-x-3 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    isActive(module.path) || isRouteActive
-                      ? 'bg-sidebar-active-user text-white'
-                      : 'text-sidebar-text hover:bg-sidebar-hover-user'
-                  }`
-                }
+                className={`flex items-center space-x-3 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  isActive(module.path) ? activeClass : inactiveClass
+                }`}
               >
                 <Icon className="h-5 w-5" />
                 <span>{module.name}</span>
@@ -86,38 +87,12 @@ const SidebarContent = ({ isSuperAdmin, isMobile, setIsOpen, setIsSettingsOpen }
             );
           })}
         </div>
-
-        {isSuperAdmin && (
-          <div className="mt-8 space-y-1 px-2">
-            <h3 className="px-4 text-xs font-semibold text-sidebar-text-muted uppercase tracking-wider">Administration</h3>
-            {adminModules.map((module) => {
-              const Icon = module.icon;
-              return (
-                <NavLink
-                  key={module.path}
-                  to={module.path}
-                  onClick={() => isMobile && setIsOpen(false)}
-                  className={({ isActive: isRouteActive }) =>
-                    `flex items-center space-x-3 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                      isActive(module.path) || isRouteActive
-                        ? 'bg-sidebar-active-admin text-white'
-                        : 'text-sidebar-text hover:bg-sidebar-hover-admin'
-                    }`
-                  }
-                >
-                  <Icon className="h-5 w-5" />
-                  <span>{module.name}</span>
-                </NavLink>
-              );
-            })}
-          </div>
-        )}
       </nav>
 
-      <div className="p-4 border-t border-sidebar-border space-y-2">
+      <div className={`p-4 border-t ${theme === 'admin' ? 'border-sidebar-admin-border' : 'border-sidebar-border'} space-y-2`}>
         <Button
           variant="ghost"
-          className="w-full justify-start text-sidebar-text hover:bg-sidebar-hover-user"
+          className={`w-full justify-start text-sidebar-text hover:${theme === 'admin' ? 'bg-sidebar-admin-hover' : 'bg-sidebar-hover-user'}`}
           onClick={() => setIsSettingsOpen(true)}
         >
           <Settings className="h-5 w-5 mr-3" />
@@ -125,7 +100,7 @@ const SidebarContent = ({ isSuperAdmin, isMobile, setIsOpen, setIsSettingsOpen }
         </Button>
         <Button
           variant="ghost"
-          className="w-full justify-start text-sidebar-text hover:bg-sidebar-hover-user"
+          className={`w-full justify-start text-sidebar-text hover:${theme === 'admin' ? 'bg-sidebar-admin-hover' : 'bg-sidebar-hover-user'}`}
           onClick={signOut}
         >
           <LogOut className="h-5 w-5 mr-3" />
@@ -144,7 +119,7 @@ const Sidebar = ({ isOpen, setIsOpen, isMobile, setIsSettingsOpen }) => {
       {/* Desktop sidebar */}
       {!isMobile && (
         <motion.div
-          className="hidden md:block fixed inset-y-0 left-0 z-30 w-72 border-r border-sidebar-border"
+          className={`hidden md:block fixed inset-y-0 left-0 z-30 w-72 border-r ${isSuperAdmin ? 'border-sidebar-admin-border' : 'border-sidebar-border'}`}
           initial={{ x: -100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.3 }}
@@ -171,7 +146,7 @@ const Sidebar = ({ isOpen, setIsOpen, isMobile, setIsSettingsOpen }) => {
             />
           )}
           <motion.div
-            className={`fixed inset-y-0 left-0 z-50 w-64 bg-sidebar-bg border-r border-sidebar-border transform ${
+            className={`fixed inset-y-0 left-0 z-50 w-64 ${isSuperAdmin ? 'bg-sidebar-admin-bg border-sidebar-admin-border' : 'bg-sidebar-bg border-sidebar-border'} border-r transform ${
               isOpen ? 'translate-x-0' : '-translate-x-full'
             }`}
             initial={false}

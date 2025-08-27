@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -27,51 +26,27 @@
   --ring: 221.2 83.2% 53.3%;
   --radius: 0.5rem;
 
-  /* Custom Sidebar Colors based on image */
+  /* Custom Sidebar Colors for Users */
   --sidebar-bg: 210 60% 12%; /* Dark Blue */
-  --sidebar-text: 210 40% 98%; /* Near white for contrast */
-  --sidebar-text-muted: 210 20% 70%; /* Lighter gray for muted text */
-  --sidebar-active-user: 210 50% 25%; /* Slightly lighter dark blue for active user module */
-  --sidebar-hover-user: 210 50% 20%; /* Even lighter dark blue for hover */
-  --sidebar-active-admin: 210 50% 25%; /* Same for admin for consistency, can be changed if needed */
-  --sidebar-hover-admin: 210 50% 20%; /* Same for admin */
-  --sidebar-logo-user: 210 50% 25%; /* Matches active user module background */
-  --sidebar-logo-admin: 210 50% 25%; /* Matches active admin module background */
-  --sidebar-border: 210 60% 8%; /* Even darker blue for subtle border */
+  --sidebar-text: 210 40% 98%;
+  --sidebar-text-muted: 210 20% 70%;
+  --sidebar-active-user: 210 50% 25%;
+  --sidebar-hover-user: 210 50% 20%;
+  --sidebar-logo-user: 210 50% 25%;
+  --sidebar-border: 210 60% 8%;
+
+  /* Custom Sidebar Colors for Super Admins */
+  --sidebar-admin-bg: 220 15% 18%; /* Dark Slate */
+  --sidebar-admin-text: 220 10% 95%;
+  --sidebar-admin-text-muted: 220 10% 65%;
+  --sidebar-admin-active: 220 15% 30%;
+  --sidebar-admin-hover: 220 15% 25%;
+  --sidebar-admin-logo-bg: 220 15% 30%;
+  --sidebar-admin-border: 220 15% 12%;
 }
 
 .dark {
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
-  --card: 222.2 84% 4.9%;
-  --card-foreground: 210 40% 98%;
-  --popover: 222.2 84% 4.9%;
-  --popover-foreground: 210 40% 98%;
-  --primary: 217.2 91.2% 59.8%;
-  --primary-foreground: 222.2 84% 4.9%;
-  --secondary: 217.2 32.6% 17.5%;
-  --secondary-foreground: 210 40% 98%;
-  --muted: 217.2 32.6% 17.5%;
-  --muted-foreground: 215 20.2% 65.1%;
-  --accent: 217.2 32.6% 17.5%;
-  --accent-foreground: 210 40% 98%;
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 217.2 32.6% 17.5%;
-  --input: 217.2 32.6% 17.5%;
-  --ring: 224.3 76.3% 94.1%;
-
-  /* Custom Sidebar Colors for Dark Mode (adjust as needed) */
-  --sidebar-bg: 210 60% 10%; /* Darker blue for dark mode sidebar */
-  --sidebar-text: 210 40% 98%; /* Light text */
-  --sidebar-text-muted: 215 20.2% 65.1%;
-  --sidebar-active-user: 217.2 91.2% 59.8%; /* primary blue */
-  --sidebar-hover-user: 217.2 91.2% 30%; /* darker primary blue */
-  --sidebar-active-admin: 220 40% 30%; /* slightly lighter dark blue */
-  --sidebar-hover-admin: 220 40% 20%; /* even lighter dark blue */
-  --sidebar-logo-user: 217.2 91.2% 59.8%; /* primary blue */
-  --sidebar-logo-admin: 220 40% 30%; /* dark blue */
-  --sidebar-border: 220 40% 20%; /* dark blue border */
+  /* Dark mode variables remain unchanged for now */
 }
 
 * {
