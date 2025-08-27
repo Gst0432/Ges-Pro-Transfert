@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { supabase } from '@/lib/customSupabaseClient';
 import { Button } from '@/components/ui/button';
-import { Check, BarChart3, ShoppingCart, Package, FileText } from 'lucide-react';
+import { Check, BarChart3, ShoppingCart, Package, FileText, Truck, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { LandingHeader } from '@/components/layout/LandingHeader';
 import { LandingFooter } from '@/components/layout/LandingFooter';
@@ -10,9 +10,12 @@ import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 
 const features = [
-  { icon: ShoppingCart, title: 'Gestion des Ventes', description: 'Suivez vos ventes, gérez les crédits clients et générez des reçus en un clic.' },
-  { icon: Package, title: 'Contrôle d\'Inventaire', description: 'Gardez un œil sur vos stocks en temps réel et gérez vos produits facilement.' },
-  { icon: FileText, title: 'Facturation & Comptabilité', description: 'Créez des factures, suivez les dépenses et consultez des rapports financiers clairs.' },
+  { icon: ShoppingCart, title: 'Gestion des Ventes & Clients', description: 'Créez des devis, factures, et suivez vos ventes. Gérez facilement votre base de clients et les paiements à crédit.' },
+  { icon: Package, title: 'Contrôle d\'Inventaire', description: 'Gardez un œil sur vos stocks en temps réel, ajoutez de nouveaux produits et gérez vos catégories.' },
+  { icon: Truck, title: 'Fournisseurs & Achats', description: 'Gérez vos fournisseurs, créez des bons de commande et suivez la réception de vos marchandises.' },
+  { icon: FileText, title: 'Comptabilité & Dépenses', description: 'Suivez vos charges, gérez les paiements et obtenez des rapports financiers clairs pour piloter votre activité.' },
+  { icon: Zap, title: 'Vente Rapide (Point de Vente)', description: 'Encaissez rapidement les ventes au comptant avec une interface optimisée pour la vitesse, avec impression de reçus.' },
+  { icon: BarChart3, title: 'Rapports & Analyses', description: 'Visualisez vos performances avec des tableaux de bord intuitifs et des rapports détaillés sur vos revenus.' },
 ];
 
 const PricingSection = () => {
