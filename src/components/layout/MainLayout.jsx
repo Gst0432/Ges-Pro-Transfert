@@ -77,6 +77,7 @@ const MainLayout = () => {
           setIsOpen={setSidebarOpen} 
           isMobile={isMobile} 
           setIsSettingsOpen={setIsSettingsOpen}
+          isSuperAdmin={isSuperAdmin}
         />
 
         <div className={`flex flex-col flex-1 transition-all duration-300 ${!sidebarOpen || isMobile ? '' : 'md:ml-72'}`}>
