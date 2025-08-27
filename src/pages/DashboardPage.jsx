@@ -45,7 +45,7 @@ const DashboardPage = ({ handleActionClick }) => {
     totalProducts: { value: 0, change: '+0%' },
   });
   const [loading, setLoading] = useState(true);
-  const [revenueData, setRevenueData] = useState([]);
+  const [revenueData, setRevenueData] = useState({ labels: [], values: [] });
   const [topProducts, setTopProducts] = useState([]);
 
   useEffect(() => {
