@@ -60,7 +60,6 @@ const PremiumPage = () => {
         if (subscription && subscription.plan_id) {
             setSelectedPlanId(subscription.plan_id);
         } else {
-            // Default to the first non-lifetime plan if available
             const defaultPlan = plansData.find(p => p.name !== 'Plan Vital') || plansData[0];
             setSelectedPlanId(defaultPlan.id);
         }
@@ -69,7 +68,7 @@ const PremiumPage = () => {
       }
     }
     setLoadingSubscription(false);
-  }, [user, selectedCurrency, toast]);
+  }, [user, selectedCurrency, toast, subscription]);
 
   useEffect(() => {
     fetchSubscriptionAndPlans();
@@ -157,7 +156,7 @@ const PremiumPage = () => {
                     {subscription.status === 'trial' ? 'Vous êtes en période d\'essai' : 'Vous êtes Premium !'}
                 </CardTitle>
                 <CardDescription className="text-lg text-gray-600 mt-2">
-                    Votre abonnement est actif jusqu'au {expirationDate}.
+                    Votre abonnement {subscription.saas_plans.name} est actif jusqu'au {expirationDate}.
                 </CardDescription>
             </CardHeader>
             <CardContent>

@@ -10,17 +10,29 @@ export const AuthProvider = ({ children }) => {
 
   const [user, setUser] = useState(null);
   const [session, setSession] = useState(null);
+  const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [isSuperAdmin, setIsSuperAdmin] = useState(false); // Ajout de cet état
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
 
   const handleSession = useCallback(async (session) => {
     setSession(session);
     const currentUser = session?.user ?? null;
     setUser(currentUser);
-    // Définir isSuperAdmin basé sur les métadonnées de l'utilisateur
-    const adminStatus = currentUser?.user_metadata?.is_super_admin === true;
-    setIsSuperAdmin(adminStatus); 
-    // console.log('SupabaseAuthContext: User email:', currentUser?.email, 'isSuperAdmin:', adminStatus); // DEBUG LOG - REMOVED
+    
+    if (currentUser) {
+      const { data: userProfile } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', currentUser.id)
+        .single();
+      setProfile(userProfile);
+      const adminStatus = userProfile?.is_super_admin === true || currentUser?.user_metadata?.is_super_admin === true;
+      setIsSuperAdmin(adminStatus);
+    } else {
+      setProfile(null);
+      setIsSuperAdmin(false);
+    }
+    
     setLoading(false);
   }, []);
 
@@ -90,7 +102,6 @@ export const AuthProvider = ({ children }) => {
     return { error };
   }, [toast]);
 
-  // Nouvelle fonction pour envoyer un e-mail de réinitialisation de mot de passe
   const sendPasswordResetEmail = useCallback(async (email) => {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/update-password`,
@@ -111,7 +122,6 @@ export const AuthProvider = ({ children }) => {
     return { error };
   }, [toast]);
 
-  // Nouvelle fonction pour mettre à jour le mot de passe de l'utilisateur
   const updateUserPassword = useCallback(async (newPassword) => {
     const { error } = await supabase.auth.updateUser({ password: newPassword });
 
@@ -133,14 +143,15 @@ export const AuthProvider = ({ children }) => {
   const value = useMemo(() => ({
     user,
     session,
+    profile,
     loading,
-    isSuperAdmin, // Inclure isSuperAdmin dans le contexte
+    isSuperAdmin,
     signUp,
     signIn,
     signOut,
-    sendPasswordResetEmail, // Inclure la nouvelle fonction
-    updateUserPassword,     // Inclure la nouvelle fonction
-  }), [user, session, loading, isSuperAdmin, signUp, signIn, signOut, sendPasswordResetEmail, updateUserPassword]);
+    sendPasswordResetEmail,
+    updateUserPassword,
+  }), [user, session, profile, loading, isSuperAdmin, signUp, signIn, signOut, sendPasswordResetEmail, updateUserPassword]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

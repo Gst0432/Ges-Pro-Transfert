@@ -30,39 +30,16 @@ const PaymentCallbackPage = () => {
         expirationDate = null;
     }
 
-    const { data: existingSubscription, error: fetchError } = await supabase
-        .from('user_subscriptions')
-        .select('id')
-        .eq('user_id', user.id)
-        .single();
-
-    let error;
-
-    const subscriptionData = {
+    const { error } = await supabase
+      .from('user_subscriptions')
+      .upsert({
+        user_id: user.id,
         plan_id: planId,
         status: 'active',
         current_period_start: now.toISOString(),
         current_period_end: expirationDate ? expirationDate.toISOString() : null,
         updated_at: now.toISOString()
-    };
-
-    if (fetchError && fetchError.code !== 'PGRST116') {
-        error = fetchError;
-    } else if (existingSubscription) {
-        const { error: updateError } = await supabase
-          .from('user_subscriptions')
-          .update(subscriptionData)
-          .eq('user_id', user.id);
-        error = updateError;
-    } else {
-        const { error: insertError } = await supabase
-            .from('user_subscriptions')
-            .insert({
-                user_id: user.id,
-                ...subscriptionData
-            });
-        error = insertError;
-    }
+      }, { onConflict: 'user_id' });
 
 
     if (error) {
