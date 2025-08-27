@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { supabase } from '@/lib/customSupabaseClient';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
@@ -9,8 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Loader2, Upload, Trash2 } from 'lucide-react';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { Loader2, Upload } from 'lucide-react';
 
 export const SettingsDialog = ({ isOpen, onOpenChange }) => {
   const { user } = useAuth();
@@ -135,12 +133,15 @@ export const SettingsDialog = ({ isOpen, onOpenChange }) => {
         ) : (
           <div className="py-4 space-y-4">
             <div className="flex items-center space-x-6">
-                <Avatar className="h-20 w-20">
-                  <AvatarImage src={logoPreview} alt="Logo" />
-                  <AvatarFallback className="text-3xl">
-                    {settings.company_name?.charAt(0) || 'E'}
-                  </AvatarFallback>
-                </Avatar>
+                <div className="h-20 w-20 rounded-lg bg-gray-100 flex items-center justify-center overflow-hidden border">
+                    {logoPreview ? (
+                        <img src={logoPreview} alt="Logo" className="h-full w-full object-contain" />
+                    ) : (
+                        <span className="text-3xl font-semibold text-gray-500">
+                            {settings.company_name?.charAt(0) || 'E'}
+                        </span>
+                    )}
+                </div>
                 <div className="space-y-2">
                     <Label>Logo de l'entreprise</Label>
                     <div className="flex items-center space-x-2">

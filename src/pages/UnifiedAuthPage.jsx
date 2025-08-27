@@ -59,11 +59,11 @@ const AuthForm = ({ isLogin, onSubmit, onToggle, onForgotPasswordClick, companyS
       className="w-full"
     >
       <div className="text-center mb-8">
-        <div className={`inline-flex items-center justify-center w-16 h-16 bg-white text-white rounded-2xl mb-4 shadow-md`}>
+        <div className={`inline-flex items-center justify-center w-16 h-16 bg-white text-white rounded-2xl mb-4 shadow-md overflow-hidden`}>
           {companySettings?.logo_url ? (
-            <img src={companySettings.logo_url} alt="Company Logo" className="w-14 h-14 object-contain" />
+            <img src={companySettings.logo_url} alt="Company Logo" className="h-full w-full object-contain" />
           ) : (
-            <img src="/logo.jpg" alt="Logo" className="w-14 h-14 object-contain" />
+            <img src="/logo.jpg" alt="Logo" className="h-full w-full object-contain" />
           )}
         </div>
         <h1 className="text-3xl font-bold text-gray-800">
