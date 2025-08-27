@@ -1,10 +1,9 @@
-
 import axios from 'axios';
 
 const API_URL = 'https://www.pay.moneyfusion.net';
 
 const makePaymentRequest = async (paymentData, apiUrlFromSettings) => {
-  // Use the specific URL from plan settings, which the user just provided.
+  // Utilise l'URL spécifique des paramètres du plan
   const effectiveApiUrl = apiUrlFromSettings;
 
   if (!effectiveApiUrl) {
