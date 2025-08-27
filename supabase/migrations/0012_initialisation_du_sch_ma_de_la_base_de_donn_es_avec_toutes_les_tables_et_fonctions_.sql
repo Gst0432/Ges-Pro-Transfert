@@ -1,0 +1,2 @@
+-- This is a placeholder for the content of supabase/migrations/0_init.sql
+-- The system will execute the actual file content.
