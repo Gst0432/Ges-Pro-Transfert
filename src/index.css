@@ -75,27 +75,27 @@ body {
 }
 
 /* Yellow Gold gradient backgrounds */
-.yellow-gradient {
+.golden-gradient {
   background: linear-gradient(135deg, hsl(45 93% 47%) 0%, hsl(41 96% 40%) 50%, hsl(35 91% 33%) 100%);
 }
 
-.yellow-gradient-soft {
+.golden-gradient-soft {
   background: linear-gradient(135deg, hsl(54 91% 95%) 0%, hsl(54 96% 88%) 100%);
 }
 
-.yellow-gradient-card {
+.golden-gradient-card {
   background: linear-gradient(135deg, hsl(54 91% 95%) 0%, hsl(54 96% 88%) 50%, hsl(53 98% 77%) 100%);
   border: 1px solid hsl(53 98% 77%);
 }
 
-/* Glass morphism effect with yellow tint */
+/* Glass morphism effect with golden tint */
 .glass-effect {
   background: rgba(255, 248, 220, 0.25);
   backdrop-filter: blur(15px);
   border: 1px solid rgba(255, 215, 0, 0.18);
 }
 
-/* Custom scrollbar with yellow theme */
+/* Custom scrollbar with golden theme */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -114,14 +114,14 @@ body {
   background: hsl(41 96% 40%);
 }
 
-/* Enhanced transitions with yellow accents */
+/* Enhanced transitions with golden accents */
 * {
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 200ms;
 }
 
-/* Focus styles with yellow theme */
+/* Focus styles with golden theme */
 button:focus-visible,
 input:focus-visible {
   outline: 2px solid hsl(45 93% 47%);
@@ -135,20 +135,29 @@ input:focus-visible {
   box-shadow: 0 20px 40px -8px hsl(45 93% 47% / 0.15), 0 8px 16px -8px hsl(45 93% 47% / 0.1);
 }
 
-/* Yellow text gradients */
-.text-yellow-gradient {
+/* Golden text gradients */
+.text-golden-gradient {
   background: linear-gradient(135deg, hsl(45 93% 47%) 0%, hsl(41 96% 40%) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
+.heading-golden {
+  font-family: 'Playfair Display', serif;
+  background: linear-gradient(135deg, hsl(45 93% 47%) 0%, hsl(41 96% 40%) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+}
+
 /* Enhanced shadows */
-.shadow-yellow {
+.shadow-golden {
   box-shadow: 0 4px 14px 0 hsl(45 93% 47% / 0.15);
 }
 
-.shadow-yellow-lg {
+.shadow-golden-lg {
   box-shadow: 0 20px 40px -8px hsl(45 93% 47% / 0.15), 0 8px 16px -8px hsl(45 93% 47% / 0.1);
 }
 
@@ -174,7 +183,7 @@ input:focus-visible {
 }
 
 /* Button enhancements */
-.btn-yellow {
+.btn-golden {
   background: linear-gradient(135deg, hsl(45 93% 47%) 0%, hsl(41 96% 40%) 100%);
   border: none;
   color: white;
@@ -184,40 +193,10 @@ input:focus-visible {
   box-shadow: 0 4px 14px 0 hsl(45 93% 47% / 0.25);
 }
 
-.btn-yellow:hover {
+.btn-golden:hover {
   background: linear-gradient(135deg, hsl(41 96% 40%) 0%, hsl(35 91% 33%) 100%);
   transform: translateY(-2px);
   box-shadow: 0 8px 25px -5px hsl(45 93% 47% / 0.35);
-}
-
-/* Typography enhancements */
-.heading-yellow {
-  font-family: 'Playfair Display', serif;
-  background: linear-gradient(135deg, hsl(45 93% 47%) 0%, hsl(41 96% 40%) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-weight: 700;
-}
-
-/* Floating elements */
-.floating {
-  animation: float 6s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-12px); }
-}
-
-/* Pulse effect for important elements */
-.pulse-yellow {
-  animation: pulseYellow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-@keyframes pulseYellow {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.8; }
 }
 
 /* Enhanced form inputs */
@@ -234,8 +213,28 @@ input:focus-visible {
   box-shadow: 0 0 0 4px hsl(45 93% 47% / 0.1), 0 4px 14px 0 hsl(45 93% 47% / 0.15);
 }
 
+/* Floating elements */
+.floating {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+/* Pulse effect for important elements */
+.pulse-golden {
+  animation: pulseGolden 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulseGolden {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
 /* Glow effects */
-.glow-yellow {
+.glow-golden {
   box-shadow: 0 0 20px hsl(45 93% 47% / 0.3);
 }
 
@@ -316,4 +315,381 @@ input:focus-visible {
 /* Error states */
 .error-glow {
   box-shadow: 0 0 20px hsl(0 84% 60% / 0.3);
+}
+
+/* Golden color utilities */
+.text-golden-50 { color: hsl(54 91% 95%); }
+.text-golden-100 { color: hsl(54 96% 88%); }
+.text-golden-200 { color: hsl(53 98% 77%); }
+.text-golden-300 { color: hsl(50 97% 63%); }
+.text-golden-400 { color: hsl(47 96% 53%); }
+.text-golden-500 { color: hsl(45 93% 47%); }
+.text-golden-600 { color: hsl(41 96% 40%); }
+.text-golden-700 { color: hsl(35 91% 33%); }
+.text-golden-800 { color: hsl(32 81% 29%); }
+.text-golden-900 { color: hsl(28 73% 26%); }
+
+.bg-golden-50 { background-color: hsl(54 91% 95%); }
+.bg-golden-100 { background-color: hsl(54 96% 88%); }
+.bg-golden-200 { background-color: hsl(53 98% 77%); }
+.bg-golden-300 { background-color: hsl(50 97% 63%); }
+.bg-golden-400 { background-color: hsl(47 96% 53%); }
+.bg-golden-500 { background-color: hsl(45 93% 47%); }
+.bg-golden-600 { background-color: hsl(41 96% 40%); }
+.bg-golden-700 { background-color: hsl(35 91% 33%); }
+.bg-golden-800 { background-color: hsl(32 81% 29%); }
+.bg-golden-900 { background-color: hsl(28 73% 26%); }
+
+.border-golden-200 { border-color: hsl(53 98% 77%); }
+.border-golden-300 { border-color: hsl(50 97% 63%); }
+.border-golden-400 { border-color: hsl(47 96% 53%); }
+.border-golden-500 { border-color: hsl(45 93% 47%); }
+
+.decoration-golden-300 { text-decoration-color: hsl(50 97% 63%); }
+.decoration-golden-500 { text-decoration-color: hsl(45 93% 47%); }
+
+/* Enhanced card hover effects */
+.card-hover:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 25px 50px -12px hsl(45 93% 47% / 0.25);
+}
+
+/* Sparkle animation */
+.sparkle {
+  position: relative;
+  overflow: hidden;
+}
+
+.sparkle::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, hsl(45 93% 47% / 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+  animation: sparkleMove 10s linear infinite;
+}
+
+@keyframes sparkleMove {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Enhanced button styles */
+.btn-golden-outline {
+  background: transparent;
+  border: 2px solid hsl(45 93% 47%);
+  color: hsl(45 93% 47%);
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-golden-outline:hover {
+  background: hsl(45 93% 47%);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px -5px hsl(45 93% 47% / 0.35);
+}
+
+/* Gradient borders */
+.border-golden-gradient {
+  border: 2px solid;
+  border-image: linear-gradient(135deg, hsl(45 93% 47%), hsl(41 96% 40%)) 1;
+}
+
+/* Text shadows for better readability */
+.text-shadow-golden {
+  text-shadow: 0 2px 4px hsl(45 93% 47% / 0.1);
+}
+
+/* Enhanced form styles */
+.form-golden {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid hsl(53 98% 77%);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  box-shadow: 0 20px 40px 0 hsl(45 93% 47% / 0.1);
+}
+
+/* Notification styles */
+.notification-golden {
+  background: linear-gradient(135deg, hsl(54 91% 95%) 0%, hsl(54 96% 88%) 100%);
+  border-left: 4px solid hsl(45 93% 47%);
+  color: hsl(35 91% 33%);
+}
+
+/* Loading spinner with golden theme */
+.spinner-golden {
+  border: 3px solid hsl(54 91% 95%);
+  border-top: 3px solid hsl(45 93% 47%);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Enhanced table styles */
+.table-golden {
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid hsl(53 98% 77%);
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 8px 32px 0 hsl(45 93% 47% / 0.08);
+}
+
+.table-golden thead {
+  background: linear-gradient(135deg, hsl(54 91% 95%) 0%, hsl(54 96% 88%) 100%);
+}
+
+.table-golden tbody tr:hover {
+  background: hsl(54 91% 95%);
+}
+
+/* Status badges with golden theme */
+.badge-golden {
+  background: linear-gradient(135deg, hsl(45 93% 47%) 0%, hsl(41 96% 40%) 100%);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Enhanced sidebar styles */
+.sidebar-golden {
+  background: linear-gradient(180deg, hsl(45 93% 47%) 0%, hsl(41 96% 40%) 100%);
+  color: white;
+  box-shadow: 4px 0 20px hsl(45 93% 47% / 0.1);
+}
+
+.sidebar-item-golden {
+  transition: all 0.3s ease;
+  border-radius: 0.75rem;
+  margin: 0.25rem;
+}
+
+.sidebar-item-golden:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(4px);
+}
+
+.sidebar-item-golden.active {
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 12px hsl(45 93% 47% / 0.2);
+}
+
+/* Dashboard stat cards */
+.stat-card-golden {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(255, 248, 220, 0.8));
+  backdrop-filter: blur(20px);
+  border: 1px solid hsl(53 98% 77%);
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card-golden::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, hsl(45 93% 47%), hsl(41 96% 40%), hsl(35 91% 33%));
+}
+
+.stat-card-golden:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 25px 50px -12px hsl(45 93% 47% / 0.25);
+}
+
+/* Modal enhancements */
+.modal-golden {
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(30px);
+  border: 1px solid hsl(53 98% 77%);
+  border-radius: 1.5rem;
+  box-shadow: 0 25px 50px -12px hsl(45 93% 47% / 0.25);
+}
+
+/* Progress bars */
+.progress-golden {
+  background: hsl(54 91% 95%);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.progress-golden-fill {
+  background: linear-gradient(90deg, hsl(45 93% 47%), hsl(41 96% 40%));
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.5s ease;
+}
+
+/* Enhanced typography */
+.title-golden {
+  font-family: 'Playfair Display', serif;
+  background: linear-gradient(135deg, hsl(45 93% 47%) 0%, hsl(41 96% 40%) 50%, hsl(35 91% 33%) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+/* Interactive elements */
+.interactive-golden {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.interactive-golden:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+/* Custom golden theme for specific components */
+.golden-theme {
+  --primary: 45 93% 47%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 54 91% 95%;
+  --secondary-foreground: 35 91% 33%;
+  --accent: 45 93% 47%;
+  --accent-foreground: 0 0% 100%;
+  --muted: 54 91% 95%;
+  --muted-foreground: 35 91% 33%;
+}
+
+/* Phone input styling */
+.PhoneInput {
+  display: flex;
+  align-items: center;
+}
+
+.PhoneInputInput {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 2px solid hsl(53 98% 77%) !important;
+  border-radius: 0.5rem !important;
+  padding: 0.5rem 0.75rem !important;
+  font-size: 0.875rem !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 2px 8px 0 hsl(45 93% 47% / 0.05) !important;
+}
+
+.PhoneInputInput:focus {
+  border-color: hsl(45 93% 47%) !important;
+  background: rgba(255, 255, 255, 1) !important;
+  box-shadow: 0 0 0 4px hsl(45 93% 47% / 0.1), 0 4px 14px 0 hsl(45 93% 47% / 0.15) !important;
+  outline: none !important;
+}
+
+.PhoneInputCountrySelect {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 2px solid hsl(53 98% 77%) !important;
+  border-radius: 0.5rem !important;
+  margin-right: 0.5rem !important;
+  padding: 0.5rem !important;
+}
+
+/* Enhanced animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.slide-in-right {
+  animation: slideInRight 0.6s ease-out;
+}
+
+/* Golden theme for select components */
+.select-golden .select-trigger {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid hsl(53 98% 77%);
+  transition: all 0.3s ease;
+}
+
+.select-golden .select-trigger:focus {
+  border-color: hsl(45 93% 47%);
+  box-shadow: 0 0 0 4px hsl(45 93% 47% / 0.1);
+}
+
+/* Enhanced checkbox and radio styles */
+.checkbox-golden {
+  accent-color: hsl(45 93% 47%);
+}
+
+.radio-golden {
+  accent-color: hsl(45 93% 47%);
+}
+
+/* Tooltip styles */
+.tooltip-golden {
+  background: linear-gradient(135deg, hsl(35 91% 33%) 0%, hsl(28 73% 26%) 100%);
+  color: white;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  box-shadow: 0 4px 12px hsl(45 93% 47% / 0.2);
+}
+
+/* Enhanced focus states */
+.focus-golden:focus {
+  outline: 2px solid hsl(45 93% 47%);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px hsl(45 93% 47% / 0.1);
+}
+
+/* Responsive enhancements */
+@media (max-width: 768px) {
+  .mobile-golden-padding {
+    padding: 1rem;
+  }
+  
+  .mobile-golden-text {
+    font-size: 0.875rem;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-golden {
+    color: hsl(35 91% 33%) !important;
+    background: white !important;
+  }
 }
