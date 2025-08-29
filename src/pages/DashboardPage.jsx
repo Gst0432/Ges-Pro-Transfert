@@ -214,11 +214,11 @@ const ForgotPasswordForm = ({ onBack, companySettings }) => {
           Entrez votre e-mail pour recevoir un lien de réinitialisation.
         </p>
       </div>
-      <form onSubmit={handleSubmit} className="space-y-6">
+
+      <form onSubmit={handleSubmit} className="space-y-8">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.1 }}
         >
           <Label htmlFor="reset-email" className="text-golden-700 font-semibold text-base">Adresse e-mail</Label>
           <Input
@@ -228,9 +228,10 @@ const ForgotPasswordForm = ({ onBack, companySettings }) => {
             onChange={(e) => setEmail(e.target.value)}
             required
             placeholder="vous@exemple.com"
-            className="mt-2 h-12 text-base"
+            className="mt-2 input-enhanced"
           />
         </motion.div>
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -245,6 +246,7 @@ const ForgotPasswordForm = ({ onBack, companySettings }) => {
           </Button>
         </motion.div>
       </form>
+
       <motion.p 
         className="mt-8 text-center text-base text-golden-600"
         initial={{ opacity: 0 }}
@@ -294,14 +296,14 @@ const UnifiedAuthPage = ({ companySettings }) => {
         description: error.message,
       });
     }
-        <h1 className="text-4xl heading-golden mb-2">Mot de passe oublié ?</h1>
-        <p className="text-golden-600 text-lg font-medium">
+  };
+
   return (
     <div className="min-h-screen bg-golden-gradient-soft flex items-center justify-center p-4 relative overflow-hidden">
       {/* Decorative floating elements */}
-      <form onSubmit={handleSubmit} className="space-y-8">
+      <div className="absolute top-10 left-10 w-20 h-20 bg-golden-200/30 rounded-full blur-xl floating"></div>
       <div className="absolute bottom-20 right-20 w-32 h-32 bg-golden-300/20 rounded-full blur-2xl floating" style={{animationDelay: '2s'}}></div>
-          <Label htmlFor="reset-email" className="text-golden-700 font-semibold text-base">Adresse e-mail</Label>
+      <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-golden-400/20 rounded-full blur-lg floating" style={{animationDelay: '4s'}}></div>
       <div className="absolute top-1/4 right-1/3 w-24 h-24 bg-golden-500/10 rounded-full blur-2xl floating" style={{animationDelay: '1s'}}></div>
       
       {/* Sparkle effect */}
@@ -309,35 +311,31 @@ const UnifiedAuthPage = ({ companySettings }) => {
       
       <motion.div 
         className="relative w-full max-w-md"
-            className="mt-2 input-enhanced"
+        initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, type: "spring", stiffness: 100 }}
-        <Button type="submit" className="w-full btn-golden h-12 text-base font-bold tracking-wide" disabled={loading}>
+      >
         <div className="modern-card rounded-3xl overflow-hidden hover-lift">
           <div className="w-full p-10 flex flex-col justify-center">
             <AnimatePresence mode="wait">
-      <p className="mt-8 text-center text-base text-golden-600">
-            { name: 'Rapport Mensuel', slug: 'monthly_report', icon: TrendingUp, color: 'text-golden-600', bgColor: 'bg-golden-100' }
+              {showForgotPassword ? (
                 <ForgotPasswordForm
                   key="forgot"
                   onBack={() => setShowForgotPassword(false)}
                   companySettings={companySettings}
                 />
-                whileHover={{ scale: 1.08, y: -4 }}
+              ) : (
                 <AuthForm
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: index * 0.1 }}
                   key="auth"
-                className="flex flex-col items-center p-4 bg-golden-50 rounded-xl hover:bg-golden-100 transition-all duration-300 group text-center hover:shadow-golden"
+                  isLogin={isLogin}
                   onSubmit={isLogin ? handleSignIn : handleSignUp}
-                <div className={`w-12 h-12 ${action.bgColor} rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300 shadow-golden`}>
+                  onToggle={() => setIsLogin(!isLogin)}
                   onForgotPasswordClick={() => setShowForgotPassword(true)}
                   companySettings={companySettings}
-                <span className="text-golden-700 text-sm font-semibold">{action.name}</span>
+                />
               )}
-        <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-golden-100 to-golden-200 text-golden-600 rounded-3xl mb-6 shadow-golden floating">
-          <Mail className="w-10 h-10" />
+            </AnimatePresence>
+          </div>
         </div>
       </motion.div>
     </div>
