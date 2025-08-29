@@ -7,7 +7,6 @@ import { Label } from '@/components/ui/label';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { useCompanySettings } from '@/contexts/CompanySettingsContext';
 import { useToast } from '@/components/ui/use-toast';
-import PhoneInput from 'react-phone-number-input';
 
 const useDebounce = (value, delay) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -101,16 +100,14 @@ const AuthForm = ({ isLogin, onSubmit, onToggle, onForgotPasswordClick, companyS
             transition={{ delay: 0.2 }}
           >
             <Label htmlFor="phone" className="text-blue-700 font-semibold text-base">Numéro de téléphone</Label>
-            <div className="mt-2">
-              <PhoneInput
-                id="phone"
-                placeholder="Entrez le numéro de téléphone"
-                value={phone}
-                onChange={setPhone}
-                defaultCountry="FR"
-                className="h-12"
-              />
-            </div>
+            <Input
+              id="phone"
+              type="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="+33 1 23 45 67 89"
+              className="mt-2 h-12 text-base input-enhanced"
+            />
           </motion.div>
         )}
 
