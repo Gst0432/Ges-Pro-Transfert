@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap');
 
 :root {
   --background: 0 0% 100%; /* white */
@@ -11,38 +12,50 @@
   --card-foreground: 222.2 47.4% 11.2%;
   --popover: 0 0% 100%;
   --popover-foreground: 222.2 47.4% 11.2%;
-  --primary: 221.2 83.2% 53.3%; /* blue */
-  --primary-foreground: 210 40% 98%; /* near white */
-  --secondary: 210 40% 96.1%; /* light gray */
+  --primary: 45 93% 47%; /* golden yellow */
+  --primary-foreground: 0 0% 100%; /* white */
+  --secondary: 48 100% 96%; /* light golden */
   --secondary-foreground: 222.2 47.4% 11.2%;
-  --muted: 210 40% 96.1%;
+  --muted: 48 100% 96%;
   --muted-foreground: 215.4 16.3% 46.9%; /* medium gray */
-  --accent: 210 40% 96.1%;
-  --accent-foreground: 222.2 47.4% 11.2%;
+  --accent: 45 93% 47%;
+  --accent-foreground: 0 0% 100%;
   --destructive: 0 84.2% 60.2%; /* red */
   --destructive-foreground: 210 40% 98%;
   --border: 214.3 31.8% 91.4%; /* light gray border */
   --input: 214.3 31.8% 91.4%;
-  --ring: 221.2 83.2% 53.3%;
-  --radius: 0.5rem;
+  --ring: 45 93% 47%;
+  --radius: 0.75rem;
 
-  /* Custom Sidebar Colors for Users */
-  --sidebar-bg: 210 60% 12%; /* Dark Blue */
-  --sidebar-text: 210 40% 98%;
-  --sidebar-text-muted: 210 20% 70%;
-  --sidebar-active-user: 210 50% 25%;
-  --sidebar-hover-user: 210 50% 20%;
-  --sidebar-logo-user: 210 50% 25%;
-  --sidebar-border: 210 60% 8%;
+  /* Custom Yellow Gold Theme Colors */
+  --yellow-50: 54 91% 95%;
+  --yellow-100: 54 96% 88%;
+  --yellow-200: 53 98% 77%;
+  --yellow-300: 50 97% 63%;
+  --yellow-400: 47 96% 53%;
+  --yellow-500: 45 93% 47%;
+  --yellow-600: 41 96% 40%;
+  --yellow-700: 35 91% 33%;
+  --yellow-800: 32 81% 29%;
+  --yellow-900: 28 73% 26%;
 
-  /* Custom Sidebar Colors for Super Admins */
-  --sidebar-admin-bg: 220 15% 18%; /* Dark Slate */
-  --sidebar-admin-text: 220 10% 95%;
-  --sidebar-admin-text-muted: 220 10% 65%;
-  --sidebar-admin-active: 220 15% 30%;
-  --sidebar-admin-hover: 220 15% 25%;
-  --sidebar-admin-logo-bg: 220 15% 30%;
-  --sidebar-admin-border: 220 15% 12%;
+  /* Custom Sidebar Colors for Users - Yellow Gold Theme */
+  --sidebar-bg: 45 93% 47%; /* Yellow 500 */
+  --sidebar-text: 54 91% 95%;
+  --sidebar-text-muted: 54 50% 80%;
+  --sidebar-active-user: 41 96% 40%; /* Yellow 600 */
+  --sidebar-hover-user: 47 96% 53%;
+  --sidebar-logo-user: 41 96% 40%;
+  --sidebar-border: 41 96% 35%;
+
+  /* Custom Sidebar Colors for Super Admins - Darker Yellow */
+  --sidebar-admin-bg: 28 73% 26%; /* Yellow 900 */
+  --sidebar-admin-text: 54 91% 95%;
+  --sidebar-admin-text-muted: 54 50% 70%;
+  --sidebar-admin-active: 35 91% 33%;
+  --sidebar-admin-hover: 32 81% 29%;
+  --sidebar-admin-logo-bg: 35 91% 33%;
+  --sidebar-admin-border: 28 73% 20%;
 }
 
 .dark {
@@ -55,40 +68,252 @@
 
 body {
   font-family: 'Inter', sans-serif;
-  background-color: hsl(var(--background));
+  background: linear-gradient(135deg, hsl(54 91% 95%) 0%, hsl(54 96% 88%) 100%);
   color: hsl(var(--foreground));
   overflow-x: hidden;
+  min-height: 100vh;
 }
 
-/* Custom scrollbar */
+/* Yellow Gold gradient backgrounds */
+.yellow-gradient {
+  background: linear-gradient(135deg, hsl(45 93% 47%) 0%, hsl(41 96% 40%) 50%, hsl(35 91% 33%) 100%);
+}
+
+.yellow-gradient-soft {
+  background: linear-gradient(135deg, hsl(54 91% 95%) 0%, hsl(54 96% 88%) 100%);
+}
+
+.yellow-gradient-card {
+  background: linear-gradient(135deg, hsl(54 91% 95%) 0%, hsl(54 96% 88%) 50%, hsl(53 98% 77%) 100%);
+  border: 1px solid hsl(53 98% 77%);
+}
+
+/* Glass morphism effect with yellow tint */
+.glass-effect {
+  background: rgba(255, 248, 220, 0.25);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 215, 0, 0.18);
+}
+
+/* Custom scrollbar with yellow theme */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: hsl(var(--secondary));
+  background: hsl(54 91% 95%);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted-foreground));
+  background: hsl(45 93% 47%);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--primary));
+  background: hsl(41 96% 40%);
 }
 
-/* Smooth transitions */
+/* Enhanced transitions with yellow accents */
 * {
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
+  transition-duration: 200ms;
 }
 
-/* Focus styles */
+/* Focus styles with yellow theme */
 button:focus-visible,
 input:focus-visible {
-  outline: 2px solid hsl(var(--ring));
+  outline: 2px solid hsl(45 93% 47%);
   outline-offset: 2px;
+  box-shadow: 0 0 0 4px hsl(45 93% 47% / 0.1);
+}
+
+/* Hover effects */
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -8px hsl(45 93% 47% / 0.15), 0 8px 16px -8px hsl(45 93% 47% / 0.1);
+}
+
+/* Yellow text gradients */
+.text-yellow-gradient {
+  background: linear-gradient(135deg, hsl(45 93% 47%) 0%, hsl(41 96% 40%) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Enhanced shadows */
+.shadow-yellow {
+  box-shadow: 0 4px 14px 0 hsl(45 93% 47% / 0.15);
+}
+
+.shadow-yellow-lg {
+  box-shadow: 0 20px 40px -8px hsl(45 93% 47% / 0.15), 0 8px 16px -8px hsl(45 93% 47% / 0.1);
+}
+
+/* Animated background patterns */
+.animated-bg {
+  background: linear-gradient(-45deg, hsl(54 91% 95%), hsl(54 96% 88%), hsl(53 98% 77%), hsl(54 91% 95%));
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Card enhancements */
+.card-enhanced {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid hsl(53 98% 77%);
+  box-shadow: 0 20px 40px 0 hsl(45 93% 47% / 0.1);
+}
+
+/* Button enhancements */
+.btn-yellow {
+  background: linear-gradient(135deg, hsl(45 93% 47%) 0%, hsl(41 96% 40%) 100%);
+  border: none;
+  color: white;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 14px 0 hsl(45 93% 47% / 0.25);
+}
+
+.btn-yellow:hover {
+  background: linear-gradient(135deg, hsl(41 96% 40%) 0%, hsl(35 91% 33%) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px -5px hsl(45 93% 47% / 0.35);
+}
+
+/* Typography enhancements */
+.heading-yellow {
+  font-family: 'Playfair Display', serif;
+  background: linear-gradient(135deg, hsl(45 93% 47%) 0%, hsl(41 96% 40%) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+}
+
+/* Floating elements */
+.floating {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+/* Pulse effect for important elements */
+.pulse-yellow {
+  animation: pulseYellow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulseYellow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+/* Enhanced form inputs */
+.input-enhanced {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid hsl(53 98% 77%);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px 0 hsl(45 93% 47% / 0.05);
+}
+
+.input-enhanced:focus {
+  border-color: hsl(45 93% 47%);
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 0 0 4px hsl(45 93% 47% / 0.1), 0 4px 14px 0 hsl(45 93% 47% / 0.15);
+}
+
+/* Glow effects */
+.glow-yellow {
+  box-shadow: 0 0 20px hsl(45 93% 47% / 0.3);
+}
+
+/* Shimmer effect */
+.shimmer {
+  background: linear-gradient(90deg, transparent, hsl(45 93% 47% / 0.1), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Enhanced hover states */
+.hover-glow:hover {
+  box-shadow: 0 0 30px hsl(45 93% 47% / 0.2);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, hsl(45 93% 47%), hsl(41 96% 40%), hsl(35 91% 33%));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Modern card styles */
+.modern-card {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(255, 248, 220, 0.8));
+  backdrop-filter: blur(20px);
+  border: 1px solid hsl(53 98% 77%);
+  box-shadow: 
+    0 8px 32px 0 hsl(45 93% 47% / 0.1),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
+}
+
+/* Animated borders */
+.animated-border {
+  position: relative;
+  overflow: hidden;
+}
+
+.animated-border::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, hsl(45 93% 47% / 0.3), transparent);
+  animation: borderSlide 3s infinite;
+}
+
+@keyframes borderSlide {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* Enhanced loading states */
+.loading-shimmer {
+  background: linear-gradient(90deg, hsl(54 91% 95%), hsl(53 98% 77%), hsl(54 91% 95%));
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Success states */
+.success-glow {
+  box-shadow: 0 0 20px hsl(120 60% 50% / 0.3);
+}
+
+/* Warning states */
+.warning-glow {
+  box-shadow: 0 0 20px hsl(38 92% 50% / 0.3);
+}
+
+/* Error states */
+.error-glow {
+  box-shadow: 0 0 20px hsl(0 84% 60% / 0.3);
 }

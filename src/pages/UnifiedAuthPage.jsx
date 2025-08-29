@@ -59,24 +59,24 @@ const AuthForm = ({ isLogin, onSubmit, onToggle, onForgotPasswordClick, companyS
       className="w-full"
     >
       <div className="text-center mb-8">
-        <div className={`inline-flex items-center justify-center w-16 h-16 bg-blue-600 text-white rounded-2xl mb-4 shadow-md overflow-hidden`}>
+        <div className={`inline-flex items-center justify-center w-20 h-20 golden-gradient text-white rounded-3xl mb-6 shadow-golden-lg overflow-hidden floating`}>
           {companySettings?.logo_url ? (
             <img src={companySettings.logo_url} alt="Company Logo" className="h-full w-full object-contain" />
           ) : (
-            <BarChart3 className="w-8 h-8" />
+            <BarChart3 className="w-10 h-10" />
           )}
         </div>
-        <h1 className="text-3xl font-bold text-gray-800">
+        <h1 className="text-4xl heading-golden mb-2">
           {companySettings?.company_name || 'GES PRO'}
         </h1>
-        <p className="text-gray-500 mt-2">
+        <p className="text-golden-600 text-lg font-medium">
           {isLogin ? 'Connectez-vous à votre compte' : 'Créez un nouveau compte'}
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-8">
         <div>
-          <Label htmlFor="email">Adresse e-mail</Label>
+          <Label htmlFor="email" className="text-golden-700 font-semibold text-base">Adresse e-mail</Label>
           <Input
             id="email"
             type="email"
@@ -84,32 +84,32 @@ const AuthForm = ({ isLogin, onSubmit, onToggle, onForgotPasswordClick, companyS
             onChange={(e) => setEmail(e.target.value)}
             required
             placeholder="vous@exemple.com"
-            className="mt-1"
+            className="mt-2 input-enhanced"
           />
         </div>
 
         {!isLogin && (
           <div>
-            <Label htmlFor="phone">Numéro de téléphone</Label>
+            <Label htmlFor="phone" className="text-golden-700 font-semibold text-base">Numéro de téléphone</Label>
             <PhoneInput
               id="phone"
               placeholder="Entrez le numéro de téléphone"
               value={phone}
               onChange={setPhone}
               defaultCountry="FR"
-              className="mt-1"
+              className="mt-2"
             />
           </div>
         )}
 
         <div>
           <div className="flex justify-between items-center">
-            <Label htmlFor="password">Mot de passe</Label>
+            <Label htmlFor="password" className="text-golden-700 font-semibold text-base">Mot de passe</Label>
             {isLogin && (
               <button
                 type="button"
                 onClick={onForgotPasswordClick}
-                className="text-sm font-medium text-blue-600 hover:text-blue-500"
+                className="text-sm font-semibold text-golden-600 hover:text-golden-700 transition-colors duration-200"
               >
                 Mot de passe oublié ?
               </button>
@@ -122,16 +122,21 @@ const AuthForm = ({ isLogin, onSubmit, onToggle, onForgotPasswordClick, companyS
             onChange={(e) => setPassword(e.target.value)}
             required
             placeholder="••••••••"
-            className="mt-1"
+            className="mt-2 input-enhanced"
           />
         </div>
-        <Button type="submit" className={`w-full bg-${accentColor}-600 hover:bg-${accentColor}-700`} disabled={loading}>
-          {loading ? 'Chargement...' : (isLogin ? 'Se connecter' : 'S\'inscrire')}
+        <Button type="submit" className="w-full btn-golden h-12 text-base font-bold tracking-wide" disabled={loading}>
+          {loading ? (
+            <div className="flex items-center">
+              <Loader2 className="w-5 h-5 animate-spin mr-2" />
+              Chargement...
+            </div>
+          ) : (isLogin ? 'Se connecter' : 'S\'inscrire')}
         </Button>
       </form>
-      <p className="mt-6 text-center text-sm text-gray-600">
+      <p className="mt-8 text-center text-base text-golden-600">
         {isLogin ? 'Pas encore de compte ?' : 'Déjà un compte ?'}{' '}
-        <button onClick={onToggle} className={`font-medium text-${accentColor}-600 hover:text-${accentColor}-500`}>
+        <button onClick={onToggle} className="font-bold text-golden-700 hover:text-golden-800 transition-colors duration-200 underline decoration-golden-300 hover:decoration-golden-500">
           {isLogin ? 'Inscrivez-vous' : 'Connectez-vous'}
         </button>
       </p>
@@ -161,17 +166,17 @@ const ForgotPasswordForm = ({ onBack, companySettings }) => {
       className="w-full"
     >
       <div className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl mb-4">
-          <Mail className="w-8 h-8" />
+        <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-golden-100 to-golden-200 text-golden-600 rounded-3xl mb-6 shadow-golden floating">
+          <Mail className="w-10 h-10" />
         </div>
-        <h1 className="text-3xl font-bold text-gray-800">Mot de passe oublié ?</h1>
-        <p className="text-gray-500 mt-2">
+        <h1 className="text-4xl heading-golden mb-2">Mot de passe oublié ?</h1>
+        <p className="text-golden-600 text-lg font-medium">
           Entrez votre e-mail pour recevoir un lien de réinitialisation.
         </p>
       </div>
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-8">
         <div>
-          <Label htmlFor="reset-email">Adresse e-mail</Label>
+          <Label htmlFor="reset-email" className="text-golden-700 font-semibold text-base">Adresse e-mail</Label>
           <Input
             id="reset-email"
             type="email"
@@ -179,15 +184,15 @@ const ForgotPasswordForm = ({ onBack, companySettings }) => {
             onChange={(e) => setEmail(e.target.value)}
             required
             placeholder="vous@exemple.com"
-            className="mt-1"
+            className="mt-2 input-enhanced"
           />
         </div>
-        <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700" disabled={loading}>
+        <Button type="submit" className="w-full btn-golden h-12 text-base font-bold tracking-wide" disabled={loading}>
           {loading ? 'Envoi en cours...' : 'Envoyer le lien'}
         </Button>
       </form>
-      <p className="mt-6 text-center text-sm text-gray-600">
-        <button onClick={onBack} className="font-medium text-blue-600 hover:text-blue-500">
+      <p className="mt-10 text-center text-lg text-yellow-600">
+        <button onClick={onBack} className="font-bold text-yellow-700 hover:text-yellow-800 transition-colors duration-200 underline decoration-yellow-300 hover:decoration-yellow-500">
           Retour à la connexion
         </button>
       </p>
@@ -236,9 +241,14 @@ const UnifiedAuthPage = ({ companySettings }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      <div className="relative w-full max-w-md flex bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
-        <div className="w-full p-8 flex flex-col justify-center">
+    <div className="min-h-screen animated-bg flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Decorative elements */}
+      <div className="absolute top-10 left-10 w-20 h-20 bg-golden-200/30 rounded-full blur-xl floating"></div>
+      <div className="absolute bottom-20 right-20 w-32 h-32 bg-golden-300/20 rounded-full blur-2xl floating" style={{animationDelay: '2s'}}></div>
+      <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-golden-400/20 rounded-full blur-lg floating" style={{animationDelay: '4s'}}></div>
+      
+      <div className="relative w-full max-w-md flex card-enhanced rounded-3xl overflow-hidden hover-lift">
+        <div className="w-full p-10 flex flex-col justify-center">
            <AnimatePresence mode="wait">
             {showForgotPassword ? (
               <ForgotPasswordForm
