@@ -213,12 +213,12 @@ const ForgotPasswordForm = ({ onBack, companySettings }) => {
         <p className="text-golden-600 text-lg font-medium">
           Entrez votre e-mail pour recevoir un lien de réinitialisation.
         </p>
-        <h1 className="text-4xl heading-golden mb-2">Mot de passe oublié ?</h1>
-        <p className="text-golden-600 text-lg font-medium">
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-8">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-      <form onSubmit={handleSubmit} className="space-y-8">
         >
           <Label htmlFor="reset-email" className="text-golden-700 font-semibold text-base">Adresse e-mail</Label>
           <Input
@@ -231,11 +231,12 @@ const ForgotPasswordForm = ({ onBack, companySettings }) => {
             className="mt-2 input-enhanced"
           />
         </motion.div>
-        <Button type="submit" className="w-full btn-golden h-12 text-base font-bold tracking-wide" disabled={loading}>
+
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-      <p className="mt-8 text-center text-base text-golden-600">
+        >
           <Button 
             type="submit" 
             className="w-full h-12 text-base font-bold tracking-wide bg-golden-gradient" 
@@ -245,6 +246,7 @@ const ForgotPasswordForm = ({ onBack, companySettings }) => {
           </Button>
         </motion.div>
       </form>
+
       <motion.p 
         className="mt-8 text-center text-base text-golden-600"
         initial={{ opacity: 0 }}
@@ -332,8 +334,8 @@ const UnifiedAuthPage = ({ companySettings }) => {
                   companySettings={companySettings}
                 />
               )}
-        <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-golden-100 to-golden-200 text-golden-600 rounded-3xl mb-6 shadow-golden floating">
-          <Mail className="w-10 h-10" />
+            </AnimatePresence>
+          </div>
         </div>
       </motion.div>
     </div>
