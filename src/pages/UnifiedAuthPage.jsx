@@ -7,7 +7,6 @@ import { Label } from '@/components/ui/label';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { useCompanySettings } from '@/contexts/CompanySettingsContext';
 import { useToast } from '@/components/ui/use-toast';
-import PhoneInput from 'react-phone-number-input';
 
 const useDebounce = (value, delay) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
