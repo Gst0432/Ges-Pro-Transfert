@@ -213,14 +213,15 @@ const ForgotPasswordForm = ({ onBack, companySettings }) => {
         <p className="text-blue-600 text-lg font-medium">
           Entrez votre e-mail pour recevoir un lien de réinitialisation.
         </p>
-        <h1 className="text-4xl heading-golden mb-2">Mot de passe oublié ?</h1>
-        <p className="text-golden-600 text-lg font-medium">
-      <form onSubmit={handleSubmit} className="space-y-8">
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-6">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
-      <form onSubmit={handleSubmit} className="space-y-8">
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.1 }}
         >
-          <Label htmlFor="reset-email" className="text-golden-700 font-semibold text-base">Adresse e-mail</Label>
+          <Label htmlFor="reset-email" className="text-blue-700 font-semibold text-base">Adresse e-mail</Label>
           <Input
             id="reset-email"
             type="email"
@@ -228,14 +229,14 @@ const ForgotPasswordForm = ({ onBack, companySettings }) => {
             onChange={(e) => setEmail(e.target.value)}
             required
             placeholder="vous@exemple.com"
-            className="mt-2 input-enhanced"
+            className="mt-2 h-12 text-base input-enhanced"
           />
         </motion.div>
-        <Button type="submit" className="w-full btn-golden h-12 text-base font-bold tracking-wide" disabled={loading}>
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-      <p className="mt-8 text-center text-base text-golden-600">
+          transition={{ delay: 0.2 }}
         >
           <Button 
             type="submit" 
@@ -334,8 +335,8 @@ const UnifiedAuthPage = ({ companySettings }) => {
                   companySettings={companySettings}
                 />
               )}
-        <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-golden-100 to-golden-200 text-golden-600 rounded-3xl mb-6 shadow-golden floating">
-          <Mail className="w-10 h-10" />
+            </AnimatePresence>
+          </div>
         </div>
       </motion.div>
     </div>
