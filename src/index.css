@@ -1,142 +1,94 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800;900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground font-sans;
-  }
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --background: 0 0% 100%; /* white */
+  --foreground: 222.2 47.4% 11.2%; /* near black */
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 47.4% 11.2%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 47.4% 11.2%;
+  --primary: 221.2 83.2% 53.3%; /* blue */
+  --primary-foreground: 210 40% 98%; /* near white */
+  --secondary: 210 40% 96.1%; /* light gray */
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%; /* medium gray */
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+  --destructive: 0 84.2% 60.2%; /* red */
+  --destructive-foreground: 210 40% 98%;
+  --border: 214.3 31.8% 91.4%; /* light gray border */
+  --input: 214.3 31.8% 91.4%;
+  --ring: 221.2 83.2% 53.3%;
+  --radius: 0.5rem;
+
+  /* Custom Sidebar Colors for Users */
+  --sidebar-bg: 210 60% 12%; /* Dark Blue */
+  --sidebar-text: 210 40% 98%;
+  --sidebar-text-muted: 210 20% 70%;
+  --sidebar-active-user: 210 50% 25%;
+  --sidebar-hover-user: 210 50% 20%;
+  --sidebar-logo-user: 210 50% 25%;
+  --sidebar-border: 210 60% 8%;
+
+  /* Custom Sidebar Colors for Super Admins */
+  --sidebar-admin-bg: 220 15% 18%; /* Dark Slate */
+  --sidebar-admin-text: 220 10% 95%;
+  --sidebar-admin-text-muted: 220 10% 65%;
+  --sidebar-admin-active: 220 15% 30%;
+  --sidebar-admin-hover: 220 15% 25%;
+  --sidebar-admin-logo-bg: 220 15% 30%;
+  --sidebar-admin-border: 220 15% 12%;
 }
 
-@layer components {
-  /* Yellow-Blue Theme Components */
-  .yellow-blue-gradient {
-    background: linear-gradient(135deg, #fbbf24 0%, #3b82f6 100%);
-  }
-  
-  .yellow-blue-gradient-soft {
-    background: linear-gradient(135deg, #fef3c7 0%, #dbeafe 100%);
-  }
-  
-  .bg-yellow-blue-gradient {
-    background: linear-gradient(135deg, #f59e0b 0%, #2563eb 100%);
-  }
-  
-  .heading-yellow-blue {
-    background: linear-gradient(135deg, #f59e0b 0%, #2563eb 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  
-  .text-shadow-yellow-blue {
-    text-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
-  }
-  
-  .shadow-yellow-blue {
-    box-shadow: 0 4px 14px 0 rgba(245, 158, 11, 0.39);
-  }
-  
-  .shadow-yellow-blue-lg {
-    box-shadow: 0 10px 25px -3px rgba(245, 158, 11, 0.4), 0 4px 6px -2px rgba(37, 99, 235, 0.2);
-  }
-  
-  .shadow-yellow-blue-xl {
-    box-shadow: 0 20px 25px -5px rgba(245, 158, 11, 0.4), 0 10px 10px -5px rgba(37, 99, 235, 0.2);
-  }
-  
-  .btn-yellow-blue {
-    @apply bg-gradient-to-r from-yellow-500 to-blue-600 hover:from-yellow-600 hover:to-blue-700 text-white font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200;
-  }
-  
-  .input-enhanced {
-    @apply border-2 border-gray-200 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 transition-all duration-200 rounded-lg;
-  }
-  
-  .modern-card {
-    @apply bg-white/80 backdrop-blur-lg border border-white/20 shadow-2xl;
-  }
-  
-  .hover-lift {
-    @apply transition-transform duration-300 hover:-translate-y-1;
-  }
-  
-  .decorative-circle-yellow {
-    background: radial-gradient(circle, rgba(251, 191, 36, 0.3) 0%, rgba(251, 191, 36, 0.1) 70%, transparent 100%);
-    border-radius: 50%;
-  }
-  
-  .decorative-circle-blue {
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0.1) 70%, transparent 100%);
-    border-radius: 50%;
-  }
-  
-  .floating {
-    animation: float 6s ease-in-out infinite;
-  }
-  
-  .sparkle {
-    background-image: 
-      radial-gradient(2px 2px at 20px 30px, #fbbf24, transparent),
-      radial-gradient(2px 2px at 40px 70px, #3b82f6, transparent),
-      radial-gradient(1px 1px at 90px 40px, #fbbf24, transparent),
-      radial-gradient(1px 1px at 130px 80px, #3b82f6, transparent),
-      radial-gradient(2px 2px at 160px 30px, #fbbf24, transparent);
-    background-repeat: repeat;
-    background-size: 200px 100px;
-    animation: sparkle 10s linear infinite;
-  }
-  
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
-  }
-  
-  @keyframes sparkle {
-    from { transform: translateX(0); }
-    to { transform: translateX(200px); }
-  }
-  
-  /* Professional Typography */
-  .font-display {
-    font-family: 'Poppins', sans-serif;
-  }
-  
-  .font-sans {
-    font-family: 'Inter', sans-serif;
-  }
-  
-  /* Enhanced UI Components */
-  .glass-card {
-    @apply bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-xl;
-  }
-  
-  .gradient-text {
-    @apply bg-gradient-to-r from-yellow-500 to-blue-600 bg-clip-text text-transparent;
-  }
-  
-  .btn-glass {
-    @apply bg-white/20 backdrop-blur-md border border-white/30 hover:bg-white/30 transition-all duration-300;
-  }
-  
-  /* Sidebar Styles */
-  .sidebar-item {
-    @apply flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-yellow-50 hover:text-yellow-700 transition-all duration-200 group;
-  }
-  
-  .sidebar-item.active {
-    @apply bg-yellow-100 text-yellow-800 font-medium;
-  }
-  
-  .sidebar-item-admin {
-    @apply flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 group;
-  }
-  
-  .sidebar-item-admin.active {
-    @apply bg-blue-100 text-blue-800 font-medium;
-  }
+.dark {
+  /* Dark mode variables remain unchanged for now */
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--secondary));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary));
+}
+
+/* Smooth transitions */
+* {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Focus styles */
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
 }

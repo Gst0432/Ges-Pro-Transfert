@@ -1,338 +1,327 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
-import { BarChart3, ShoppingCart, Package, FileText, TrendingUp, Users, Shield, Zap, ArrowRight, CheckCircle, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Check, BarChart3, ShoppingCart, Package, FileText, Truck, Zap, Crown, Infinity, Calendar, Shield, Database } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { LandingHeader } from '@/components/layout/LandingHeader';
 import { LandingFooter } from '@/components/layout/LandingFooter';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const FeatureCard = ({ icon: Icon, title, description, delay = 0 }) => (
-  <motion.div
-    className="feature-card hover:shadow-yellow-blue-lg"
-    initial={{ opacity: 0, y: 30 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.6, delay }}
-    whileHover={{ y: -8, scale: 1.02 }}
-  >
-    <div className="icon-blue mb-4">
-      <Icon className="w-8 h-8" />
-    </div>
-    <h3 className="text-xl font-bold text-blue-800 mb-3">{title}</h3>
-    <p className="text-blue-600 leading-relaxed">{description}</p>
-  </motion.div>
-);
+const mainFeatures = [
+  { icon: ShoppingCart, title: 'Gestion des Ventes & Clients', description: 'Créez des devis, factures, et suivez vos ventes. Gérez facilement votre base de clients et les paiements à crédit.' },
+  { icon: Package, title: 'Contrôle d\'Inventaire', description: 'Gardez un œil sur vos stocks en temps réel, ajoutez de nouveaux produits et gérez vos catégories.' },
+  { icon: Truck, title: 'Fournisseurs & Achats', description: 'Gérez vos fournisseurs, créez des bons de commande et suivez la réception de vos marchandises.' },
+  { icon: FileText, title: 'Comptabilité & Dépenses', description: 'Suivez vos charges, gérez les paiements et obtenez des rapports financiers clairs pour piloter votre activité.' },
+  { icon: Zap, title: 'Vente Rapide (Point de Vente)', description: 'Encaissez rapidement les ventes au comptant avec une interface optimisée pour la vitesse, avec impression de reçus.' },
+  { icon: BarChart3, title: 'Rapports & Analyses', description: 'Visualisez vos performances avec des tableaux de bord intuitifs et des rapports détaillés sur vos revenus.' },
+];
 
-const StatCard = ({ number, label, delay = 0 }) => (
-  <motion.div
-    className="text-center"
-    initial={{ opacity: 0, scale: 0.8 }}
-    animate={{ opacity: 1, scale: 1 }}
-    transition={{ duration: 0.6, delay }}
-  >
-    <div className="text-4xl font-bold heading-yellow-blue mb-2">{number}</div>
-    <div className="text-blue-600 font-medium">{label}</div>
-  </motion.div>
-);
-
-const TestimonialCard = ({ name, role, content, rating, delay = 0 }) => (
-  <motion.div
-    className="bg-white/90 backdrop-blur-sm p-6 rounded-2xl border border-blue-200 shadow-yellow-blue"
-    initial={{ opacity: 0, y: 30 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.6, delay }}
-    whileHover={{ y: -5, shadow: "0 25px 50px -12px hsl(214 100% 50% / 0.25)" }}
-  >
-    <div className="flex items-center mb-4">
-      {[...Array(rating)].map((_, i) => (
-        <Star key={i} className="w-5 h-5 text-yellow-500 fill-current" />
-      ))}
-    </div>
-    <p className="text-gray-700 mb-4 italic">"{content}"</p>
-    <div>
-      <div className="font-semibold text-blue-800">{name}</div>
-      <div className="text-sm text-blue-600">{role}</div>
-    </div>
-  </motion.div>
-);
-
-const LandingPage = () => {
-  const navigate = useNavigate();
-
+const PricingSection = () => {
   const features = [
     {
-      icon: BarChart3,
-      title: "Tableau de bord intelligent",
-      description: "Visualisez vos métriques clés en temps réel avec des graphiques interactifs et des analyses prédictives."
+      title: "Gestion des Ventes",
+      bullets: [
+        "Suivi des ventes et des paiements",
+        "Gestion des crédits clients",
+        "Génération de reçus en un clic",
+        "Historique illimité des transactions"
+      ],
     },
     {
-      icon: ShoppingCart,
-      title: "Gestion des ventes avancée",
-      description: "Suivez vos ventes, gérez vos clients et optimisez votre processus commercial avec des outils puissants."
+      title: "Contrôle d'Inventaire",
+      bullets: [
+        "Stocks en temps réel",
+        "Alerte de niveau de stock",
+        "Variantes & codes-barres",
+        "Imports/exports CSV des produits",
+      ],
     },
     {
-      icon: Package,
-      title: "Inventaire intelligent",
-      description: "Contrôlez votre stock en temps réel avec des alertes automatiques et une gestion multi-entrepôts."
+      title: "Facturation & Comptabilité",
+      bullets: [
+        "Factures pro (TVA, remises, devis)",
+        "Suivi des dépenses & marges",
+        "Rapports financiers clairs",
+        "Export PDF/Excel des rapports",
+      ],
     },
-    {
-      icon: FileText,
-      title: "Facturation automatisée",
-      description: "Créez et envoyez des factures professionnelles en quelques clics avec un suivi des paiements intégré."
-    },
-    {
-      icon: TrendingUp,
-      title: "Analyses et rapports",
-      description: "Obtenez des insights précieux sur votre business avec des rapports détaillés et des prévisions."
-    },
-    {
-      icon: Shield,
-      title: "Sécurité enterprise",
-      description: "Vos données sont protégées avec un chiffrement de niveau bancaire et des sauvegardes automatiques."
-    }
   ];
 
-  const testimonials = [
+  const tiers = [
     {
-      name: "Marie Dubois",
-      role: "Directrice, Boutique Mode",
-      content: "GES PRO a révolutionné notre gestion. Nous avons gagné 5 heures par semaine !",
-      rating: 5
+      name: "Mensuel",
+      price: "10 000 FCFA",
+      period: "/mois",
+      icon: Calendar,
+      highlight: false,
+      cta: "Commencer maintenant",
+      extras: [
+        "1 utilisateur inclus",
+        "1000 enregistrements/mois",
+        "Support standard (48h)",
+        "Sauvegardes hebdomadaires",
+      ],
     },
     {
-      name: "Jean Martin",
-      role: "Gérant, Épicerie Bio",
-      content: "L'interface est intuitive et les rapports nous aident à prendre de meilleures décisions.",
-      rating: 5
+      name: "Annuel",
+      price: "100 000 FCFA",
+      period: "/an",
+      icon: Zap,
+      highlight: true,
+      badge: "Meilleur rapport qualité/prix",
+      cta: "Choisir l’Annuel",
+      extras: [
+        "3 utilisateurs inclus",
+        "Données illimitées",
+        "Support prioritaire (24h)",
+        "Sauvegardes quotidiennes",
+        "1 domaine personnalisé",
+      ],
     },
     {
-      name: "Sophie Laurent",
-      role: "Propriétaire, Salon de beauté",
-      content: "Le support client est exceptionnel et la plateforme est très stable.",
-      rating: 5
-    }
+      name: "À vie",
+      price: "300 000 FCFA",
+      period: "paiement unique",
+      icon: Crown,
+      highlight: false,
+      badge: "Payez une fois",
+      cta: "Obtenir l’accès à vie",
+      extras: [
+        "Utilisateurs illimités",
+        "Toutes les fonctionnalités",
+        "Support VIP (12h)",
+        "Mises à jour à vie",
+        "API & intégrations avancées",
+      ],
+    },
   ];
+
+  const container = {
+    hidden: { opacity: 0, y: 10 },
+    show: { opacity: 1, y: 0, transition: { staggerChildren: 0.06 } },
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 10 },
+    show: { opacity: 1, y: 0 },
+  };
+
+  function FeatureList() {
+    return (
+      <div className="grid gap-6 md:grid-cols-3">
+        {features.map((f) => (
+          <Card key={f.title} className="rounded-2xl">
+            <CardHeader>
+              <CardTitle className="text-lg">{f.title}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-2">
+                {f.bullets.map((b) => (
+                  <li key={b} className="flex items-start gap-2 text-sm">
+                    <Check className="mt-0.5 h-4 w-4" />
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    );
+  }
+
+  function TierCard({ tier }) {
+    const Icon = tier.icon;
+    return (
+      <motion.div variants={item}>
+        <Card className={`relative rounded-2xl ${tier.highlight ? "ring-2 ring-black" : ""}`}>
+          {tier.badge && (
+            <div className="absolute -top-3 left-4 rounded-full px-3 py-1 text-xs bg-black text-white">
+              {tier.badge}
+            </div>
+          )}
+          <CardHeader className="space-y-2">
+            <div className="flex items-center gap-2">
+              <Icon className="h-5 w-5" />
+              <CardTitle className="text-xl">{tier.name}</CardTitle>
+            </div>
+            <div className="flex items-baseline gap-2">
+              <span className="text-3xl font-semibold">{tier.price}</span>
+              <span className="text-sm text-muted-foreground">{tier.period}</span>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Tout ce dont vous avez besoin pour réussir. Concentrez-vous sur votre croissance, nous nous occupons du reste.
+            </p>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <ul className="space-y-2">
+              {tier.extras.map((x) => (
+                <li key={x} className="flex items-start gap-2 text-sm">
+                  <Check className="mt-0.5 h-4 w-4" />
+                  <span>{x}</span>
+                </li>
+              ))}
+            </ul>
+            <Button className="w-full rounded-2xl h-11">{tier.cta}</Button>
+            <div className="flex items-center gap-3 text-xs text-muted-foreground">
+              <div className="flex items-center gap-1"><Shield className="h-4 w-4"/>Sécurisé</div>
+              <div className="flex items-center gap-1"><Database className="h-4 w-4"/>Sauvegardé</div>
+              <div className="flex items-center gap-1"><Infinity className="h-4 w-4"/>Évolutif</div>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
+    );
+  }
 
   return (
-    <div className="min-h-screen yellow-blue-gradient-soft">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 sparkle pointer-events-none"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="mb-8"
-            >
-              <div className="inline-flex items-center justify-center w-24 h-24 bg-yellow-blue-gradient text-white rounded-3xl mb-8 shadow-yellow-blue-lg floating">
-                <BarChart3 className="w-12 h-12" />
+    <div className="mx-auto max-w-6xl p-6 md:p-10 space-y-10">
+      <motion.div initial="hidden" animate="show" variants={container} className="space-y-6">
+        <motion.div variants={item} className="space-y-3 text-center">
+          <h1 className="text-3xl md:text-4xl font-semibold">Plans & Tarifs</h1>
+          <p className="text-sm md:text-base text-muted-foreground max-w-2xl mx-auto">
+            Choisissez l’option qui vous convient : <strong>10 000 FCFA/mois</strong>, <strong>100 000 FCFA/an</strong>, ou <strong>300 000 FCFA à vie</strong>.
+          </p>
+        </motion.div>
+
+        <motion.div variants={item} className="grid gap-6 md:grid-cols-3">
+          {tiers.map((t) => (
+            <TierCard key={t.name} tier={t} />
+          ))}
+        </motion.div>
+
+        <motion.div variants={container} className="space-y-4">
+          <h2 className="text-2xl font-semibold">Fonctionnalités incluses</h2>
+          <FeatureList />
+        </motion.div>
+
+        <motion.div variants={item} className="grid gap-6 md:grid-cols-3">
+          <Card className="rounded-2xl">
+            <CardHeader>
+              <CardTitle className="text-lg">Questions fréquentes</CardTitle>
+            </CardHeader>
+            <CardContent className="text-sm space-y-3">
+              <div>
+                <p className="font-medium">Puis-je changer de plan plus tard ?</p>
+                <p>Oui, vous pouvez passer au plan supérieur à tout moment. La facturation est ajustée au prorata.</p>
               </div>
-              <h1 className="text-6xl md:text-7xl font-display font-bold heading-yellow-blue mb-6 text-shadow-yellow-blue">
-                GES PRO
-              </h1>
-              <p className="text-xl md:text-2xl text-blue-700 font-medium mb-8 max-w-3xl mx-auto leading-relaxed">
-                La solution SaaS complète pour transformer votre gestion commerciale et booster votre croissance
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
-            >
-              <Button 
-                size="lg" 
-                className="btn-yellow-blue text-lg px-8 py-4 hover:shadow-yellow-blue-xl"
-                onClick={() => navigate('/auth')}
-              >
-                Commencer gratuitement
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
-              <Button 
-                variant="outline" 
-                size="lg" 
-                className="border-2 border-blue-500 text-blue-600 hover:bg-blue-500 hover:text-white text-lg px-8 py-4"
-              >
-                Voir la démo
-              </Button>
-            </motion.div>
-
-            {/* Stats */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-2xl mx-auto"
-            >
-              <StatCard number="500+" label="Entreprises actives" delay={0.1} />
-              <StatCard number="99.9%" label="Temps de disponibilité" delay={0.2} />
-              <StatCard number="24/7" label="Support client" delay={0.3} />
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="py-20 bg-white/50 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-display font-bold heading-yellow-blue mb-6">
-              Fonctionnalités puissantes
-            </h2>
-            <p className="text-xl text-blue-600 max-w-3xl mx-auto">
-              Découvrez tous les outils dont vous avez besoin pour gérer efficacement votre entreprise
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <FeatureCard
-                key={feature.title}
-                icon={feature.icon}
-                title={feature.title}
-                description={feature.description}
-                delay={index * 0.1}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Benefits Section */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="text-4xl font-display font-bold heading-yellow-blue mb-6">
-                Pourquoi choisir GES PRO ?
-              </h2>
-              <div className="space-y-6">
-                {[
-                  "Interface intuitive et moderne",
-                  "Synchronisation en temps réel",
-                  "Rapports détaillés et personnalisables",
-                  "Support client réactif",
-                  "Mises à jour automatiques",
-                  "Sécurité de niveau entreprise"
-                ].map((benefit, index) => (
-                  <motion.div
-                    key={benefit}
-                    className="flex items-center space-x-3"
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                  >
-                    <div className="icon-yellow">
-                      <CheckCircle className="w-5 h-5" />
-                    </div>
-                    <span className="text-lg text-blue-700 font-medium">{benefit}</span>
-                  </motion.div>
-                ))}
+              <div>
+                <p className="font-medium">Les fonctionnalités diffèrent-elles selon les plans ?</p>
+                <p>Tous les plans incluent les modules Ventes, Inventaire et Facturation. Les plans supérieurs ajoutent davantage d’utilisateurs, de support et d’avantages.</p>
               </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="relative"
-            >
-              <div className="bg-white/90 backdrop-blur-sm p-8 rounded-3xl border border-blue-200 shadow-yellow-blue-lg">
-                <div className="text-center">
-                  <div className="text-5xl font-bold heading-yellow-blue mb-4">+150%</div>
-                  <div className="text-xl text-blue-700 font-semibold mb-2">Croissance moyenne</div>
-                  <div className="text-blue-600">des entreprises utilisant GES PRO</div>
-                </div>
+              <div>
+                <p className="font-medium">Proposez-vous une démo ?</p>
+                <p>Oui, une démo guidée est disponible sur demande afin d’explorer les fonctionnalités clés.</p>
               </div>
+            </CardContent>
+          </Card>
+
+          <Card className="rounded-2xl">
+            <CardHeader>
+              <CardTitle className="text-lg">Conformité & Sécurité</CardTitle>
+            </CardHeader>
+            <CardContent className="text-sm space-y-2">
+              <p>Chiffrement des données en transit et au repos.</p>
+              <p>Rôles & permissions pour contrôler l’accès.</p>
+              <p>Journal d’audit et sauvegardes automatiques.</p>
+            </CardContent>
+          </Card>
+
+          <Card className="rounded-2xl">
+            <CardHeader>
+              <CardTitle className="text-lg">Ce qui est compris</CardTitle>
+            </CardHeader>
+            <CardContent className="text-sm space-y-2">
+              <p>Onboarding en 24–48h</p>
+              <p>Modèles de factures & reçus prêts à l’emploi</p>
+              <p>Export PDF/Excel illimité</p>
+              <p>Assistance par e‑mail</p>
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        <motion.div variants={item} className="text-center">
+          <Button className="h-12 px-8 rounded-2xl">Créer mon compte</Button>
+          <p className="mt-2 text-xs text-muted-foreground">Aucun engagement. Annulation à tout moment.</p>
+        </motion.div>
+      </motion.div>
+    </div>
+  );
+}
+
+export const LandingPage = () => {
+  return (
+    <div className="bg-white">
+      <LandingHeader />
+      <main>
+        {/* Hero Section */}
+        <section className="relative pt-20 pb-24 sm:pt-32 sm:pb-32 overflow-hidden">
+          <div className="absolute inset-0 -z-10 bg-gray-50">
+            <div className="absolute inset-0 bg-[radial-gradient(40%_40%_at_50%_10%,#e0e7ff_0%,transparent_100%)]"></div>
+          </div>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7 }}
+              className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 tracking-tight"
+            >
+              La gestion commerciale, <span className="text-blue-600">simplifiée</span>.
+            </motion.h1>
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className="mt-6 max-w-2xl mx-auto text-lg sm:text-xl text-gray-600"
+            >
+              GES PRO est la solution tout-en-un pour piloter vos ventes, votre inventaire et votre facturation avec une facilité déconcertante.
+            </motion.p>
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.4 }}
+              className="mt-10 flex justify-center gap-4"
+            >
+              <Button asChild size="lg" className="text-lg">
+                <Link to="/auth">Commencer gratuitement</Link>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="text-lg">
+                <a href="#pricing">Voir les tarifs</a>
+              </Button>
             </motion.div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Testimonials Section */}
-      <section className="py-20 bg-white/50 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-display font-bold heading-yellow-blue mb-6">
-              Ce que disent nos clients
-            </h2>
-            <p className="text-xl text-blue-600 max-w-3xl mx-auto">
-              Rejoignez des centaines d'entrepreneurs qui ont transformé leur business avec GES PRO
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <TestimonialCard
-                key={testimonial.name}
-                {...testimonial}
-                delay={index * 0.2}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="bg-white/90 backdrop-blur-sm p-12 rounded-3xl border border-blue-200 shadow-yellow-blue-lg"
-          >
-            <h2 className="text-4xl md:text-5xl font-display font-bold heading-yellow-blue mb-6">
-              Prêt à transformer votre entreprise ?
-            </h2>
-            <p className="text-xl text-blue-600 mb-8 max-w-2xl mx-auto">
-              Rejoignez des milliers d'entrepreneurs qui ont déjà choisi GES PRO pour optimiser leur gestion commerciale
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                size="lg" 
-                className="btn-yellow-blue text-lg px-8 py-4 hover:shadow-yellow-blue-xl"
-                onClick={() => navigate('/auth')}
-              >
-                Commencer maintenant
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
-              <Button 
-                variant="outline" 
-                size="lg" 
-                className="border-2 border-yellow-500 text-yellow-600 hover:bg-yellow-500 hover:text-white text-lg px-8 py-4"
-              >
-                Planifier une démo
-              </Button>
+        {/* Features Section */}
+        <section className="bg-white py-20 sm:py-24">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center">
+              <h2 className="text-3xl font-extrabold text-gray-900">Tout ce dont vous avez besoin pour réussir</h2>
+              <p className="mt-4 text-lg text-gray-600">Concentrez-vous sur votre croissance, nous nous occupons du reste.</p>
             </div>
-            <p className="text-sm text-blue-500 mt-6">
-              ✨ Essai gratuit de 14 jours • Aucune carte de crédit requise • Support inclus
-            </p>
-          </motion.div>
-        </div>
-      </section>
+            <div className="mt-16 grid gap-8 md:grid-cols-3">
+              {mainFeatures.map((feature, index) => (
+                <motion.div
+                  key={feature.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.5 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="p-8 bg-gray-50/50 rounded-2xl shadow-sm border border-gray-100"
+                >
+                  <div className="inline-flex items-center justify-center h-12 w-12 rounded-xl bg-blue-100 text-blue-600">
+                    <feature.icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="mt-6 text-xl font-bold text-gray-900">{feature.title}</h3>
+                  <p className="mt-2 text-gray-600">{feature.description}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
 
+        <PricingSection />
+      </main>
       <LandingFooter />
     </div>
   );
