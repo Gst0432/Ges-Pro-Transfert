@@ -214,11 +214,11 @@ const ForgotPasswordForm = ({ onBack, companySettings }) => {
           Entrez votre e-mail pour recevoir un lien de réinitialisation.
         </p>
       </div>
-
-      <form onSubmit={handleSubmit} className="space-y-8">
+      <form onSubmit={handleSubmit} className="space-y-6">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.1 }}
         >
           <Label htmlFor="reset-email" className="text-golden-700 font-semibold text-base">Adresse e-mail</Label>
           <Input
@@ -228,10 +228,9 @@ const ForgotPasswordForm = ({ onBack, companySettings }) => {
             onChange={(e) => setEmail(e.target.value)}
             required
             placeholder="vous@exemple.com"
-            className="mt-2 input-enhanced"
+            className="mt-2 h-12 text-base"
           />
         </motion.div>
-
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -246,7 +245,6 @@ const ForgotPasswordForm = ({ onBack, companySettings }) => {
           </Button>
         </motion.div>
       </form>
-
       <motion.p 
         className="mt-8 text-center text-base text-golden-600"
         initial={{ opacity: 0 }}
@@ -301,9 +299,7 @@ const UnifiedAuthPage = ({ companySettings }) => {
   return (
     <div className="min-h-screen bg-golden-gradient-soft flex items-center justify-center p-4 relative overflow-hidden">
       {/* Decorative floating elements */}
-      <div className="absolute top-10 left-10 w-20 h-20 bg-golden-200/30 rounded-full blur-xl floating"></div>
       <div className="absolute bottom-20 right-20 w-32 h-32 bg-golden-300/20 rounded-full blur-2xl floating" style={{animationDelay: '2s'}}></div>
-      <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-golden-400/20 rounded-full blur-lg floating" style={{animationDelay: '4s'}}></div>
       <div className="absolute top-1/4 right-1/3 w-24 h-24 bg-golden-500/10 rounded-full blur-2xl floating" style={{animationDelay: '1s'}}></div>
       
       {/* Sparkle effect */}
@@ -328,8 +324,8 @@ const UnifiedAuthPage = ({ companySettings }) => {
                 <AuthForm
                   key="auth"
                   isLogin={isLogin}
-                  onSubmit={isLogin ? handleSignIn : handleSignUp}
                   onToggle={() => setIsLogin(!isLogin)}
+                  onSubmit={isLogin ? handleSignIn : handleSignUp}
                   onForgotPasswordClick={() => setShowForgotPassword(true)}
                   companySettings={companySettings}
                 />
