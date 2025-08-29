@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { useCompanySettings } from '@/contexts/CompanySettingsContext';
 import { useToast } from '@/components/ui/use-toast';
+import PhoneInput from 'react-phone-number-input';
 
 const useDebounce = (value, delay) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -214,11 +215,10 @@ const ForgotPasswordForm = ({ onBack, companySettings }) => {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-8">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.1 }}
         >
           <Label htmlFor="reset-email" className="text-blue-700 font-semibold text-base">Adresse e-mail</Label>
           <Input
@@ -228,7 +228,7 @@ const ForgotPasswordForm = ({ onBack, companySettings }) => {
             onChange={(e) => setEmail(e.target.value)}
             required
             placeholder="vous@exemple.com"
-            className="mt-2 h-12 text-base input-enhanced"
+            className="mt-2 input-enhanced"
           />
         </motion.div>
 
