@@ -1,341 +1,325 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { BarChart3, Mail, Loader2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { motion } from 'framer-motion';
+import { supabase } from '@/lib/customSupabaseClient';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
-import { useCompanySettings } from '@/contexts/CompanySettingsContext';
 import { useToast } from '@/components/ui/use-toast';
-import PhoneInput from 'react-phone-number-input';
+import { Button } from '@/components/ui/button';
+import { 
+  BarChart3, ShoppingCart, Package, DollarSign, TrendingUp, 
+  Users, AlertTriangle, Plus, Zap, Loader2 
+} from 'lucide-react';
+import { NewSaleWizard } from '@/components/wizards/new-sale/NewSaleWizard';
+import { ProductWizard } from '@/components/wizards/ProductWizard';
+import { AdminPromoteTool } from '@/components/AdminPromoteTool';
 
-const useDebounce = (value, delay) => {
-  const [debouncedValue, setDebouncedValue] = useState(value);
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value);
-    }, delay);
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [value, delay]);
-  return debouncedValue;
-};
-
-const AuthForm = ({ isLogin, onSubmit, onToggle, onForgotPasswordClick, companySettings }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [phone, setPhone] = useState('');
-  const [loading, setLoading] = useState(false);
-  const { fetchSettingsForLogin } = useCompanySettings();
-  const debouncedEmail = useDebounce(email, 500);
-
-  useEffect(() => {
-    if (isLogin && debouncedEmail) {
-      fetchSettingsForLogin(debouncedEmail);
-    }
-  }, [debouncedEmail, isLogin, fetchSettingsForLogin]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    if (isLogin) {
-      await onSubmit(email, password);
-    } else {
-      await onSubmit(email, password, phone);
-    }
-    setLoading(false);
-  };
-
-  return (
-    <motion.div
-      key={isLogin ? 'login' : 'signup'}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.3 }}
-      className="w-full"
-    >
-      <div className="text-center mb-8">
-        <motion.div 
-          className="inline-flex items-center justify-center w-20 h-20 bg-golden-gradient text-white rounded-3xl mb-6 shadow-golden-lg overflow-hidden floating"
-          whileHover={{ scale: 1.05, rotate: 5 }}
-          transition={{ type: "spring", stiffness: 300 }}
-        >
-          {companySettings?.logo_url ? (
-            <img src={companySettings.logo_url} alt="Company Logo" className="h-full w-full object-contain" />
-          ) : (
-            <BarChart3 className="w-10 h-10" />
-          )}
-        </motion.div>
-        <h1 className="text-4xl font-display font-bold text-golden-gradient mb-2 text-shadow-golden">
-          {companySettings?.company_name || 'GES PRO'}
-        </h1>
-        <p className="text-golden-600 text-lg font-medium">
-          {isLogin ? 'Connectez-vous à votre compte' : 'Créez un nouveau compte'}
-        </p>
+const StatCard = ({ title, value, change, icon: Icon, color, bgColor, loading, onClick }) => (
+  <motion.div
+    className="stat-card-yellow-blue cursor-pointer interactive-yellow-blue"
+    whileHover={{ y: -8, scale: 1.02 }}
+    whileTap={{ scale: 0.98 }}
+    onClick={onClick}
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5 }}
+  >
+    <div className="flex items-center justify-between mb-4">
+      <div className={`w-12 h-12 ${bgColor} rounded-xl flex items-center justify-center shadow-lg`}>
+        <Icon className={`w-6 h-6 ${color}`} />
       </div>
+      {loading ? null : (
+        change && <span className={`text-sm font-medium ${parseFloat(change) >= 0 ? 'text-green-600' : 'text-red-600'}`}>{change}</span>
+      )}
+    </div>
+    <h3 className="text-blue-600 text-sm font-medium mb-1">{title}</h3>
+    {loading ? <Loader2 className="w-6 h-6 animate-spin text-blue-400 mt-1" /> : <p className="text-2xl font-bold text-blue-800">{value}</p>}
+  </motion.div>
+);
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.1 }}
-        >
-          <Label htmlFor="email" className="text-golden-700 font-semibold text-base">Adresse e-mail</Label>
-          <Input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            placeholder="vous@exemple.com"
-            className="mt-2 h-12 text-base"
-          />
-        </motion.div>
+const QuickActionCard = ({ title, description, icon: Icon, color, bgColor, onClick, disabled = false }) => (
+  <motion.div
+    className={`feature-card cursor-pointer ${disabled ? 'opacity-50 cursor-not-allowed' : 'interactive-yellow-blue'}`}
+    whileHover={disabled ? {} : { y: -8, scale: 1.02 }}
+    whileTap={disabled ? {} : { scale: 0.98 }}
+    onClick={disabled ? undefined : onClick}
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5 }}
+  >
+    <div className={`${bgColor} w-12 h-12 rounded-xl flex items-center justify-center mb-4 shadow-lg`}>
+      <Icon className={`w-6 h-6 ${color}`} />
+    </div>
+    <h3 className="text-lg font-bold text-blue-800 mb-2">{title}</h3>
+    <p className="text-blue-600 text-sm">{description}</p>
+  </motion.div>
+);
 
-        {!isLogin && (
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            <Label htmlFor="phone" className="text-golden-700 font-semibold text-base">Numéro de téléphone</Label>
-            <div className="mt-2">
-              <PhoneInput
-                id="phone"
-                placeholder="Entrez le numéro de téléphone"
-                value={phone}
-                onChange={setPhone}
-                defaultCountry="FR"
-                className="h-12"
-              />
-            </div>
-          </motion.div>
-        )}
-
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: isLogin ? 0.2 : 0.3 }}
-        >
-          <div className="flex justify-between items-center">
-            <Label htmlFor="password" className="text-golden-700 font-semibold text-base">Mot de passe</Label>
-            {isLogin && (
-              <button
-                type="button"
-                onClick={onForgotPasswordClick}
-                className="text-sm font-semibold text-golden-600 hover:text-golden-700 transition-colors duration-200 hover:underline"
-              >
-                Mot de passe oublié ?
-              </button>
-            )}
-          </div>
-          <Input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            placeholder="••••••••"
-            className="mt-2 h-12 text-base"
-          />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: isLogin ? 0.3 : 0.4 }}
-        >
-          <Button 
-            type="submit" 
-            className="w-full h-12 text-base font-bold tracking-wide bg-golden-gradient hover:shadow-golden-xl transition-all duration-300" 
-            disabled={loading}
-          >
-            {loading ? (
-              <div className="flex items-center">
-                <Loader2 className="w-5 h-5 animate-spin mr-2" />
-                Chargement...
-              </div>
-            ) : (isLogin ? 'Se connecter' : 'S\'inscrire')}
-          </Button>
-        </motion.div>
-      </form>
-
-      <motion.p 
-        className="mt-8 text-center text-base text-golden-600"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-      >
-        {isLogin ? 'Pas encore de compte ?' : 'Déjà un compte ?'}{' '}
-        <button 
-          onClick={onToggle} 
-          className="font-bold text-golden-700 hover:text-golden-800 transition-colors duration-200 underline decoration-golden-300 hover:decoration-golden-500"
-        >
-          {isLogin ? 'Inscrivez-vous' : 'Connectez-vous'}
-        </button>
-      </motion.p>
-    </motion.div>
-  );
-};
-
-const ForgotPasswordForm = ({ onBack, companySettings }) => {
-  const [email, setEmail] = useState('');
-  const [loading, setLoading] = useState(false);
-  const { sendPasswordResetEmail } = useAuth();
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    await sendPasswordResetEmail(email);
-    setLoading(false);
-  };
-
-  return (
-    <motion.div
-      key="forgot-password"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.3 }}
-      className="w-full"
-    >
-      <div className="text-center mb-8">
-        <motion.div 
-          className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-golden-100 to-golden-200 text-golden-600 rounded-3xl mb-6 shadow-golden floating"
-          whileHover={{ scale: 1.05 }}
-          transition={{ type: "spring", stiffness: 300 }}
-        >
-          <Mail className="w-10 h-10" />
-        </motion.div>
-        <h1 className="text-4xl font-display font-bold text-golden-gradient mb-2">Mot de passe oublié ?</h1>
-        <p className="text-golden-600 text-lg font-medium">
-          Entrez votre e-mail pour recevoir un lien de réinitialisation.
-        </p>
+const RecentActivityItem = ({ type, description, time, amount }) => (
+  <motion.div
+    className="flex items-center justify-between p-4 bg-white/70 backdrop-blur-sm rounded-xl border border-blue-200 hover:shadow-yellow-blue transition-all duration-300"
+    whileHover={{ x: 4 }}
+  >
+    <div className="flex items-center space-x-3">
+      <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+      <div>
+        <p className="font-medium text-blue-800">{description}</p>
+        <p className="text-xs text-blue-500">{time}</p>
       </div>
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.1 }}
-        >
-          <Label htmlFor="reset-email" className="text-golden-700 font-semibold text-base">Adresse e-mail</Label>
-          <Input
-            id="reset-email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            placeholder="vous@exemple.com"
-            className="mt-2 h-12 text-base"
-          />
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
-          <Button 
-            type="submit" 
-            className="w-full h-12 text-base font-bold tracking-wide bg-golden-gradient" 
-            disabled={loading}
-          >
-            {loading ? 'Envoi en cours...' : 'Envoyer le lien'}
-          </Button>
-        </motion.div>
-      </form>
-      <motion.p 
-        className="mt-8 text-center text-base text-golden-600"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.3 }}
-      >
-        <button 
-          onClick={onBack} 
-          className="font-bold text-golden-700 hover:text-golden-800 transition-colors duration-200 underline decoration-golden-300 hover:decoration-golden-500"
-        >
-          Retour à la connexion
-        </button>
-      </motion.p>
-    </motion.div>
-  );
-};
+    </div>
+    {amount && <span className="font-bold text-blue-700">{amount}</span>}
+  </motion.div>
+);
 
-const UnifiedAuthPage = ({ companySettings }) => {
-  const [isLogin, setIsLogin] = useState(true);
-  const [showForgotPassword, setShowForgotPassword] = useState(false);
-  const { signIn, signUp } = useAuth();
+const DashboardPage = ({ handleActionClick }) => {
+  const { user, isSuperAdmin } = useAuth();
   const { toast } = useToast();
+  const [stats, setStats] = useState({
+    totalSales: { value: 0, change: '+0%' },
+    totalProducts: { value: 0, change: '+0%' },
+    lowStockItems: { value: 0 },
+    pendingOrders: { value: 0 },
+    monthlyRevenue: { value: 0, change: '+0%' },
+    totalClients: { value: 0, change: '+0%' }
+  });
+  const [loading, setLoading] = useState(true);
+  const [recentActivity, setRecentActivity] = useState([]);
+  const [isNewSaleOpen, setIsNewSaleOpen] = useState(false);
+  const [isNewProductOpen, setIsNewProductOpen] = useState(false);
 
-  const handleSignIn = async (email, password) => {
-    const { error } = await signIn(email, password);
-    if (error) {
-       toast({
-        variant: "destructive",
-        title: "La connexion a échoué",
-        description: error.message,
+  const fetchDashboardData = useCallback(async () => {
+    if (!user) return;
+    setLoading(true);
+
+    try {
+      const [salesData, productsData, clientsData, ordersData] = await Promise.all([
+        supabase.from('sales').select('total_amount, sale_date').eq('user_id', user.id),
+        supabase.from('products').select('quantity').eq('user_id', user.id),
+        supabase.from('clients').select('id').eq('user_id', user.id),
+        supabase.from('purchase_orders').select('status').eq('user_id', user.id).neq('status', 'Reçu')
+      ]);
+
+      const totalSales = salesData.data?.length || 0;
+      const totalProducts = productsData.data?.length || 0;
+      const lowStockItems = productsData.data?.filter(p => p.quantity < 5).length || 0;
+      const pendingOrders = ordersData.data?.length || 0;
+      const totalClients = clientsData.data?.length || 0;
+
+      const currentMonth = new Date().getMonth();
+      const currentYear = new Date().getFullYear();
+      const monthlyRevenue = salesData.data?.filter(sale => {
+        const saleDate = new Date(sale.sale_date);
+        return saleDate.getMonth() === currentMonth && saleDate.getFullYear() === currentYear;
+      }).reduce((sum, sale) => sum + sale.total_amount, 0) || 0;
+
+      setStats({
+        totalSales: { value: totalSales, change: '+12%' },
+        totalProducts: { value: totalProducts, change: '+5%' },
+        lowStockItems: { value: lowStockItems },
+        pendingOrders: { value: pendingOrders },
+        monthlyRevenue: { value: `${monthlyRevenue.toLocaleString('fr-FR')} FCFA`, change: '+18%' },
+        totalClients: { value: totalClients, change: '+8%' }
       });
+
+      // Mock recent activity
+      setRecentActivity([
+        { type: 'sale', description: 'Nouvelle vente enregistrée', time: 'Il y a 2h', amount: '25,000 FCFA' },
+        { type: 'product', description: 'Stock mis à jour', time: 'Il y a 4h' },
+        { type: 'client', description: 'Nouveau client ajouté', time: 'Il y a 6h' },
+      ]);
+
+    } catch (error) {
+      toast({ variant: 'destructive', title: 'Erreur', description: 'Impossible de charger les données du tableau de bord.' });
+    } finally {
+      setLoading(false);
     }
+  }, [user, toast]);
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, [fetchDashboardData]);
+
+  const handleDataRefresh = () => {
+    fetchDashboardData();
   };
 
-  const handleSignUp = async (email, password, phone) => {
-    const { error } = await signUp(email, password, { phone: phone }); 
-    if (!error) {
-      toast({
-        title: "Compte créé avec succès !",
-        description: "Veuillez vérifier vos e-mails pour confirmer votre inscription, puis connectez-vous.",
-      });
-      setIsLogin(true);
-    } else {
-      toast({
-        variant: "destructive",
-        title: "L'inscription a échoué",
-        description: error.message,
-      });
+  const quickActions = [
+    {
+      title: "Nouvelle Vente",
+      description: "Enregistrer une vente rapidement",
+      icon: ShoppingCart,
+      color: "text-white",
+      bgColor: "bg-blue-500",
+      onClick: () => setIsNewSaleOpen(true)
+    },
+    {
+      title: "Ajouter Produit",
+      description: "Ajouter un nouveau produit",
+      icon: Package,
+      color: "text-white",
+      bgColor: "bg-yellow-500",
+      onClick: () => setIsNewProductOpen(true)
+    },
+    {
+      title: "Vente Rapide",
+      description: "Mode vente express",
+      icon: Zap,
+      color: "text-white",
+      bgColor: "bg-gradient-to-r from-yellow-500 to-blue-500",
+      onClick: () => window.location.href = '/quick-sale'
     }
-  };
+  ];
 
   return (
-    <div className="min-h-screen bg-golden-gradient-soft flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Decorative floating elements */}
-      <div className="absolute bottom-20 right-20 w-32 h-32 bg-golden-300/20 rounded-full blur-2xl floating" style={{animationDelay: '2s'}}></div>
-      <div className="absolute top-1/4 right-1/3 w-24 h-24 bg-golden-500/10 rounded-full blur-2xl floating" style={{animationDelay: '1s'}}></div>
-      
-      {/* Sparkle effect */}
-      <div className="absolute inset-0 sparkle pointer-events-none"></div>
-      
-      <motion.div 
-        className="relative w-full max-w-md"
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5, type: "spring", stiffness: 100 }}
-      >
-        <div className="modern-card rounded-3xl overflow-hidden hover-lift">
-          <div className="w-full p-10 flex flex-col justify-center">
-            <AnimatePresence mode="wait">
-              {showForgotPassword ? (
-                <ForgotPasswordForm
-                  key="forgot"
-                  onBack={() => setShowForgotPassword(false)}
-                  companySettings={companySettings}
-                />
-              ) : (
-                <AuthForm
-                  key="auth"
-                  isLogin={isLogin}
-                  onToggle={() => setIsLogin(!isLogin)}
-                  onSubmit={isLogin ? handleSignIn : handleSignUp}
-                  onForgotPasswordClick={() => setShowForgotPassword(true)}
-                  companySettings={companySettings}
-                />
-              )}
-            </AnimatePresence>
+    <div className="space-y-8 page-transition">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h1 className="text-4xl font-display font-bold heading-yellow-blue">
+            Tableau de bord
+          </h1>
+          <p className="text-blue-600 text-lg mt-2">
+            Bienvenue, {user?.email?.split('@')[0]} ! Voici un aperçu de votre activité.
+          </p>
+        </motion.div>
+        
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <Button 
+            onClick={handleDataRefresh} 
+            disabled={loading}
+            className="btn-yellow-blue"
+          >
+            {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
+            Actualiser
+          </Button>
+        </motion.div>
+      </div>
+
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
+        <StatCard
+          title="Ventes totales"
+          value={stats.totalSales.value}
+          change={stats.totalSales.change}
+          icon={ShoppingCart}
+          color="text-blue-600"
+          bgColor="bg-blue-100"
+          loading={loading}
+          onClick={() => window.location.href = '/sales'}
+        />
+        <StatCard
+          title="Produits"
+          value={stats.totalProducts.value}
+          change={stats.totalProducts.change}
+          icon={Package}
+          color="text-yellow-600"
+          bgColor="bg-yellow-100"
+          loading={loading}
+          onClick={() => window.location.href = '/inventory'}
+        />
+        <StatCard
+          title="Stock faible"
+          value={stats.lowStockItems.value}
+          icon={AlertTriangle}
+          color="text-red-600"
+          bgColor="bg-red-100"
+          loading={loading}
+          onClick={() => window.location.href = '/inventory'}
+        />
+        <StatCard
+          title="Commandes en cours"
+          value={stats.pendingOrders.value}
+          icon={TrendingUp}
+          color="text-purple-600"
+          bgColor="bg-purple-100"
+          loading={loading}
+          onClick={() => window.location.href = '/purchase-orders'}
+        />
+        <StatCard
+          title="Revenus du mois"
+          value={stats.monthlyRevenue.value}
+          change={stats.monthlyRevenue.change}
+          icon={DollarSign}
+          color="text-green-600"
+          bgColor="bg-green-100"
+          loading={loading}
+          onClick={() => window.location.href = '/reports'}
+        />
+        <StatCard
+          title="Clients"
+          value={stats.totalClients.value}
+          change={stats.totalClients.change}
+          icon={Users}
+          color="text-indigo-600"
+          bgColor="bg-indigo-100"
+          loading={loading}
+        />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Quick Actions */}
+        <motion.div
+          className="lg:col-span-2"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 border border-blue-200 shadow-yellow-blue">
+            <h3 className="text-xl font-bold text-blue-800 mb-6">Actions rapides</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {quickActions.map((action, index) => (
+                <QuickActionCard key={action.title} {...action} />
+              ))}
+            </div>
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
+
+        {/* Recent Activity */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
+          <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 border border-blue-200 shadow-yellow-blue">
+            <h3 className="text-xl font-bold text-blue-800 mb-6">Activité récente</h3>
+            <div className="space-y-3">
+              {recentActivity.map((activity, index) => (
+                <RecentActivityItem key={index} {...activity} />
+              ))}
+            </div>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Admin Tool - Only show for development */}
+      {process.env.NODE_ENV === 'development' && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+        >
+          <AdminPromoteTool />
+        </motion.div>
+      )}
+
+      {/* Modals */}
+      <NewSaleWizard 
+        isOpen={isNewSaleOpen} 
+        onOpenChange={setIsNewSaleOpen} 
+        onSaleSaved={handleDataRefresh}
+      />
+      <ProductWizard 
+        isOpen={isNewProductOpen} 
+        onOpenChange={setIsNewProductOpen} 
+        onProductSaved={handleDataRefresh}
+      />
     </div>
   );
 };
 
-export default UnifiedAuthPage;
+export default DashboardPage;

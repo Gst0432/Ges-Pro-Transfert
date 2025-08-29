@@ -58,7 +58,7 @@ const AuthForm = ({ isLogin, onSubmit, onToggle, onForgotPasswordClick, companyS
     >
       <div className="text-center mb-8">
         <motion.div 
-          className="inline-flex items-center justify-center w-20 h-20 bg-golden-gradient text-white rounded-3xl mb-6 shadow-golden-lg overflow-hidden floating"
+          className="inline-flex items-center justify-center w-20 h-20 bg-yellow-blue-gradient text-white rounded-3xl mb-6 shadow-yellow-blue-lg overflow-hidden floating"
           whileHover={{ scale: 1.05, rotate: 5 }}
           transition={{ type: "spring", stiffness: 300 }}
         >
@@ -68,10 +68,10 @@ const AuthForm = ({ isLogin, onSubmit, onToggle, onForgotPasswordClick, companyS
             <BarChart3 className="w-10 h-10" />
           )}
         </motion.div>
-        <h1 className="text-4xl font-display font-bold text-golden-gradient mb-2 text-shadow-golden">
+        <h1 className="text-4xl font-display font-bold heading-yellow-blue mb-2 text-shadow-yellow-blue">
           {companySettings?.company_name || 'GES PRO'}
         </h1>
-        <p className="text-golden-600 text-lg font-medium">
+        <p className="text-blue-600 text-lg font-medium">
           {isLogin ? 'Connectez-vous à votre compte' : 'Créez un nouveau compte'}
         </p>
       </div>
@@ -82,7 +82,7 @@ const AuthForm = ({ isLogin, onSubmit, onToggle, onForgotPasswordClick, companyS
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.1 }}
         >
-          <Label htmlFor="email" className="text-golden-700 font-semibold text-base">Adresse e-mail</Label>
+          <Label htmlFor="email" className="text-blue-700 font-semibold text-base">Adresse e-mail</Label>
           <Input
             id="email"
             type="email"
@@ -90,7 +90,7 @@ const AuthForm = ({ isLogin, onSubmit, onToggle, onForgotPasswordClick, companyS
             onChange={(e) => setEmail(e.target.value)}
             required
             placeholder="vous@exemple.com"
-            className="mt-2 h-12 text-base"
+            className="mt-2 h-12 text-base input-enhanced"
           />
         </motion.div>
 
@@ -100,7 +100,7 @@ const AuthForm = ({ isLogin, onSubmit, onToggle, onForgotPasswordClick, companyS
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <Label htmlFor="phone" className="text-golden-700 font-semibold text-base">Numéro de téléphone</Label>
+            <Label htmlFor="phone" className="text-blue-700 font-semibold text-base">Numéro de téléphone</Label>
             <div className="mt-2">
               <PhoneInput
                 id="phone"
@@ -120,12 +120,12 @@ const AuthForm = ({ isLogin, onSubmit, onToggle, onForgotPasswordClick, companyS
           transition={{ delay: isLogin ? 0.2 : 0.3 }}
         >
           <div className="flex justify-between items-center">
-            <Label htmlFor="password" className="text-golden-700 font-semibold text-base">Mot de passe</Label>
+            <Label htmlFor="password" className="text-blue-700 font-semibold text-base">Mot de passe</Label>
             {isLogin && (
               <button
                 type="button"
                 onClick={onForgotPasswordClick}
-                className="text-sm font-semibold text-golden-600 hover:text-golden-700 transition-colors duration-200 hover:underline"
+                className="text-sm font-semibold text-yellow-600 hover:text-yellow-700 transition-colors duration-200 hover:underline"
               >
                 Mot de passe oublié ?
               </button>
@@ -138,7 +138,7 @@ const AuthForm = ({ isLogin, onSubmit, onToggle, onForgotPasswordClick, companyS
             onChange={(e) => setPassword(e.target.value)}
             required
             placeholder="••••••••"
-            className="mt-2 h-12 text-base"
+            className="mt-2 h-12 text-base input-enhanced"
           />
         </motion.div>
 
@@ -149,7 +149,7 @@ const AuthForm = ({ isLogin, onSubmit, onToggle, onForgotPasswordClick, companyS
         >
           <Button 
             type="submit" 
-            className="w-full h-12 text-base font-bold tracking-wide bg-golden-gradient hover:shadow-golden-xl transition-all duration-300" 
+            className="w-full h-12 text-base font-bold tracking-wide btn-yellow-blue hover:shadow-yellow-blue-xl transition-all duration-300" 
             disabled={loading}
           >
             {loading ? (
@@ -163,7 +163,7 @@ const AuthForm = ({ isLogin, onSubmit, onToggle, onForgotPasswordClick, companyS
       </form>
 
       <motion.p 
-        className="mt-8 text-center text-base text-golden-600"
+        className="mt-8 text-center text-base text-blue-600"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
@@ -171,7 +171,7 @@ const AuthForm = ({ isLogin, onSubmit, onToggle, onForgotPasswordClick, companyS
         {isLogin ? 'Pas encore de compte ?' : 'Déjà un compte ?'}{' '}
         <button 
           onClick={onToggle} 
-          className="font-bold text-golden-700 hover:text-golden-800 transition-colors duration-200 underline decoration-golden-300 hover:decoration-golden-500"
+          className="font-bold text-yellow-600 hover:text-yellow-700 transition-colors duration-200 underline decoration-yellow-300 hover:decoration-yellow-500"
         >
           {isLogin ? 'Inscrivez-vous' : 'Connectez-vous'}
         </button>
@@ -203,24 +203,24 @@ const ForgotPasswordForm = ({ onBack, companySettings }) => {
     >
       <div className="text-center mb-8">
         <motion.div 
-          className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-golden-100 to-golden-200 text-golden-600 rounded-3xl mb-6 shadow-golden floating"
+          className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-100 to-blue-200 text-blue-600 rounded-3xl mb-6 shadow-blue floating"
           whileHover={{ scale: 1.05 }}
           transition={{ type: "spring", stiffness: 300 }}
         >
           <Mail className="w-10 h-10" />
         </motion.div>
-        <h1 className="text-4xl font-display font-bold text-golden-gradient mb-2">Mot de passe oublié ?</h1>
-        <p className="text-golden-600 text-lg font-medium">
+        <h1 className="text-4xl font-display font-bold heading-yellow-blue mb-2">Mot de passe oublié ?</h1>
+        <p className="text-blue-600 text-lg font-medium">
           Entrez votre e-mail pour recevoir un lien de réinitialisation.
         </p>
       </div>
-      <form onSubmit={handleSubmit} className="space-y-6">
+
+      <form onSubmit={handleSubmit} className="space-y-8">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.1 }}
         >
-          <Label htmlFor="reset-email" className="text-golden-700 font-semibold text-base">Adresse e-mail</Label>
+          <Label htmlFor="reset-email" className="text-blue-700 font-semibold text-base">Adresse e-mail</Label>
           <Input
             id="reset-email"
             type="email"
@@ -228,9 +228,10 @@ const ForgotPasswordForm = ({ onBack, companySettings }) => {
             onChange={(e) => setEmail(e.target.value)}
             required
             placeholder="vous@exemple.com"
-            className="mt-2 h-12 text-base"
+            className="mt-2 input-enhanced"
           />
         </motion.div>
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -238,22 +239,23 @@ const ForgotPasswordForm = ({ onBack, companySettings }) => {
         >
           <Button 
             type="submit" 
-            className="w-full h-12 text-base font-bold tracking-wide bg-golden-gradient" 
+            className="w-full h-12 text-base font-bold tracking-wide btn-yellow-blue" 
             disabled={loading}
           >
             {loading ? 'Envoi en cours...' : 'Envoyer le lien'}
           </Button>
         </motion.div>
       </form>
+
       <motion.p 
-        className="mt-8 text-center text-base text-golden-600"
+        className="mt-8 text-center text-base text-blue-600"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3 }}
       >
         <button 
           onClick={onBack} 
-          className="font-bold text-golden-700 hover:text-golden-800 transition-colors duration-200 underline decoration-golden-300 hover:decoration-golden-500"
+          className="font-bold text-yellow-600 hover:text-yellow-700 transition-colors duration-200 underline decoration-yellow-300 hover:decoration-yellow-500"
         >
           Retour à la connexion
         </button>
@@ -297,12 +299,12 @@ const UnifiedAuthPage = ({ companySettings }) => {
   };
 
   return (
-    <div className="min-h-screen bg-golden-gradient-soft flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen yellow-blue-gradient-soft flex items-center justify-center p-4 relative overflow-hidden">
       {/* Decorative floating elements */}
-      <div className="absolute top-10 left-10 w-20 h-20 bg-golden-200/30 rounded-full blur-xl floating"></div>
-      <div className="absolute bottom-20 right-20 w-32 h-32 bg-golden-300/20 rounded-full blur-2xl floating" style={{animationDelay: '2s'}}></div>
-      <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-golden-400/20 rounded-full blur-lg floating" style={{animationDelay: '4s'}}></div>
-      <div className="absolute top-1/4 right-1/3 w-24 h-24 bg-golden-500/10 rounded-full blur-2xl floating" style={{animationDelay: '1s'}}></div>
+      <div className="absolute top-10 left-10 w-20 h-20 decorative-circle-yellow floating"></div>
+      <div className="absolute bottom-20 right-20 w-32 h-32 decorative-circle-blue floating" style={{animationDelay: '2s'}}></div>
+      <div className="absolute top-1/2 left-1/4 w-16 h-16 decorative-circle-yellow floating" style={{animationDelay: '4s'}}></div>
+      <div className="absolute top-1/4 right-1/3 w-24 h-24 decorative-circle-blue floating" style={{animationDelay: '1s'}}></div>
       
       {/* Sparkle effect */}
       <div className="absolute inset-0 sparkle pointer-events-none"></div>
